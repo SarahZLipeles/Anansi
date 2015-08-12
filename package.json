@@ -1,0 +1,19 @@
+{
+  "name": "SpiderWars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheoLipeles/SpiderWars.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheoLipeles/SpiderWars/issues"
+  },
+  "homepage": "https://github.com/TheoLipeles/SpiderWars"
+}
