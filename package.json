@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/TheoLipeles/SpiderWars/issues"
   },
-  "homepage": "https://github.com/TheoLipeles/SpiderWars"
+  "homepage": "https://github.com/TheoLipeles/SpiderWars",
+  "dependencies": {
+    "express": "^4.13.3",
+    "morgan": "^1.6.1"
+  }
 }
