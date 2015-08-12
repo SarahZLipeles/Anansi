@@ -103,9 +103,9 @@ function makeGraph (width, height, numNodes, radius){
 	
 }
 
-var board = makeGraph(2000, 800, 100, 200);
+var board = makeGraph(2000, 800, 2000, 50);
 
-s = new sigma({
+var s = new sigma({
 	graph: board,
 	container: "container"
 });
