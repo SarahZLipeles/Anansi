@@ -5,7 +5,7 @@ var app = express();
 var server = require("http").Server(app);
 var path = require("path");
 var logger = require("morgan");
-var router = require("routes");
+// var router = require("routes");
 
 app.set("port", process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000);
 app.set("ip", process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
@@ -17,7 +17,7 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./layout.html")); 
 });
 
-app.use("/", router);
+// app.use("/", router);
 
 
 server.listen(app.get("port"), app.get("ip"), function () {
