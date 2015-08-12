@@ -1,5 +1,3 @@
-// var fs = require("fs");
-
 /*
 "nodes": [
 {
@@ -15,20 +13,33 @@
 	"source": nodeID
 	"target": nodeID
 }]
+
+"board/field": {
+	base1,
+	base2,
+	numNodes,
+	width,
+	height,
+	nodes,
+	edges,
+	isolatedNodes
+}
 */
+
+"use strict";
 
 var ids = [];
 
 function makeField (width, height, numNodes) {
-	var index = 0;
-	var base1 = {"id": index.toString(36), "x": 0, "y": 0, "links": []};
+	var index = 2,
+		id,
+		base1 = {"id": Number(0).toString(36), "x": 0, "y": 0, "links": []},
+		base2 = {"id": Number(1).toString(36), "x": width, "y": height, "links": []},
+		nodes = [base1, base2];
 	ids.push(base1.id);
-	index++;
-	var base2 = {"id": index.toString(36), "x": width, "y": height, "links": []};
 	ids.push(base2.id);
-	var nodes = [base1, base2];
 	for(index = 2; index < numNodes; index++){
-		var id = index.toString(36);
+		id = index.toString(36);
 		ids.push(id);
 		nodes.push({"id": id, "x": Math.floor(Math.random() * width), "y": Math.floor(Math.random() * height), "links": []});
 	}
@@ -42,40 +53,49 @@ function makeField (width, height, numNodes) {
 	};
 }
 
+function shouldConnect (node1, node2, radius) {
+	var withinRange = Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) < radius;
+	var connectProbability = Math.random() < 0.3;
+	return withinRange && connectProbability;
+}
+
 function connectField (field, radius, maxConnections) {
 	maxConnections = maxConnections || Infinity;
-	var connections = [];
-	var id = 0;
-	for(var nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
-		var currentNode = field.nodes[nodeIndex];
-		for(var nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
-			var nextNode = field.nodes[nextNodeIndex];
-			if(Math.sqrt(Math.pow(currentNode.x - nextNode.x, 2) + Math.pow(currentNode.y - nextNode.y, 2)) < radius){
-				// console.log(currentNode.links);
+	var edges = [],
+		id = 0,
+		nodeIndex, nextNodeIndex, currentNode, nextNode;
+	for(nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
+		currentNode = field.nodes[nodeIndex];
+		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
+			nextNode = field.nodes[nextNodeIndex];
+			if(shouldConnect(currentNode, nextNode, radius)){
 				field.nodes[nodeIndex].links.push(nextNode);
 				field.nodes[nextNodeIndex].links.push(currentNode);
 				id++;
-				connections.push({"id": id.toString(36), "source": currentNode.id, "target": nextNode.id});
+				edges.push({"id": id.toString(36), "source": currentNode.id, "target": nextNode.id});
 			}
 		}
 	}
-	field.edges = connections;
+	field.edges = edges;
 	return field;
 }
 
 function checkField (field) {
-	var connected = [field.base1.id];
-	var check = [field.base1];
-	while(check.length !== 0){
-		var links = check.shift().links;
-		links.forEach(function(link) {
+	var connected = [field.base1.id],
+		check = [field.base1],
+		checkConnected = function (link) {
 			if(connected.indexOf(link.id) === -1){
 				connected.push(link.id);
 				check.push(link);
 			}
-		});
+		},
+		links,
+		isolatedNodes;
+	while(check.length !== 0){
+		links = check.shift().links;
+		links.forEach(checkConnected);
 	}
-	var isolatedNodes = ids.filter(function(id){
+	isolatedNodes = ids.filter(function(id){
 		return connected.indexOf(id) === -1;
 	});
 	field.isolatedNodes = isolatedNodes;
@@ -95,11 +115,10 @@ function makeGraph (width, height, numNodes, radius){
 	
 }
 
-var board = makeGraph(2000, 800, 3000, 30);
+var board = makeGraph(2000, 800, 3000, 50);
 
 var s = new sigma({
 	graph: board,
 	container: "container"
 });
 
-// fs.writeFile("../../graph20.json", JSON.stringify(makeGraph(1000, 5000, 30)));
