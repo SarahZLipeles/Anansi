@@ -15,8 +15,6 @@
 	"source": nodeID
 	"target": nodeID
 }]
-
-
 */
 
 var ids = [];
@@ -84,12 +82,6 @@ function checkField (field) {
 	return field;
 }
 
-//check if connected to base
-//check if connected to connected to base
-//
-
-
-
 function makeGraph (width, height, numNodes, radius){
 	var field = makeField(width, height, numNodes);
 	field = connectField(field, radius);
@@ -103,7 +95,7 @@ function makeGraph (width, height, numNodes, radius){
 	
 }
 
-var board = makeGraph(2000, 800, 2000, 50);
+var board = makeGraph(2000, 800, 3000, 30);
 
 var s = new sigma({
 	graph: board,
