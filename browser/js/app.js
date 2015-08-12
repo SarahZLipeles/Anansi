@@ -1,11 +1,10 @@
 define([], function () {
-	var App = function(){
-		console.log(1);
-	};
-
-	App.run = function () {
-		console.log(2);
-	}
+	sigma.parsers.json('data.json', {
+    container: 'container',
+    settings: {
+      defaultNodeColor: '#ec5148'
+    }
+  });
 
 	return App;
 });
