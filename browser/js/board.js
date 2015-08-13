@@ -59,16 +59,31 @@ function makeRandomField (options) {
 	};
 }
 
-function revealLinks(node, field){
-	var nodes = field.nodes;
-	var edges = field.edges;
-	var nodelinks = node.links;
-	var nodeedges = node.edges;
-	console.log(node, node.links, node.edges);
+
+function revealLinks(node, field, color){
+	if (field) return node;
+	var nodes = field ? field.nodes : s.graph.nodes;
+	var edges = field ? field.edges : s.graph.edges;
+	var nodelinks = nodes(node.links);
+	var nodeedges = edges(node.edges);
 	for(var i = 0; i < nodelinks.length; i++){
-		nodes[nodelinks[i]].hidden = false;
-		edges[nodeedges[i]].hidden = false;
+		if (field) {
+			// nodes[nodelinks[i]].hidden = false;
+			// edges[nodeedges[i]].hidden = false;
+		} else {
+			console.log(nodeedges);
+			nodelinks[i].hidden = false;
+			nodelinks[i].color = color;
+			nodeedges[i].hidden = false;
+			nodeedges[i].color = color;
+		}
 	}
+
+	if(s){
+		s.refresh();
+	}
+	return node;
+
 }
 
 function withinRange (node1, node2, radii){
@@ -172,12 +187,14 @@ function makeGraph (fieldOptions, radii, maxConnections){
 var fieldOptions = {
 	width: 1000,
 	height: 500,
-	numNodes: 3000,
+	numNodes: 1300,
 	padding: 10
 };
+
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
 //still need clipping of dense nodes
+
 
 
 return {
