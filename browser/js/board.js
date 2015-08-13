@@ -89,11 +89,9 @@ function revealLinks(node, field){
 	var edges = field ? field.edges : s.graph.edges();
 	var nodelinks = node.links;
 	var nodeedges = node.edges;
-
+	console.log(node, node.links, node.edges);
 	for(var i = 0; i < nodelinks.length; i++){
-		nodes[nodelinks[i]].color = "#000000";
 		nodes[nodelinks[i]].hidden = false;
-		edges[nodeedges[i]].color = "#000000";
 		edges[nodeedges[i]].hidden = false;
 	}
 
@@ -223,5 +221,8 @@ var s = new sigma({
 		}
 	]
 });
+
+var hey = function (event) { revealLinks(event.data.node) };
+s.bind("clickNode", hey);
 
 
