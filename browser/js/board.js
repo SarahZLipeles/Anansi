@@ -30,6 +30,7 @@
 
 var ids = [];
 
+
 function makeField (width, height, numNodes) {
 	var index = 2,
 		id,
