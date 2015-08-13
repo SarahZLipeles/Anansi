@@ -43,14 +43,18 @@ function makeRandomField (options) {
 			x: width / padding, 
 			y: height / 2, 
 			links: [], 
-			size: 0.2
+			edges: [],
+			size: 0.2,
+			color: "#ff0000"
 		},
 		base2 = {
 			id: Number(1).toString(36), 
 			x: width - width / padding, 
 			y: height / 2, 
 			links: [], 
-			size: 0.2
+			edges: [],
+			size: 0.2,
+			color: "#0000ff"
 		},
 		nodes = [base1, base2];
 	ids.push(base1.id);
@@ -64,7 +68,10 @@ function makeRandomField (options) {
 			x: Math.floor(Math.random() * width),
 			y: Math.floor(Math.random() * height), 
 			links: [],
-			size: 0.03
+			edges: [],
+			size: 0.03,
+			color: "#000000",
+			hidden: true
 		});
 	}
 	return {
@@ -77,10 +84,30 @@ function makeRandomField (options) {
 	};
 }
 
+var g;
+function revealLinks(node){
+	var links = node.links;
+	var edges = node.edges;
+	g = links[0];
+	console.log(links);
+	for(var i = 0; i < links.length; i++){
+		links[i].color = "#000000";
+		links[i].hidden = false;
+		edges[i].color = "#000000";
+		edges[i].hidden = false;
+	}
+}
 
 function withinRange (node1, node2, radii){
 	var dist = Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2));
 	return dist < radii.outer && dist > radii.inner;
+}
+
+function restrictMaxNodes (node1, node2, maxConnections) {
+	var chanceConnect = 1;
+	var node1ok = node1.links.length / maxConnections < chanceConnect;
+	var node2ok = node2.links.length / maxConnections < chanceConnect;
+	return node1ok && node2ok;
 }
 
 function withinRadius (node1, node2, radii) {
@@ -97,14 +124,25 @@ function connectField (field, radii, maxConnections) {
 		id = 0,
 		nodeIndex, nextNodeIndex, currentNode, nextNode;
 	for(nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
-		currentNode = field.nodes[nodeIndex];
 		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
+			//This needs to go here so current node will have the proper number of links each time
+			currentNode = field.nodes[nodeIndex];
 			nextNode = field.nodes[nextNodeIndex];
-			if(withinRange(currentNode, nextNode, radii)){
+			if(withinRange(currentNode, nextNode, radii) && restrictMaxNodes(currentNode, nextNode, maxConnections)){
+				//for some reason currentNode and nextNode are acting like copies, not references.  Why???
+				var edge = {
+					id: id.toString(36), 
+					source: currentNode.id, 
+					target: nextNode.id,
+					color: "#000000",
+					hidden: true
+				}
 				field.nodes[nodeIndex].links.push(nextNode);
+				field.nodes[nodeIndex].edges.push(edge);
 				field.nodes[nextNodeIndex].links.push(currentNode);
+				field.nodes[nextNodeIndex].edges.push(edge);
 				id++;
-				edges.push({"id": id.toString(36), "source": currentNode.id, "target": nextNode.id});
+				edges.push(edge);
 			}
 		}
 	}
@@ -144,12 +182,14 @@ function checkField (field) {
 	return field;
 }
 
-function makeGraph (fieldOptions, radii){
+function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeRandomField(fieldOptions);
-	field = connectField(field, radii);
+	field = connectField(field, radii, maxConnections);
 	// field = calculateSize(field);
 	field = checkField(field);
 	if(field.isolatedNodes.indexOf(field.base2.id) === -1){
+		revealLinks(field.base1);
+		revealLinks(field.base2);
 		return field;
 	}else{
 		return makeGraph(fieldOptions, radii);
@@ -157,13 +197,13 @@ function makeGraph (fieldOptions, radii){
 }
 
 var fieldOptions = {
-	width: 2000,
-	height: 800,
-	numNodes: 3000,
+	width: 1000,
+	height: 500,
+	numNodes: 1000,
 	padding: 10
 };
 
-var board = makeGraph(fieldOptions, {inner: 15, outer: 33});
+var board = makeGraph(fieldOptions, {inner: 15, outer: 126}, 4);
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
 //still need clipping of dense nodes
@@ -171,6 +211,11 @@ var board = makeGraph(fieldOptions, {inner: 15, outer: 33});
 
 var s = new sigma({
 	graph: board,
-	container: "container"
+	renderers: [
+		{
+			container: document.getElementById("container"),
+			type: "canvas"
+		}
+	]
 });
 
