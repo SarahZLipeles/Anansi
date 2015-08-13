@@ -30,9 +30,13 @@
 
 var ids = [];
 
-function makeRandomField (width, height, numNodes, padding) {
-	padding = padding || 1;
-	var index = 2,
+function makeRandomField (options) {
+	var width = options.width,
+		height = options.height,
+		numNodes = options.numNodes,
+		padding = options.padding || 1,
+
+		index = 2,
 		id,
 		base1 = {
 			id: Number(0).toString(36), 
@@ -51,6 +55,7 @@ function makeRandomField (width, height, numNodes, padding) {
 		nodes = [base1, base2];
 	ids.push(base1.id);
 	ids.push(base2.id);
+
 	for(index = 2; index < numNodes; index++){
 		id = index.toString(36);
 		ids.push(id);
@@ -72,13 +77,21 @@ function makeRandomField (width, height, numNodes, padding) {
 	};
 }
 
-function shouldConnect (node1, node2, radius) {
-	var withinRange = Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) < radius;
-	var connectProbability = Math.random() < 0.3;
-	return withinRange && connectProbability;
+
+function withinRange (node1, node2, radii){
+	var dist = Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2));
+	return dist < radii.outer && dist > radii.inner;
 }
 
-function connectField (field, radius, maxConnections) {
+function withinRadius (node1, node2, radii) {
+	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) < radii.outer;
+}
+
+function outsideRadius (node1, node2, radii) {
+	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) > radii.inner;
+}
+
+function connectField (field, radii, maxConnections) {
 	maxConnections = maxConnections || Infinity;
 	var edges = [],
 		id = 0,
@@ -87,7 +100,7 @@ function connectField (field, radius, maxConnections) {
 		currentNode = field.nodes[nodeIndex];
 		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
 			nextNode = field.nodes[nextNodeIndex];
-			if(shouldConnect(currentNode, nextNode, radius)){
+			if(withinRange(currentNode, nextNode, radii)){
 				field.nodes[nodeIndex].links.push(nextNode);
 				field.nodes[nextNodeIndex].links.push(currentNode);
 				id++;
@@ -118,6 +131,7 @@ function checkField (field) {
 	isolatedNodes = ids.filter(function(id){
 		return connected.indexOf(id) === -1;
 	});
+	//Still need this to check if base2 is connected
 	field.isolatedNodes = isolatedNodes;
 	//Filter out isolated nodes
 	field.nodes = field.nodes.filter(function (node) {
@@ -130,19 +144,30 @@ function checkField (field) {
 	return field;
 }
 
-function makeGraph (width, height, numNodes, radius){
-	var field = makeRandomField(width, height, numNodes, 10);
-	field = connectField(field, radius);
+function makeGraph (fieldOptions, radii){
+	var field = makeRandomField(fieldOptions);
+	field = connectField(field, radii);
 	// field = calculateSize(field);
 	field = checkField(field);
 	if(field.isolatedNodes.indexOf(field.base2.id) === -1){
 		return field;
 	}else{
-		return makeGraph(width, height, numNodes, radius);
+		return makeGraph(fieldOptions, radii);
 	}
 }
 
-var board = makeGraph(2000, 800, 3000, 50);
+var fieldOptions = {
+	width: 2000,
+	height: 800,
+	numNodes: 3000,
+	padding: 10
+};
+
+var board = makeGraph(fieldOptions, {inner: 15, outer: 33});
+//Board notes
+//withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
+//still need clipping of dense nodes
+
 
 var s = new sigma({
 	graph: board,
