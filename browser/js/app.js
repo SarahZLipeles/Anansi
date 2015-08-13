@@ -4,9 +4,8 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 
 	//Is there a connection?
 	var liveConn = false;
-	var board;
 	//Utility object to hold the client's Id, peer reference, and current connection reference
-	var identity = {myId: undefined, peer: undefined, conn: undefined};
+	var game = {myId: undefined, player: undefined, opponent: undefined, board: undefined};
 
 	//Utility method for sending http Ajax get requests
 	function httpGet(url, cb) {
@@ -22,21 +21,26 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 
 	//When a peer DataConnection is established
 	function peerDataCommunication(peerconn) {
-		identity.conn = peerconn;
+		game.opponent = peerconn;
 
 		//When the connection opens...
 		peerconn.on("open", function () {
 			liveConn = true;
+			console.log(game.role);
+			if(game.role === "host") {
+				peerconn.send(game.board);
+			}
 			//Listen for data
 			peerconn.on('data', function (data) {
 				//Do stuff with incoming data
 				console.log(data);
+				
 			});
 		});
 
-		//vvvvvvv how to send data (peerconn.send({}) or identity.conn.send({}), same reference) vvvv
+		//vvvvvvv how to send data (peerconn.send({}) or game.opponent.send({}), same reference) vvvv
 		// if (liveConn) {
-  //           identity.conn.send({
+  //           game.opponent.send({
   //         		something: [0,1,2,3],
   //               somethingElse: {data: 2, number: 4}
   //           });
@@ -47,9 +51,9 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 		peerconn.on("close", function () {
 			console.log("closing connection");
 			peerconn.close();
-			identity.conn = undefined;
+			game.opponent = undefined;
 			liveConn = false;
-			httpGet("/meet/" + identity.myId, meetSomeone);
+			httpGet("/meet/" + game.myId, meetSomeone);
 		});
 
 		//If the user closes the tab, tell the other user
@@ -61,10 +65,11 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 	//Receive the response from the server, potentially with another user's peer id
 	function meetSomeone(res) {
 		if (res.meet === "hold") {
-			identity.role = "host";
-			board = Board.generate();
+			game.role = "host";
+			game.board = Board.generate();
+			console.log(game.board);
 			var s = new sigma({
-				graph: board,
+				graph: game.board,
 				renderers: [
 					{
 						container: document.getElementById("container"),
@@ -72,21 +77,18 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 					}
 				]
 			});
-
-			// var hey = function (event) { revealLinks(event.data.node) };
-			// s.bind("clickNode", hey);
 			console.log("Waiting for a new friend");
 		} else {
-			identity.role = "client";
+			game.role = "client";
 			console.log("Meet ", res.meet);
-			peerDataCommunication(identity.peer.connect(res.meet));
+			peerDataCommunication(game.player.connect(res.meet));
 		}
 	}
 
 	//Establish peer connection with server
 	function connectToServer(res) {
 		if (res.env === "production") {
-			identity.peer = new Peer({
+			game.player = new Peer({
 				host: "/",
 				port: 80,
 				path: "/api",
@@ -95,17 +97,17 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 				}
 			});
 		} else {
-			identity.peer = new Peer({host: "127.0.0.1", port: 3000, path: "/api", debug: 2});
+			game.player = new Peer({host: "127.0.0.1", port: 3000, path: "/api", debug: 2});
 		}
 		//When the peer connection is established
-		identity.peer.on("open", function (id) {
+		game.player.on("open", function (id) {
 			console.log("my id: ", id);
-			identity.myId = id;
+			game.myId = id;
 			//Try to meet someone
 			httpGet("/meet/" + id, meetSomeone);
 		});
 		//If someone calls, you answer
-		identity.peer.on("connection", function (peerconn) {
+		game.player.on("connection", function (peerconn) {
 			peerDataCommunication(peerconn);
 		});
 	}
