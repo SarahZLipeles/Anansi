@@ -30,18 +30,37 @@
 
 var ids = [];
 
-function makeField (width, height, numNodes) {
+function makeRandomField (width, height, numNodes, padding) {
+	padding = padding || 1;
 	var index = 2,
 		id,
-		base1 = {"id": Number(0).toString(36), "x": 0, "y": 0, "links": []},
-		base2 = {"id": Number(1).toString(36), "x": width, "y": height, "links": []},
+		base1 = {
+			id: Number(0).toString(36), 
+			x: width / padding, 
+			y: height / 2, 
+			links: [], 
+			size: 0.2
+		},
+		base2 = {
+			id: Number(1).toString(36), 
+			x: width - width / padding, 
+			y: height / 2, 
+			links: [], 
+			size: 0.2
+		},
 		nodes = [base1, base2];
 	ids.push(base1.id);
 	ids.push(base2.id);
 	for(index = 2; index < numNodes; index++){
 		id = index.toString(36);
 		ids.push(id);
-		nodes.push({"id": id, "x": Math.floor(Math.random() * width), "y": Math.floor(Math.random() * height), "links": []});
+		nodes.push({
+			id: id, 
+			x: Math.floor(Math.random() * width),
+			y: Math.floor(Math.random() * height), 
+			links: [],
+			size: 0.03
+		});
 	}
 	return {
 		base1: base1,
@@ -80,6 +99,7 @@ function connectField (field, radius, maxConnections) {
 	return field;
 }
 
+//Checks if the bases are connected 
 function checkField (field) {
 	var connected = [field.base1.id],
 		check = [field.base1],
@@ -99,11 +119,19 @@ function checkField (field) {
 		return connected.indexOf(id) === -1;
 	});
 	field.isolatedNodes = isolatedNodes;
+	//Filter out isolated nodes
+	field.nodes = field.nodes.filter(function (node) {
+		return !~isolatedNodes.indexOf(node.id);
+	});
+	//Filter out the edges that attach isolated nodes
+	field.edges = field.edges.filter(function (edge) {
+		return !~isolatedNodes.indexOf(edge.source) && !~isolatedNodes.indexOf(edge.target);
+	})
 	return field;
 }
 
 function makeGraph (width, height, numNodes, radius){
-	var field = makeField(width, height, numNodes);
+	var field = makeRandomField(width, height, numNodes, 10);
 	field = connectField(field, radius);
 	// field = calculateSize(field);
 	field = checkField(field);
@@ -112,7 +140,6 @@ function makeGraph (width, height, numNodes, radius){
 	}else{
 		return makeGraph(width, height, numNodes, radius);
 	}
-	
 }
 
 var board = makeGraph(2000, 800, 3000, 50);
