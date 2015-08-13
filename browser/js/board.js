@@ -39,7 +39,7 @@ function makeRandomField (options) {
 		index = 2,
 		id,
 		base1 = {
-			id: Number(0).toString(36), 
+			id: Number(0).toString(), 
 			x: width / padding, 
 			y: height / 2, 
 			links: [], 
@@ -48,7 +48,7 @@ function makeRandomField (options) {
 			color: "#ff0000"
 		},
 		base2 = {
-			id: Number(1).toString(36), 
+			id: Number(1).toString(), 
 			x: width - width / padding, 
 			y: height / 2, 
 			links: [], 
@@ -61,7 +61,7 @@ function makeRandomField (options) {
 	ids.push(base2.id);
 
 	for(index = 2; index < numNodes; index++){
-		id = index.toString(36);
+		id = index.toString();
 		ids.push(id);
 		nodes.push({
 			id: id, 
@@ -84,22 +84,24 @@ function makeRandomField (options) {
 	};
 }
 
-var g;
-function revealLinks(node){
-	var links = node.links;
-	var edges = node.edges;
-	g = links[0];
-	console.log(links);
-	for(var i = 0; i < links.length; i++){
-		links[i].color = "#000000";
-		links[i].hidden = false;
-		edges[i].color = "#000000";
-		edges[i].hidden = false;
+function revealLinks(node, field){
+	var nodes = field ? field.nodes : s.graph.nodes();
+	var edges = field ? field.edges : s.graph.edges();
+	var nodelinks = node.links;
+	var nodeedges = node.edges;
+
+	for(var i = 0; i < nodelinks.length; i++){
+		nodes[nodelinks[i]].color = "#000000";
+		nodes[nodelinks[i]].hidden = false;
+		edges[nodeedges[i]].color = "#000000";
+		edges[nodeedges[i]].hidden = false;
 	}
+
 	if(s){
-		console.log("refresh");
 		s.refresh();
 	}
+
+
 }
 
 function withinRange (node1, node2, radii){
@@ -135,16 +137,16 @@ function connectField (field, radii, maxConnections) {
 			if(withinRange(currentNode, nextNode, radii) && restrictMaxNodes(currentNode, nextNode, maxConnections)){
 				//for some reason currentNode and nextNode are acting like copies, not references.  Why???
 				var edge = {
-					id: id.toString(36), 
+					id: id.toString(), 
 					source: currentNode.id, 
 					target: nextNode.id,
 					color: "#000000",
 					hidden: true
 				}
-				field.nodes[nodeIndex].links.push(nextNode);
-				field.nodes[nodeIndex].edges.push(edge);
-				field.nodes[nextNodeIndex].links.push(currentNode);
-				field.nodes[nextNodeIndex].edges.push(edge);
+				field.nodes[nodeIndex].links.push(nextNode.id);
+				field.nodes[nodeIndex].edges.push(edge.id);
+				field.nodes[nextNodeIndex].links.push(currentNode.id);
+				field.nodes[nextNodeIndex].edges.push(edge.id);
 				id++;
 				edges.push(edge);
 			}
@@ -158,10 +160,10 @@ function connectField (field, radii, maxConnections) {
 function checkField (field) {
 	var connected = [field.base1.id],
 		check = [field.base1],
-		checkConnected = function (link) {
-			if(connected.indexOf(link.id) === -1){
-				connected.push(link.id);
-				check.push(link);
+		checkConnected = function (linkid) {
+			if(connected.indexOf(linkid) === -1){
+				connected.push(linkid);
+				check.push(field.nodes[linkid]);
 			}
 		},
 		links,
@@ -192,8 +194,8 @@ function makeGraph (fieldOptions, radii, maxConnections){
 	// field = calculateSize(field);
 	field = checkField(field);
 	if(field.isolatedNodes.indexOf(field.base2.id) === -1){
-		revealLinks(field.base1);
-		revealLinks(field.base2);
+		revealLinks(field.base1, field);
+		revealLinks(field.base2, field);
 		return field;
 	}else{
 		return makeGraph(fieldOptions, radii);
@@ -203,15 +205,14 @@ function makeGraph (fieldOptions, radii, maxConnections){
 var fieldOptions = {
 	width: 1000,
 	height: 500,
-	numNodes: 1000,
+	numNodes: 3000,
 	padding: 10
 };
 
-var board = makeGraph(fieldOptions, {inner: 15, outer: 126}, 4);
+var board = makeGraph(fieldOptions, {inner: 15, outer: 33}, 4);
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
 //still need clipping of dense nodes
-
 
 var s = new sigma({
 	graph: board,
@@ -222,4 +223,5 @@ var s = new sigma({
 		}
 	]
 });
+
 
