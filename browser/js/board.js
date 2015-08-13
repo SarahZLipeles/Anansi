@@ -1,30 +1,4 @@
-/*
-"nodes": [
-{
-	"id": "string",
-	"x": num,
-	"y": num,
-	"label": ~id,
-	"size": factor of edges
-}]
-
-"edges": [{
-	"id": "string",
-	"source": nodeID
-	"target": nodeID
-}]
-
-"board/field": {
-	base1,
-	base2,
-	numNodes,
-	width,
-	height,
-	nodes,
-	edges,
-	isolatedNodes
-}
-*/
+define([], function () {
 
 "use strict";
 
@@ -86,8 +60,8 @@ function makeRandomField (options) {
 }
 
 function revealLinks(node, field){
-	var nodes = field ? field.nodes : s.graph.nodes();
-	var edges = field ? field.edges : s.graph.edges();
+	var nodes = field.nodes;
+	var edges = field.edges;
 	var nodelinks = node.links;
 	var nodeedges = node.edges;
 	console.log(node, node.links, node.edges);
@@ -95,12 +69,6 @@ function revealLinks(node, field){
 		nodes[nodelinks[i]].hidden = false;
 		edges[nodeedges[i]].hidden = false;
 	}
-
-	if(s){
-		s.refresh();
-	}
-
-
 }
 
 function withinRange (node1, node2, radii){
@@ -207,23 +175,16 @@ var fieldOptions = {
 	numNodes: 3000,
 	padding: 10
 };
-
-var board = makeGraph(fieldOptions, {inner: 15, outer: 33}, 4);
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
 //still need clipping of dense nodes
 
-var s = new sigma({
-	graph: board,
-	renderers: [
-		{
-			container: document.getElementById("container"),
-			type: "canvas"
-		}
-	]
+
+return {
+	generate: function () {
+		return makeGraph(fieldOptions, {inner: 15, outer: 33}, 4);
+	}
+}
+
 });
-
-var hey = function (event) { revealLinks(event.data.node) };
-s.bind("clickNode", hey);
-
 

@@ -1,9 +1,10 @@
-define(["lib/peer"], function (Peer) {
+define(["lib/peer", "js/board"], function (Peer, Board) {
 
 
 
 	//Is there a connection?
 	var liveConn = false;
+	var board;
 	//Utility object to hold the client's Id, peer reference, and current connection reference
 	var identity = {myId: undefined, peer: undefined, conn: undefined};
 
@@ -60,8 +61,23 @@ define(["lib/peer"], function (Peer) {
 	//Receive the response from the server, potentially with another user's peer id
 	function meetSomeone(res) {
 		if (res.meet === "hold") {
+			identity.role = "host";
+			board = Board.generate();
+			var s = new sigma({
+				graph: board,
+				renderers: [
+					{
+						container: document.getElementById("container"),
+						type: "canvas"
+					}
+				]
+			});
+
+			// var hey = function (event) { revealLinks(event.data.node) };
+			// s.bind("clickNode", hey);
 			console.log("Waiting for a new friend");
 		} else {
+			identity.role = "client";
 			console.log("Meet ", res.meet);
 			peerDataCommunication(identity.peer.connect(res.meet));
 		}
