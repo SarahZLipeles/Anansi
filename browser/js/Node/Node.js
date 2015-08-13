@@ -1,4 +1,4 @@
-// node class
+pwd// node class
 
 // Bryan Chu [5:58 PM]
 // properties
@@ -18,14 +18,14 @@
 "use strict";
 
 function Node(id, maxHealth, x, y){
-	this.id = id
-	this.maxHealth = maxHealth
-	this.health = maxHealth
-	this.links = []
-	this.visibility = []
-	this.color = 'black'
-	this.resources = 0
-	this.location = {x:x , y:y}
+	this.id = id;
+	this.maxHealth = maxHealth;
+	this.health = maxHealth;
+	this.links = [];
+	this.visibility = [];
+	this.color = 'black';
+	this.resources = 0;
+	this.location = {x:x , y:y};
 	get x (){
 		return this.location.x
 	}

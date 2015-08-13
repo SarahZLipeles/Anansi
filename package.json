@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/TheoLipeles/SpiderWars",
   "dependencies": {
+    "babel": "^5.8.21",
+    "browserify": "^11.0.1",
     "express": "^4.13.3",
     "morgan": "^1.6.1"
   }
