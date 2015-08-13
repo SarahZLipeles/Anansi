@@ -96,6 +96,10 @@ function revealLinks(node){
 		edges[i].color = "#000000";
 		edges[i].hidden = false;
 	}
+	if(s){
+		console.log("refresh");
+		s.refresh();
+	}
 }
 
 function withinRange (node1, node2, radii){
