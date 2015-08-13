@@ -1,4 +1,4 @@
-define(["lib/peer", "js/board"], function (Peer, Board) {
+define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interface) {
 
 
 
@@ -34,7 +34,7 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 			peerconn.on('data', function (data) {
 				//Do stuff with incoming data
 				console.log(data);
-				
+				Interface(data);
 			});
 		});
 
@@ -68,15 +68,7 @@ define(["lib/peer", "js/board"], function (Peer, Board) {
 			game.role = "host";
 			game.board = Board.generate();
 			console.log(game.board);
-			var s = new sigma({
-				graph: game.board,
-				renderers: [
-					{
-						container: document.getElementById("container"),
-						type: "canvas"
-					}
-				]
-			});
+			Interface(game.board);
 			console.log("Waiting for a new friend");
 		} else {
 			game.role = "client";

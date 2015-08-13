@@ -1,11 +1,11 @@
-define([], function () {
+define(["js/Node/Node"], function (BuildFactory) {
 
 "use strict";
 
 var ids = [];
 
-
 function makeRandomField (options) {
+	var NodeFactory = BuildFactory(options);
 	var width = options.width,
 		height = options.height,
 		numNodes = options.numNodes,
@@ -13,24 +13,8 @@ function makeRandomField (options) {
 
 		index = 2,
 		id,
-		base1 = {
-			id: Number(0).toString(), 
-			x: width / padding, 
-			y: height / 2, 
-			links: [], 
-			edges: [],
-			size: 0.2,
-			color: "#ff0000"
-		},
-		base2 = {
-			id: Number(1).toString(), 
-			x: width - width / padding, 
-			y: height / 2, 
-			links: [], 
-			edges: [],
-			size: 0.2,
-			color: "#0000ff"
-		},
+		base1 = NodeFactory(true),
+		base2 = NodeFactory(true),
 		nodes = [base1, base2];
 	ids.push(base1.id);
 	ids.push(base2.id);
@@ -38,16 +22,7 @@ function makeRandomField (options) {
 	for(index = 2; index < numNodes; index++){
 		id = index.toString();
 		ids.push(id);
-		nodes.push({
-			id: id, 
-			x: Math.floor(Math.random() * width),
-			y: Math.floor(Math.random() * height), 
-			links: [],
-			edges: [],
-			size: 0.03,
-			color: "#000000",
-			hidden: true
-		});
+		nodes.push(NodeFactory());
 	}
 	return {
 		base1: base1,
@@ -204,4 +179,3 @@ return {
 }
 
 });
-
