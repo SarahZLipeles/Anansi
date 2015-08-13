@@ -30,6 +30,7 @@
 
 var ids = [];
 
+
 function makeRandomField (options) {
 	var width = options.width,
 		height = options.height,
