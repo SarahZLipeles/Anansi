@@ -84,21 +84,30 @@ function makeRandomField (options) {
 	};
 }
 
-function revealLinks(node, field){
-	var nodes = field ? field.nodes : s.graph.nodes();
-	var edges = field ? field.edges : s.graph.edges();
-	var nodelinks = node.links;
-	var nodeedges = node.edges;
+function revealLinks(node, field, color){
+	if (field) return node;
+	var nodes = field ? field.nodes : s.graph.nodes;
+	var edges = field ? field.edges : s.graph.edges;
+	var nodelinks = nodes(node.links);
+	var nodeedges = edges(node.edges);
 	console.log(node, node.links, node.edges);
 	for(var i = 0; i < nodelinks.length; i++){
-		nodes[nodelinks[i]].hidden = false;
-		edges[nodeedges[i]].hidden = false;
+		if (field) {
+			// nodes[nodelinks[i]].hidden = false;
+			// edges[nodeedges[i]].hidden = false;
+		} else {
+			console.log(nodeedges);
+			nodelinks[i].hidden = false;
+			nodelinks[i].color = color;
+			nodeedges[i].hidden = false;
+			nodeedges[i].color = color;
+		}
 	}
 
 	if(s){
 		s.refresh();
 	}
-
+	return node;
 
 }
 
@@ -203,11 +212,11 @@ function makeGraph (fieldOptions, radii, maxConnections){
 var fieldOptions = {
 	width: 1000,
 	height: 500,
-	numNodes: 3000,
+	numNodes: 1300,
 	padding: 10
 };
 
-var board = makeGraph(fieldOptions, {inner: 15, outer: 33}, 4);
+var board = makeGraph(fieldOptions, {inner: 15, outer: 33}, 100);
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
 //still need clipping of dense nodes
@@ -222,7 +231,103 @@ var s = new sigma({
 	]
 });
 
-var hey = function (event) { revealLinks(event.data.node) };
+var hey = function (event) { 
+	var crawl = function(node) {
+		var crawled = [];
+		var queue = [];
+		var crawlLayer = function(claimedNode) {
+			queue = queue.concat(claimedNode.links);
+		};
+		crawlLayer(revealLinks(node, null, color));
+		var timeout = setInterval(function() {
+			if (queue.length === 0) window.clearInterval(timeout);
+			console.log(queue);
+			var n = queue.shift();
+			if (crawled.indexOf(n) === -1) {
+				crawlLayer(revealLinks(s.graph.nodes(n), null, color));
+				crawled.push(n);
+			}
+		}, 1);
+	};
+	var color  = event.data.node.color;
+	crawl(event.data.node);
+};
+
+// var hey = function (event) { 
+// 	var crawl = function(node) {
+// 		var crawled = [];
+// 		var queue = [];
+// 		var crawlLayer = function(claimedNode) {
+// 			queue = claimedNode.links.concat(queue);
+// 		};
+// 		crawlLayer(revealLinks(node, null, color));
+// 		var timeout = setInterval(function() {
+// 			if (queue.length === 0) window.clearInterval(timeout);
+// 			console.log(queue);
+// 			var n = queue.shift();
+// 			if (crawled.indexOf(n) === -1) {
+// 				crawlLayer(revealLinks(s.graph.nodes(n), null, color));
+// 				crawled.push(n);
+// 			}
+// 		}, 1);
+// 	};
+// 	var color  = event.data.node.color;
+// 	crawl(event.data.node);
+// };
+
+// var hey = function (event) { 
+// 	var crawl = function(node) {
+// 		var crawled = [];
+// 		var queue = [];
+// 		var crawlLayer = function(claimedNode) {
+// 			queue = claimedNode.links.concat(queue);
+// 		};
+// 		crawlLayer(revealLinks(node, null, color));
+// 		var timeout = setInterval(function() {
+// 			if (queue.length === 0) window.clearInterval(timeout);
+// 			console.log(queue);
+// 			var n = queue.splice(Math.floor(Math.random() * queue.length), 1)[0];
+// 			if (crawled.indexOf(n) === -1) {
+// 				crawlLayer(revealLinks(s.graph.nodes(n), null, color));
+// 				crawled.push(n);
+// 			}
+// 		}, 1);
+// 	};
+// 	var color  = event.data.node.color;
+// 	crawl(event.data.node);
+// };
+
+// var hey = function (event) { 
+// 	var crawl = function(node) {
+// 		var crawled = [];
+// 		var queue = [];
+// 		var maxLinks = function(arr) {
+// 			var max = arr[0];
+// 			for (var i = 0; i < arr.length; i++) {
+// 				if (s.graph.nodes(arr[i]).links.length > s.graph.nodes(max).links.length) {
+// 					max = arr[i];
+// 				}
+// 			}
+// 			return max;
+// 		};
+// 		var crawlLayer = function(claimedNode) {
+// 			queue = claimedNode.links.concat(queue);
+// 		};
+// 		crawlLayer(revealLinks(node, null, color));
+// 		var timeout = setInterval(function() {
+// 			if (queue.length === 0) window.clearInterval(timeout);
+// 			console.log(queue);
+// 			var n = s.graph.nodes(queue.splice(queue.indexOf(maxLinks(queue)), 1)[0]);
+// 			if (crawled.indexOf(n) === -1) {
+// 				crawlLayer(revealLinks(n , null, color));
+// 				crawled.push(n);
+// 			}
+// 		}, 1);
+// 	};
+// 	var color  = event.data.node.color;
+// 	crawl(event.data.node);
+// };
+
 s.bind("clickNode", hey);
 
 
