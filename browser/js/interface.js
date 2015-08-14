@@ -1,5 +1,6 @@
 define([], function () {
-	var view;
+	var view, board;
+	var obj = {};
 	function revealLinks(node, color){
 		color = color || "#000000";
 		node.color = color;
@@ -16,6 +17,8 @@ define([], function () {
 	}
 	function Interface (game) {
 		this.playerColor = game.board[game.role];
+		this.opponent = game.opponent;
+		board = game.board;
 		view = new sigma({
 					graph: game.board,
 					renderers: [{
@@ -28,11 +31,18 @@ define([], function () {
 		view.bind("clickNode", clickANode);
 	}
 
+	Interface.prototype.addOpponent = function (opponent) {
+		this.opponent = opponent;
+	}
+
 	Interface.prototype.claim = function (node) {
-		if(typeof node === "string"){
-			node = view.graph.nodes(node);
-		}
 		revealLinks(node, this.playerColor);
+		this.opponent.send({type: "move", data: node.id, color: this.playerColor});
+	}
+
+	Interface.prototype.updateNode = function (nodeid, color) {
+		var node = view.graph.nodes(nodeid);
+		revealLinks(node, color);
 	}
 
 

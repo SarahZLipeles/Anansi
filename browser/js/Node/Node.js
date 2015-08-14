@@ -3,6 +3,7 @@ define([], function () {
 "use strict";
 function BuildFactory(options){
 	var id = -1;
+	var obj = {};
 	var playerColors = ['#ff0000', '#00ff00', '#0000ff','#ffff0'];
 	var width = options.width;
 	var height = options.height;
@@ -19,12 +20,13 @@ function BuildFactory(options){
 				links: [],
 				playerVisibility: [],
 				color: 'black',
-				resources: resources || undefined,
+				// resources: resources || undefined,
 				edges: [],
 				size: 0.03,
 				x: x,
 				y: y,
-				hidden: true
+				hidden: true,
+				// constructor: obj.constructor
 			}
 		}
 
@@ -54,6 +56,7 @@ function BuildFactory(options){
 			x = pos[0];
 			y = pos[1];
 			var base = Nodule(x, y);
+			console.log()
 			base.color = playerColors.shift();
 			base.hidden = false;
 			base.size = 0.15;
