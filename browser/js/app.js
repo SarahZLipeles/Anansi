@@ -28,6 +28,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 			liveConn = true;
 			console.log(game.role);
 			if(game.role === "host") {
+				console.log(game.board)
 				peerconn.send(game.board);
 			}
 			//Listen for data
@@ -68,7 +69,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 			game.role = "host";
 			game.board = Board.generate();
 			console.log(game.board);
-			Interface(game.board);
+			var gameInterface = new Interface(game);
 			console.log("Waiting for a new friend");
 		} else {
 			game.role = "client";

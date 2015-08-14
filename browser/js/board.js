@@ -15,6 +15,8 @@ function makeRandomField (options) {
 		id,
 		base1 = NodeFactory(true),
 		base2 = NodeFactory(true),
+		host = base1.color,
+		client = base2.color,
 		nodes = [base1, base2];
 	ids.push(base1.id);
 	ids.push(base2.id);
@@ -27,6 +29,8 @@ function makeRandomField (options) {
 	return {
 		base1: base1,
 		base2: base2,
+		host: host,
+		client: client,
 		nodes: nodes,
 		numNodes: numNodes,
 		width: width,
@@ -120,12 +124,17 @@ function checkField (field) {
 		checkConnected = function (linkid) {
 			if(connected.indexOf(linkid) === -1){
 				connected.push(linkid);
+				var node111 = field.nodes[linkid];
+				if(node111 === undefined){
+					console.log(linkid, field.nodes, node111);
+				}
 				check.push(field.nodes[linkid]);
 			}
 		},
 		links,
 		isolatedNodes;
 	while(check.length !== 0){
+		// console.log(check);
 		links = check.shift().links;
 		links.forEach(checkConnected);
 	}
