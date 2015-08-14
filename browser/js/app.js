@@ -40,7 +40,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 					game.board = data.data;
 					gameInterface = new Interface(game);
 				}else if (data.type === "move"){
-					gameInterface.updateNode(data.data, data.color);
+					gameInterface.updateBoard(data.data, data.color);
 				}
 			});
 		});

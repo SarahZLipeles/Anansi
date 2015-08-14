@@ -12,11 +12,20 @@ define([], function () {
 			nodelinks[i].hidden = false;
 			nodeedges[i].hidden = false;
 		}
-		view.refresh()
+		view.refresh();
 		return node;
 	}
+
+	function updateNode(node, color){
+		color = color || "#000000";
+		node.color = color;
+		view.refresh();
+	}
+
+
 	function Interface (game) {
-		this.playerColor = game.board[game.role];
+		var color = game.board[game.role]
+		this.playerColor = color;
 		this.opponent = game.opponent;
 		board = game.board;
 		view = new sigma({
@@ -29,6 +38,10 @@ define([], function () {
 		var clickANode = function (func, event) { func(event.data.node); };
 		clickANode = clickANode.bind(this, this.claim.bind(this));
 		view.bind("clickNode", clickANode);
+		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
+		var base = view.graph.nodes(baseId);
+			base.hidden = false;
+			revealLinks(base, color);
 	}
 
 	Interface.prototype.addOpponent = function (opponent) {
@@ -40,9 +53,9 @@ define([], function () {
 		this.opponent.send({type: "move", data: node.id, color: this.playerColor});
 	}
 
-	Interface.prototype.updateNode = function (nodeid, color) {
+	Interface.prototype.updateBoard = function (nodeid, color) {
 		var node = view.graph.nodes(nodeid);
-		revealLinks(node, color);
+		updateNode(node, color);
 	}
 
 

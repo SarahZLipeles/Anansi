@@ -13,13 +13,12 @@ function makeRandomField (options) {
 
 		index = 2,
 		id,
-		base1 = NodeFactory(true),
-		base2 = NodeFactory(true),
-		host = base1.color,
-		client = base2.color,
-		nodes = [base1, base2];
-	ids.push(base1.id);
-	ids.push(base2.id);
+		bases = {host: NodeFactory(true), client: NodeFactory(true)},
+		host = bases.host.color,
+		client = bases.client.color,
+		nodes = [bases.host, bases.client];
+	ids.push(bases.host.id);
+	ids.push(bases.client.id);
 
 	for(index = 2; index < numNodes; index++){
 		id = index.toString();
@@ -27,8 +26,7 @@ function makeRandomField (options) {
 		nodes.push(NodeFactory());
 	}
 	return {
-		base1: base1,
-		base2: base2,
+		bases: bases,
 		host: host,
 		client: client,
 		nodes: nodes,
@@ -119,8 +117,8 @@ function connectField (field, radii, maxConnections) {
 
 //Checks if the bases are connected 
 function checkField (field) {
-	var connected = [field.base1.id],
-		check = [field.base1],
+	var connected = [field.bases.host.id],
+		check = [field.bases.host],
 		checkConnected = function (linkid) {
 			if(connected.indexOf(linkid) === -1){
 				connected.push(linkid);
@@ -141,7 +139,7 @@ function checkField (field) {
 	isolatedNodes = ids.filter(function(id){
 		return connected.indexOf(id) === -1;
 	});
-	//Still need this to check if base2 is connected
+	//Still need this to check if bases.client is connected
 	field.isolatedNodes = isolatedNodes;
 	//Filter out isolated nodes
 	field.nodes = field.nodes.filter(function (node) {
@@ -159,9 +157,7 @@ function makeGraph (fieldOptions, radii, maxConnections){
 	field = connectField(field, radii, maxConnections);
 	// field = calculateSize(field);
 	field = checkField(field);
-	if(field.isolatedNodes.indexOf(field.base2.id) === -1){
-		revealLinks(field.base1, field);
-		revealLinks(field.base2, field);
+	if(field.isolatedNodes.indexOf(field.bases.client.id) === -1){
 		return field;
 	}else{
 		return makeGraph(fieldOptions, radii);

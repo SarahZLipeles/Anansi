@@ -58,7 +58,6 @@ function BuildFactory(options){
 			var base = Nodule(x, y);
 			console.log()
 			base.color = playerColors.shift();
-			base.hidden = false;
 			base.size = 0.15;
 			return base;
 		}else{
