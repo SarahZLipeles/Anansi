@@ -19,7 +19,7 @@ function BuildFactory(options){
 				health: maxHealth || 5000,
 				links: [],
 				playerVisibility: [],
-				color: 'black',
+				color: "#000000",
 				resources: resources || undefined,
 				edges: [],
 				size: 0.03,
