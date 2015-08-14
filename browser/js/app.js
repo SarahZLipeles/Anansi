@@ -35,7 +35,8 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 			peerconn.on('data', function (data) {
 				//Do stuff with incoming data
 				console.log(data);
-				Interface(data);
+				game.board = data;
+				var gameInterface = new Interface(game);
 			});
 		});
 

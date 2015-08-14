@@ -14,8 +14,8 @@ function BuildFactory(options){
 			id++;
 			return {
 				id: id.toString(),
-				maxHealth: maxHealth || Infinity,
-				health: maxHealth || Infinity,
+				// maxHealth: maxHealth || Infinity,
+				// health: maxHealth || Infinity,
 				links: [],
 				playerVisibility: [],
 				color: 'black',
