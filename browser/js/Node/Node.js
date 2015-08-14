@@ -15,18 +15,17 @@ function BuildFactory(options){
 			id++;
 			return {
 				id: id.toString(),
-				// maxHealth: maxHealth || Infinity,
-				// health: maxHealth || Infinity,
+				maxHealth: maxHealth || 5000,
+				health: maxHealth || 5000,
 				links: [],
 				playerVisibility: [],
 				color: 'black',
-				// resources: resources || undefined,
+				resources: resources || undefined,
 				edges: [],
 				size: 0.03,
 				x: x,
 				y: y,
 				hidden: true,
-				// constructor: obj.constructor
 			}
 		}
 
