@@ -6,12 +6,11 @@ define([], function () {
 	function updateLinks(node, color, claiming){
 		color = color || "#000000";
 		node.color = color;
-		console.log(lastNode, node.id, node.trunk);
+		console.log(node.id, lastNode);
 		if(!node.trunk){
 			node.trunk = lastNode;
 			lastNode = node.id;
 		}
-		console.log(typeof lastNode, typeof node.id, typeof node.trunk);
 		var nodelinks = view.graph.nodes(node.links);
 		var nodeedges = view.graph.edges(node.edges);
 		for(var i = 0; i < nodelinks.length; i++){

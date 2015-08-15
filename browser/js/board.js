@@ -10,7 +10,6 @@ function makeRandomField (options) {
 		height = options.height,
 		numNodes = options.numNodes,
 		padding = options.padding || 1,
-
 		index = 2,
 		id,
 		bases = {host: NodeFactory(true), client: NodeFactory(true)},

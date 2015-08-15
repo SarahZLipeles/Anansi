@@ -20,12 +20,13 @@
 		defaultNodeColor = settings('defaultNodeColor'),
 		defaultEdgeColor = settings('defaultEdgeColor'),
 		sourceX, sourceY, targetX, targetY, halfX, halfY,
-		headlen = 8, angle;
-		console.log(target.trunk === source.id, source.trunk === target.id);
+		headlen = 8, angle, flip;
+		if(source.trunk !== undefined && target.trunk !== undefined)
+		console.log("source, target, sourcetrunk, targettrunk", source.id, target.id, source.trunk, target.trunk);
 		if(target.trunk === source.id){
-			edgeType = "toTarget";
-		}else if(source.trunk === target.id){
 			edgeType = "toSource";
+		}else if(source.trunk === target.id){
+			edgeType = "toTarget";
 		}
 
 		if (!color){
@@ -59,12 +60,11 @@
 			targetX = target[prefix + "x"];
 			targetY = target[prefix + "y"];
 		}
-		console.log(edgeType);
-
-		if(edgeType){		
 			halfX = (sourceX + targetX) / 2,
 			halfY = (sourceY + targetY) / 2,
 			angle = Math.atan2(targetY - sourceY, targetX - sourceX);
+		if(edgeType === "toSource"){		
+			
 
 			context.moveTo(
 				halfX,
@@ -81,6 +81,23 @@
 			context.lineTo(
 				halfX - headlen * Math.cos(angle + Math.PI / 6),
 				halfY - headlen * Math.sin(angle + Math.PI / 6)
+				);
+		}else if(edgeType === "toTarget"){
+			context.moveTo(
+				halfX,
+				halfY
+				);
+			context.lineTo(
+				halfX + headlen * Math.cos(angle - Math.PI / 6),
+				halfY + headlen * Math.sin(angle - Math.PI / 6)
+				);
+			context.moveTo(
+				halfX,
+				halfY
+				);
+			context.lineTo(
+				halfX + headlen * Math.cos(angle + Math.PI / 6),
+				halfY + headlen * Math.sin(angle + Math.PI / 6)
 				);
 		}
 
