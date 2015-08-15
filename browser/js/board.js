@@ -167,7 +167,7 @@ function makeGraph (fieldOptions, radii, maxConnections){
 var fieldOptions = {
 	width: 1000,
 	height: 500,
-	numNodes: 400,
+	numNodes: 1300,
 	padding: 10
 };
 
@@ -179,7 +179,7 @@ var fieldOptions = {
 
 return {
 	generate: function () {
-		return makeGraph(fieldOptions, {inner: 45, outer: 99}, 4);
+		return makeGraph(fieldOptions, {inner: 15, outer: 33}, 4);
 	}
 }
 
