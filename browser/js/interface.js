@@ -32,7 +32,8 @@ define([], function () {
 					renderers: [{
 						container: document.getElementById("container"),
 						type: "canvas"
-					}]
+					}],
+					settings: {"drawLabels": false}
 				});
 		var clickANode = function (func, event) { func(event.data.node); };
 
@@ -53,7 +54,6 @@ define([], function () {
 					}
 				}, 2);
 			};
-			var color  = event.data.node.color;
 			crawl(event.data.node);
 		};
 
