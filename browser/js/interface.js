@@ -1,9 +1,17 @@
 define([], function () {
 	var view, board;
 	var obj = {};
+	var lastNode;
+
 	function updateLinks(node, color, claiming){
 		color = color || "#000000";
 		node.color = color;
+		console.log(lastNode, node.id, node.trunk);
+		if(!node.trunk){
+			node.trunk = lastNode;
+			lastNode = node.id;
+		}
+		console.log(typeof lastNode, typeof node.id, typeof node.trunk);
 		var nodelinks = view.graph.nodes(node.links);
 		var nodeedges = view.graph.edges(node.edges);
 		for(var i = 0; i < nodelinks.length; i++){
@@ -21,7 +29,7 @@ define([], function () {
 		return node;
 	}
 
-
+	
 	function Interface (game) {
 		var color = game.board[game.role]
 		this.playerColor = color;
@@ -59,11 +67,12 @@ define([], function () {
 
 		hey = hey.bind(this, this.claim.bind(this));
 		clickANode = clickANode.bind(this, this.claim.bind(this));
-		view.bind("clickNode", hey);
+		view.bind("clickNode", clickANode);
 
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
 		var base = view.graph.nodes(baseId);
 			base.hidden = false;
+			lastNode = baseId;
 			updateLinks(base, color, true);
 	}
 
@@ -73,7 +82,7 @@ define([], function () {
 
 	Interface.prototype.claim = function (node) {
 		var returnedNode = updateLinks(node, this.playerColor, true);
-		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
+		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	}
 
