@@ -13,8 +13,17 @@ define([], function () {
 			}
 			if(nodelinks[i].color === color){
 				nodeedges[i].color = color;
+				node.from.push(nodelinks[i].id)
+				nodelinks[i].to.push(node.id)
 			}else if(nodelinks[i].color !== "#000000"){
-				nodeedges[i].color = "#000000";
+				var index = nodelinks[i].from.indexOf(node.id)
+				if(index !== -1){
+					if(nodelinks[i].from.length < 3){
+						updateLinks(nodelinks[i], color, true)
+					}
+				}else{
+					nodeedges[i].color = "#000000";
+				}
 			}
 		}
 		view.refresh();
@@ -59,7 +68,7 @@ define([], function () {
 
 		hey = hey.bind(this, this.claim.bind(this));
 		clickANode = clickANode.bind(this, this.claim.bind(this));
-		view.bind("clickNode", hey);
+		view.bind("clickNode", clickANode);
 
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
 		var base = view.graph.nodes(baseId);

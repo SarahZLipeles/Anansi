@@ -26,6 +26,8 @@ function BuildFactory(options){
 				x: x,
 				y: y,
 				hidden: true,
+				from: [],
+				to: []
 			}
 		}
 
