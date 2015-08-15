@@ -6,6 +6,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 	var liveConn = false;
 	//Utility object to hold the client's Id, peer reference, and current connection reference
 	var game = {myId: undefined, player: undefined, opponent: undefined, board: undefined};
+	var gameInterface;
 
 	//Utility method for sending http Ajax get requests
 	function httpGet(url, cb) {
@@ -28,13 +29,19 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 			liveConn = true;
 			console.log(game.role);
 			if(game.role === "host") {
-				peerconn.send(game.board);
+				console.log(game.board)
+				peerconn.send({type: "board", data: game.board});
+				gameInterface.addOpponent(peerconn);
 			}
 			//Listen for data
 			peerconn.on('data', function (data) {
 				//Do stuff with incoming data
-				console.log(data);
-				Interface(data);
+				if(data.type === "board"){
+					game.board = data.data;
+					gameInterface = new Interface(game);
+				}else if (data.type === "claim"){
+					gameInterface.updateBoard(data.data, data.color);
+				}
 			});
 		});
 
@@ -68,7 +75,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 			game.role = "host";
 			game.board = Board.generate();
 			console.log(game.board);
-			Interface(game.board);
+			gameInterface = new Interface(game);
 			console.log("Waiting for a new friend");
 		} else {
 			game.role = "client";
@@ -89,7 +96,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 				}
 			});
 		} else {
-			game.player = new Peer({host: "127.0.0.1", port: 3000, path: "/api", debug: 2});
+			game.player = new Peer({host: "192.168.2.132", port: 3000, path: "/api", debug: 2});
 		}
 		//When the peer connection is established
 		game.player.on("open", function (id) {
