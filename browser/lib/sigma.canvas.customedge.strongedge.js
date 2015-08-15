@@ -64,8 +64,6 @@
 			halfY = (sourceY + targetY) / 2,
 			angle = Math.atan2(targetY - sourceY, targetX - sourceX);
 		if(edgeType === "toSource"){		
-			
-
 			context.moveTo(
 				halfX,
 				halfY
