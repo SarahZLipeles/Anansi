@@ -20,8 +20,17 @@ define([], function () {
 			}
 			if(nodelinks[i].color === color){
 				nodeedges[i].color = color;
+				node.from.push(nodelinks[i].id)
+				nodelinks[i].to.push(node.id)
 			}else if(nodelinks[i].color !== "#000000"){
-				nodeedges[i].color = "#000000";
+				var index = nodelinks[i].from.indexOf(node.id)
+				if(index !== -1){
+					if(nodelinks[i].from.length < 3){
+						updateLinks(nodelinks[i], color, true)
+					}
+				}else{
+					nodeedges[i].color = "#000000";
+				}
 			}
 		}
 		view.refresh();
