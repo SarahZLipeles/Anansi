@@ -3,61 +3,39 @@ define([], function () {
 "use strict";
 function BuildFactory(options){
 	var id = -1;
-	var obj = {};
 	var playerColors = ['#ff0000', '#00ff00', '#0000ff','#ffff0'];
 	var width = options.width;
 	var height = options.height;
 	var padding = options.padding;
 	var startLocations = [[width / padding, height / 2], [width - width / padding, height / 2]];
-	function NodeFactory (isHome) {
 
-		function Nodule(x, y, maxHealth, resources){
-			id++;
-			return {
-				id: id.toString(),
-				maxHealth: maxHealth || 5000,
-				health: maxHealth || 5000,
-				links: [],
-				playerVisibility: [],
-				color: "#000000",
-				resources: resources || undefined,
-				edges: [],
-				size: 0.03,
-				x: x,
-				y: y,
-				hidden: true,
-				from: [],
-				to: []
-			}
+	function Nodule(x, y, maxHealth, resources){
+		id++;
+		return {
+			id: id.toString(),
+			maxHealth: maxHealth || 5000,
+			health: maxHealth || 5000,
+			links: [],
+			playerVisibility: [],
+			color: "#000000",
+			resources: resources || undefined,
+			edges: [],
+			size: 0.03,
+			x: x,
+			y: y,
+			hidden: true,
+			from: [],
+			to: []
 		}
+	}
 
-		// Object.defineProperty(Nodule,'x', {get: function(){
-		// 	return this.location.x;
-		// }});
-
-		// Object.defineProperty(Nodule,'y', {get: function(){
-		// 	return this.location.y;
-		// }});
-
-		// Nodule.prototype.addLink = function(arr) {
-		// 	this.links = arr;
-		// }
-
-		// Nodule.prototype.regenerate = function(){
-		// 	setInterval(function(){
-		// 		while(this.health < this.maxHealth){
-		// 			this.health++
-		// 		}
-		// 	}, 5000/this.links.length)
-		// }
-
-		var x, y;
+	function RandomNodeFactory (isHome) {
+		var x, y, pos, base;
 		if(isHome){
-			var pos = startLocations.shift();
+			pos = startLocations.shift();
 			x = pos[0];
 			y = pos[1];
-			var base = Nodule(x, y);
-			console.log()
+			base = Nodule(x, y);
 			base.color = playerColors.shift();
 			base.size = 0.15;
 			return base;
@@ -66,10 +44,17 @@ function BuildFactory(options){
 			y = Math.floor(Math.random() * height);
 			return Nodule(x, y);
 		}
+	}
 
-	};
+	function HexFieldFactory () {
+		
+	}
 
-	return NodeFactory;
+
+	if(options.fieldType === "random"){
+		return RandomNodeFactory;
+	}
+	
 }
 
 return BuildFactory;

@@ -9,7 +9,6 @@ function makeField (options) {
 	var width = options.width,
 		height = options.height,
 		numNodes = options.numNodes,
-		padding = options.padding || 1,
 		index = 2,
 		id,
 		bases = {host: NodeFactory(true), client: NodeFactory(true)},
@@ -33,33 +32,6 @@ function makeField (options) {
 		width: width,
 		height: height
 	};
-}
-
-
-function revealLinks(node, field, color){
-	if (field) return node;
-	var nodes = field ? field.nodes : s.graph.nodes;
-	var edges = field ? field.edges : s.graph.edges;
-	var nodelinks = nodes(node.links);
-	var nodeedges = edges(node.edges);
-	for(var i = 0; i < nodelinks.length; i++){
-		if (field) {
-			// nodes[nodelinks[i]].hidden = false;
-			// edges[nodeedges[i]].hidden = false;
-		} else {
-			console.log(nodeedges);
-			nodelinks[i].hidden = false;
-			nodelinks[i].color = color;
-			nodeedges[i].hidden = false;
-			nodeedges[i].color = color;
-		}
-	}
-
-	if(s){
-		s.refresh();
-	}
-	return node;
-
 }
 
 function withinRange (node1, node2, radii){
@@ -168,7 +140,8 @@ var fieldOptions = {
 	width: 1000,
 	height: 500,
 	numNodes: 1300,
-	padding: 10
+	padding: 10,
+	fieldType: "random"
 };
 
 //Board notes
