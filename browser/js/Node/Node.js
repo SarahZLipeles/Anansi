@@ -8,6 +8,11 @@ function BuildFactory(options){
 	var height = options.height;
 	var padding = options.padding;
 	var startLocations = [[width / padding, height / 2], [width - width / padding, height / 2]];
+	var numNodes = options.numNodes;
+	var spacing = 15;
+	var odd = true;
+	var startX = spacing;
+	var startY = spacing;
 
 	function Nodule(x, y, maxHealth, resources){
 		id++;
@@ -23,13 +28,32 @@ function BuildFactory(options){
 			size: 0.03,
 			x: x,
 			y: y,
-			hidden: true,
+			hidden: false,
 			from: [],
 			to: []
 		}
 	}
 
-	function RandomNodeFactory (isHome) {
+	function RandomFieldFactory (isHome) {
+		var x, y, pos, base;
+		if(isHome){
+			pos = startLocations.shift();
+			x = pos[0];
+			y = pos[1];
+			base = Nodule(x, y);
+			base.color = playerColors.shift();
+			base.size = 0.15;
+			return base;
+		}else if(id === numNodes){
+			return false;
+		}else{
+			x = Math.floor(Math.random() * width);
+			y = Math.floor(Math.random() * height);
+			return Nodule(x, y);
+		}
+	}
+
+	function HexFieldFactory (isHome) {
 		var x, y, pos, base;
 		if(isHome){
 			pos = startLocations.shift();
@@ -40,19 +64,24 @@ function BuildFactory(options){
 			base.size = 0.15;
 			return base;
 		}else{
-			x = Math.floor(Math.random() * width);
-			y = Math.floor(Math.random() * height);
-			return Nodule(x, y);
+			startX += spacing * 2;
+			if(startX > width){
+				odd = !odd;
+				startX = odd ? spacing * 2 : spacing;
+				startY += spacing * 1.5;
+				if(startY > height){
+					return false;
+				}
+			}
+			return Nodule(startX, startY);
 		}
-	}
-
-	function HexFieldFactory () {
-		
 	}
 
 
 	if(options.fieldType === "random"){
-		return RandomNodeFactory;
+		return RandomFieldFactory;
+	}else if(options.fieldType === "hex"){
+		return HexFieldFactory
 	}
 	
 }

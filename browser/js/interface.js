@@ -6,7 +6,6 @@ define([], function () {
 	function updateLinks(node, color, claiming){
 		color = color || "#000000";
 		node.color = color;
-		console.log(node.id, lastNode);
 		if(!node.trunk){
 			node.trunk = lastNode;
 			lastNode = node.id;

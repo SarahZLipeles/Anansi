@@ -5,32 +5,30 @@ define(["js/Node/Node"], function (BuildFactory) {
 var ids = [];
 
 function makeField (options) {
-	var NodeFactory = BuildFactory(options);
-	var width = options.width,
-		height = options.height,
-		numNodes = options.numNodes,
-		index = 2,
-		id,
+	var NodeFactory = BuildFactory(options),
 		bases = {host: NodeFactory(true), client: NodeFactory(true)},
 		host = bases.host.color,
 		client = bases.client.color,
+		node = NodeFactory(),
 		nodes = [bases.host, bases.client];
+
 	ids.push(bases.host.id);
 	ids.push(bases.client.id);
 
-	for(index = 2; index < numNodes; index++){
-		id = index.toString();
-		ids.push(id);
-		nodes.push(NodeFactory());
+	while(node){
+		nodes.push(node);
+		ids.push(node.id);
+		node = NodeFactory();
 	}
+
 	return {
 		bases: bases,
 		host: host,
 		client: client,
 		nodes: nodes,
-		numNodes: numNodes,
-		width: width,
-		height: height
+		numNodes: nodes.length,
+		width: options.width,
+		height: options.height
 	};
 }
 
@@ -54,16 +52,39 @@ function outsideRadius (node1, node2, radii) {
 	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) > radii.inner;
 }
 
+function clearBaseArea(field, radii) {
+	var host = field.bases.host,
+		client = field.bases.client,
+		proximity = {outer: radii.outer - 5};
+	field.nodes = field.nodes.map(function (node) {
+		if(node.id === host.id || node.id === client.id){
+			return node;
+		}else if(withinRadius(host, node, proximity) || withinRadius(client, node, proximity)){
+			return undefined;
+		}else{
+			return node;
+		}
+	});
+	return field;
+}
+
+
 function connectField (field, radii, maxConnections) {
 	maxConnections = maxConnections || Infinity;
 	var edges = [],
 		id = 0,
 		nodeIndex, nextNodeIndex, currentNode, nextNode;
 	for(nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
+		if(field.nodes[nodeIndex] === undefined) {
+			continue;
+		}
 		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
 			//This needs to go here so current node will have the proper number of links each time
 			currentNode = field.nodes[nodeIndex];
 			nextNode = field.nodes[nextNodeIndex];
+			if(nextNode === undefined){
+				continue;
+			}
 			if(withinRange(currentNode, nextNode, radii) && restrictMaxNodes(currentNode, nextNode, maxConnections)){
 				//for some reason currentNode and nextNode are acting like copies, not references.  Why???
 				var edge = {
@@ -91,20 +112,16 @@ function connectField (field, radii, maxConnections) {
 function checkField (field) {
 	var connected = [field.bases.host.id],
 		check = [field.bases.host],
-		checkConnected = function (linkid) {
+		checkConnected = function (linkid, index, links) {
 			if(connected.indexOf(linkid) === -1){
 				connected.push(linkid);
-				var node111 = field.nodes[linkid];
-				if(node111 === undefined){
-					console.log(linkid, field.nodes, node111);
-				}
+				if(field.nodes[linkid] === undefined) console.log(linkid, links);
 				check.push(field.nodes[linkid]);
 			}
 		},
 		links,
 		isolatedNodes;
 	while(check.length !== 0){
-		// console.log(check);
 		links = check.shift().links;
 		links.forEach(checkConnected);
 	}
@@ -115,7 +132,7 @@ function checkField (field) {
 	field.isolatedNodes = isolatedNodes;
 	//Filter out isolated nodes
 	field.nodes = field.nodes.filter(function (node) {
-		return !~isolatedNodes.indexOf(node.id);
+		return node && !~isolatedNodes.indexOf(node.id);
 	});
 	//Filter out the edges that attach isolated nodes
 	field.edges = field.edges.filter(function (edge) {
@@ -126,9 +143,13 @@ function checkField (field) {
 
 function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeField(fieldOptions);
+	console.log("made", field);
+	field = clearBaseArea(field, radii);
+	console.log("cleared");
 	field = connectField(field, radii, maxConnections);
-	// field = calculateSize(field);
+	console.log("connected")
 	field = checkField(field);
+	console.log("checked");
 	if(field.isolatedNodes.indexOf(field.bases.client.id) === -1){
 		return field;
 	}else{
@@ -141,7 +162,7 @@ var fieldOptions = {
 	height: 500,
 	numNodes: 1300,
 	padding: 10,
-	fieldType: "random"
+	fieldType: "hex"
 };
 
 //Board notes
@@ -152,7 +173,7 @@ var fieldOptions = {
 
 return {
 	generate: function () {
-		return makeGraph(fieldOptions, {inner: 15, outer: 33}, 4);
+		return makeGraph(fieldOptions, {inner: 0, outer: 33}, 5);
 	}
 }
 

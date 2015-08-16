@@ -20,9 +20,7 @@
 		defaultNodeColor = settings('defaultNodeColor'),
 		defaultEdgeColor = settings('defaultEdgeColor'),
 		sourceX, sourceY, targetX, targetY, halfX, halfY,
-		headlen = 8, angle, flip;
-		if(source.trunk !== undefined && target.trunk !== undefined)
-		console.log("source, target, sourcetrunk, targettrunk", source.id, target.id, source.trunk, target.trunk);
+		headlen = 8, angle;
 		if(target.trunk === source.id){
 			edgeType = "toSource";
 		}else if(source.trunk === target.id){
