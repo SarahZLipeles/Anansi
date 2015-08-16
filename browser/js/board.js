@@ -4,7 +4,7 @@ define(["js/Node/Node"], function (BuildFactory) {
 
 var ids = [];
 
-function makeRandomField (options) {
+function makeField (options) {
 	var NodeFactory = BuildFactory(options);
 	var width = options.width,
 		height = options.height,
@@ -153,7 +153,7 @@ function checkField (field) {
 }
 
 function makeGraph (fieldOptions, radii, maxConnections){
-	var field = makeRandomField(fieldOptions);
+	var field = makeField(fieldOptions);
 	field = connectField(field, radii, maxConnections);
 	// field = calculateSize(field);
 	field = checkField(field);

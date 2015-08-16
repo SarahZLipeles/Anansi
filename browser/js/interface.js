@@ -33,7 +33,7 @@ define([], function () {
 				}
 			}
 		}
-		view.refresh();
+		view.refresh({skipIndexation: true});
 		return node;
 	}
 
@@ -75,7 +75,7 @@ define([], function () {
 
 		hey = hey.bind(this, this.claim.bind(this));
 		clickANode = clickANode.bind(this, this.claim.bind(this));
-		view.bind("clickNode", clickANode);
+		view.bind("clickNode", hey);
 
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
 		var base = view.graph.nodes(baseId);
