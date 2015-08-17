@@ -12,7 +12,7 @@ define(["js/Thread/Thread"], function (Thread) {
 		if(!node.from && sourceNode){
 			node.from = sourceNode.id;
 			// lastNode = node.id;
-			sourceNode.to.push(node.id)
+			sourceNode.to.push(node.id);
 		}
 		var nodelinks = view.graph.nodes(node.links);
 		var nodeedges = view.graph.edges(node.edges);
@@ -38,6 +38,12 @@ define(["js/Thread/Thread"], function (Thread) {
 		return node;
 	}
 
+	// window.addEventListener("keyup", function(e) {
+	// 	var keyCode = e.keyCode;
+	// 	if (keyCode === 109) {
+			
+	// 	}
+	// });
 	
 	function Interface (game) {
 		var color = game.board[game.role];
@@ -52,8 +58,9 @@ define(["js/Thread/Thread"], function (Thread) {
 					}],
 					settings: {"drawLabels": false}
 				});
-		view.graph.bases = game.board.bases
-		console.log(view.graph)
+		view.graph.bases = game.board.bases;
+		view.graph.color = color;
+		console.log(view.graph);
 		this.thread = new Thread(40, view.graph, this.claim.bind(this), game.role);
 		// var clickANode = function (func, event) { func(event.data.node); };
 
@@ -82,9 +89,9 @@ define(["js/Thread/Thread"], function (Thread) {
 		// }
 
 		var clickANode = function(event){
-			this.thread.moveBase(event.data.node.id)
-			view.refresh()
-		}
+			this.thread.moveBase(event.data.node.id);
+			view.refresh();
+		};
 
 		var hey = function (func, event) { 
 			var crawl = function(node) {
@@ -108,7 +115,7 @@ define(["js/Thread/Thread"], function (Thread) {
 
 		hey = hey.bind(this, this.claim.bind(this));
 		// clickANode = clickANode.bind(this, this.claim.bind(this));
-		clickANode = clickANode.bind(this)
+		clickANode = clickANode.bind(this);
 		view.bind("clickNode", clickANode);
 
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
@@ -120,18 +127,18 @@ define(["js/Thread/Thread"], function (Thread) {
 
 	Interface.prototype.addOpponent = function (opponent) {
 		this.opponent = opponent;
-	}
+	};
 
 	Interface.prototype.claim = function (node, sourceNode) {
 		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
 		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
-	}
+	};
 
 	Interface.prototype.updateBoard = function (nodeid, color) {
 		var node = view.graph.nodes(nodeid);
 		updateLinks(node, color, false);
-	}
+	};
 
 
 	return Interface;
