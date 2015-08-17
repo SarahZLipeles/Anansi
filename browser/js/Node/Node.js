@@ -3,71 +3,87 @@ define([], function () {
 "use strict";
 function BuildFactory(options){
 	var id = -1;
-	var obj = {};
 	var playerColors = ['#ff0000', '#00ff00', '#0000ff','#ffff0'];
 	var width = options.width;
 	var height = options.height;
 	var padding = options.padding;
 	var startLocations = [[width / padding, height / 2], [width - width / padding, height / 2]];
-	function NodeFactory (isHome) {
+	var numNodes = options.numNodes;
+	var spacing = 15;
+	var odd = true;
+	var startX = spacing;
+	var startY = spacing;
 
-		function Nodule(x, y, maxHealth, resources){
-			id++;
-			return {
-				id: id.toString(),
-				maxHealth: maxHealth || 5000,
-				health: maxHealth || 5000,
-				links: [],
-				playerVisibility: [],
-				color: "#000000",
-				resources: resources || undefined,
-				edges: [],
-				size: 0.03,
-				x: x,
-				y: y,
-				hidden: true,
-			}
+	function Nodule(x, y, maxHealth, resources){
+		id++;
+		return {
+			id: id.toString(),
+			maxHealth: maxHealth || 5000,
+			health: maxHealth || 5000,
+			links: [],
+			playerVisibility: [],
+			color: "#000000",
+			resources: resources || undefined,
+			edges: [],
+			size: 0.03,
+			x: x,
+			y: y,
+			hidden: false,
+			from: undefined,
+			to: []
 		}
+	}
 
-		// Object.defineProperty(Nodule,'x', {get: function(){
-		// 	return this.location.x;
-		// }});
-
-		// Object.defineProperty(Nodule,'y', {get: function(){
-		// 	return this.location.y;
-		// }});
-
-		// Nodule.prototype.addLink = function(arr) {
-		// 	this.links = arr;
-		// }
-
-		// Nodule.prototype.regenerate = function(){
-		// 	setInterval(function(){
-		// 		while(this.health < this.maxHealth){
-		// 			this.health++
-		// 		}
-		// 	}, 5000/this.links.length)
-		// }
-
-		var x, y;
+	function RandomFieldFactory (isHome) {
+		var x, y, pos, base;
 		if(isHome){
-			var pos = startLocations.shift();
+			pos = startLocations.shift();
 			x = pos[0];
 			y = pos[1];
-			var base = Nodule(x, y);
-			console.log()
+			base = Nodule(x, y);
 			base.color = playerColors.shift();
 			base.size = 0.15;
 			return base;
+		}else if(id === numNodes){
+			return false;
 		}else{
 			x = Math.floor(Math.random() * width);
 			y = Math.floor(Math.random() * height);
 			return Nodule(x, y);
 		}
+	}
 
-	};
+	function HexFieldFactory (isHome) {
+		var x, y, pos, base;
+		if(isHome){
+			pos = startLocations.shift();
+			x = pos[0];
+			y = pos[1];
+			base = Nodule(x, y);
+			base.color = playerColors.shift();
+			base.size = 0.15;
+			return base;
+		}else{
+			startX += spacing * 2;
+			if(startX > width){
+				odd = !odd;
+				startX = odd ? spacing * 2 : spacing;
+				startY += spacing * 1.5;
+				if(startY > height){
+					return false;
+				}
+			}
+			return Nodule(startX, startY);
+		}
+	}
 
-	return NodeFactory;
+
+	if(options.fieldType === "random"){
+		return RandomFieldFactory;
+	}else if(options.fieldType === "hex"){
+		return HexFieldFactory
+	}
+	
 }
 
 return BuildFactory;

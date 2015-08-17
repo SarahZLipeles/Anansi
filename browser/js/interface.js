@@ -1,9 +1,15 @@
 define([], function (Thread) {
 	var view, board;
 	var obj = {};
+	var lastNode;
+
 	function updateLinks(node, color, claiming){
 		color = color || "#000000";
 		node.color = color;
+		if(!node.from){
+			node.from = lastNode;
+			lastNode = node.id;
+		}
 		var nodelinks = view.graph.nodes(node.links);
 		var nodeedges = view.graph.edges(node.edges);
 		for(var i = 0; i < nodelinks.length; i++){
@@ -13,15 +19,22 @@ define([], function (Thread) {
 			}
 			if(nodelinks[i].color === color){
 				nodeedges[i].color = color;
+				// node.from.push(nodelinks[i].id)
+				nodelinks[i].to.push(node.id)
 			}else if(nodelinks[i].color !== "#000000"){
-				nodeedges[i].color = "#000000";
+				var isSource = nodelinks[i].from === node.id;
+				if(isSource){
+					updateLinks(nodelinks[i], color, true);
+				}else{
+					nodeedges[i].color = "#000000";
+				}
 			}
 		}
-		view.refresh();
+		view.refresh({skipIndexation: true});
 		return node;
 	}
 
-
+	
 	function Interface (game) {
 		var color = game.board[game.role];
 		this.playerColor = color;
@@ -32,7 +45,8 @@ define([], function (Thread) {
 					renderers: [{
 						container: document.getElementById("container"),
 						type: "canvas"
-					}]
+					}],
+					settings: {"drawLabels": false}
 				});
 		this.thread = new Thread(30, view.graph);
 		var clickANode = function (func, event) { func(event.data.node); };
@@ -54,7 +68,6 @@ define([], function (Thread) {
 					}
 				}, 2);
 			};
-			var color  = event.data.node.color;
 			crawl(event.data.node);
 		};
 
@@ -65,6 +78,7 @@ define([], function (Thread) {
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
 		var base = view.graph.nodes(baseId);
 			base.hidden = false;
+			lastNode = baseId;
 			updateLinks(base, color, true);
 	}
 
