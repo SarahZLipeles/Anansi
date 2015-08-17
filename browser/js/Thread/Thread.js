@@ -1,6 +1,7 @@
 define([], function () {
 
     function Thread(speed, graph, claim, role) {
+        var crawlQ = [];
 
         var attackNode = function(sourceId, destId) {
             var source = graph.nodes(sourceId);
@@ -23,7 +24,7 @@ define([], function () {
 
         var reinforceNode = function(id, times) {
             if(graph.nodes(id).color !== '#000000'){
-                var reinforce = function(times) {
+                var reinforce = function() {
                     var node = graph.nodes(id);
                     if (node.health < node.maxHealth) {
                         node.health++;
@@ -60,15 +61,14 @@ define([], function () {
             reinforceNode: reinforceNode
         };
         var currentCrawler;
-        crawlQ = [];
-        crawlTimer = setInterval(function() {
+        
+        var crawlTimer = setInterval(function() {
         	if (crawlQ.length > 0) {
         		crawlQ.pop()();
         	}
         }, 1000 / speed);
 
     	this.crawl = function(startId, crawler) {
-            console.log(this.crawling);
     		if (this.crawling) {
     			crawlQ.length = 0;
     		}

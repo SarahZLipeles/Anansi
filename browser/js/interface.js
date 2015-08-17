@@ -55,38 +55,37 @@ define(["js/Thread/Thread"], function (Thread) {
 				});
 		view.graph.bases = game.board.bases;
 		view.graph.color = color;
-		console.log(view.graph);
 		this.thread = new Thread(40, view.graph, this.claim.bind(this), game.role);
 		// var clickANode = function (func, event) { func(event.data.node); };
 
-		// var clickANode = function(event){
-		// 	var claimedLinks = []
-		// 	this.thread.crawl(event.data.node.id, {
-		// 		start: function(id){
-		// 			this.attackNode('0', id)
-		// 		},
-		// 		receiveLinks: function(id, links){
-		// 			var self = this
-		// 			claimedLinks.push(id)
-		// 			// links.forEach(function(link){
-		// 			// 	if(claimedLinks.indexOf(link) === -1)
-		// 			// 		self.attackNode(id, link)
-		// 			// })
-		// 			for(var i=(links.length - 1); i >= 0; i--){
-		// 				if(claimedLinks.indexOf(links[i]) === -1){
-		// 					self.attackNode(id, links[i])
-		// 					break;
-		// 				}
-		// 			}
-		// 		}
-		// 	})
-
-		// }
-
 		var clickANode = function(event){
-			this.thread.moveBase(event.data.node.id);
-			view.refresh();
-		};
+			var claimedLinks = []
+			this.thread.crawl(event.data.node.id, {
+				start: function(id){
+					this.attackNode('0', id)
+				},
+				receiveLinks: function(id, links){
+					var self = this
+					claimedLinks.push(id)
+					links.forEach(function(link){
+						if(claimedLinks.indexOf(link) === -1)
+							self.attackNode(id, link)
+					});
+					// for(var i=(links.length - 1); i >= 0; i--){
+					// 	if(claimedLinks.indexOf(links[i]) === -1){
+					// 		self.attackNode(id, links[i])
+					// 		break;
+					// 	}
+					// }
+				}
+			})
+
+		}
+
+		// var clickANode = function(event){
+		// 	this.thread.moveBase(event.data.node.id);
+		// 	view.refresh();
+		// };
 
 		var hey = function (func, event) { 
 			var crawl = function(node) {
