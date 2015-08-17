@@ -1,6 +1,5 @@
 define([], function () {
-	var view, board;
-	var obj = {};
+	var view;
 	var lastNode;
 
 	function updateLinks(node, color, claiming){
@@ -18,6 +17,7 @@ define([], function () {
 				nodeedges[i].hidden = false;
 			}
 			if(nodelinks[i].color === color){
+				console.log(nodeedges[i])
 				nodeedges[i].color = color;
 				// node.from.push(nodelinks[i].id)
 				nodelinks[i].to.push(node.id)
@@ -44,9 +44,9 @@ define([], function () {
 					graph: game.board,
 					renderers: [{
 						container: document.getElementById("container"),
-						type: "canvas"
+						type: "svg"
 					}],
-					settings: {"drawLabels": false}
+					// settings: {"drawLabels": false}
 				});
 		var clickANode = function (func, event) { func(event.data.node); };
 
@@ -72,7 +72,7 @@ define([], function () {
 
 		hey = hey.bind(this, this.claim.bind(this));
 		clickANode = clickANode.bind(this, this.claim.bind(this));
-		view.bind("clickNode", hey);
+		view.bind("clickNode", clickANode);
 
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
 		var base = view.graph.nodes(baseId);
@@ -87,7 +87,7 @@ define([], function () {
 
 	Interface.prototype.claim = function (node) {
 		var returnedNode = updateLinks(node, this.playerColor, true);
-		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
+		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	}
 

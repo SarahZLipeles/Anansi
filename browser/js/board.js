@@ -101,7 +101,7 @@ function connectField (field, radii, maxConnections) {
 					target: potentialNode,
 					color: "#000000",
 					hidden: false,
-					type: "gameEdge"
+					// type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
 				field.nodes[nodeIndex].edges.push(edge.id);
@@ -109,15 +109,14 @@ function connectField (field, radii, maxConnections) {
 				field.nodes[potentialNode].edges.push(edge.id);
 				id++;
 				edges.push(edge);
-			}
-			if(Math.random() < 0.5){
+			}else if(Math.random() < 0.5){
 				edge = {
 					id: id.toString(), 
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
 					hidden: false,
-					type: "gameEdge"
+					// type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
 				field.nodes[nodeIndex].edges.push(edge.id);
