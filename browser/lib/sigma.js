@@ -2929,7 +2929,7 @@ if (typeof exports !== 'undefined') {
     // {boolean}
     touchEnabled: true,
     // {boolean}
-    mouseEnabled: true,
+    mouseEnabled: false,
     // {boolean}
     mouseWheelEnabled: true,
     // {boolean}
@@ -2944,9 +2944,9 @@ if (typeof exports !== 'undefined') {
     //          user zooms by double clicking.
     doubleClickZoomingRatio: 2.2,
     // {number} The minimum zooming level.
-    zoomMin: 0.0625,
+    zoomMin: 0.9,
     // {number} The maximum zooming level.
-    zoomMax: 2,
+    zoomMax: 0.9,
     // {number} The duration of animations following a mouse scrolling.
     mouseZoomDuration: 200,
     // {number} The duration of animations following a mouse double click.
@@ -8228,7 +8228,7 @@ if (typeof exports !== 'undefined') {
     this.domElements.graph = this.container.appendChild(dom);
 
     // Creating groups
-    var groups = ['edges', 'nodes', 'labels', 'hovers'];
+    var groups = ['edges', 'nodes', 'labels', 'hovers', "arrows"];
     for (i = 0, l = groups.length; i < l; i++) {
       g = document.createElementNS(this.settings('xmlns'), 'g');
 
