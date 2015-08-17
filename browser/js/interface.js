@@ -87,7 +87,7 @@ define([], function () {
 
 	Interface.prototype.claim = function (node) {
 		var returnedNode = updateLinks(node, this.playerColor, true);
-		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
+		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	}
 
