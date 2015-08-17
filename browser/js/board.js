@@ -100,8 +100,8 @@ function connectField (field, radii, maxConnections) {
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
-					hidden: false,
-					// type: "gameEdge"
+					hidden: true,
+					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
 				field.nodes[nodeIndex].edges.push(edge.id);
@@ -115,8 +115,8 @@ function connectField (field, radii, maxConnections) {
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
-					hidden: false,
-					// type: "gameEdge"
+					hidden: true,
+					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
 				field.nodes[nodeIndex].edges.push(edge.id);

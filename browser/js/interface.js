@@ -17,8 +17,6 @@ define([], function () {
 				nodeedges[i].hidden = false;
 			}
 			if(nodelinks[i].color === color){
-				console.log(nodeedges[i])
-				nodeedges[i].color = color;
 				// node.from.push(nodelinks[i].id)
 				nodelinks[i].to.push(node.id)
 			}else if(nodelinks[i].color !== "#000000"){
