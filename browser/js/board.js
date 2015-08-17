@@ -55,7 +55,7 @@ function outsideRadius (node1, node2, radii) {
 function clearBaseArea(field, radii) {
 	var host = field.bases.host,
 		client = field.bases.client,
-		proximity = {outer: radii.outer - 5};
+		proximity = {outer: radii.outer - 20};
 	field.nodes = field.nodes.map(function (node) {
 		if(node.id === host.id || node.id === client.id){
 			return node;
@@ -73,11 +73,14 @@ function connectField (field, radii, maxConnections) {
 	maxConnections = maxConnections || Infinity;
 	var edges = [],
 		id = 0,
-		nodeIndex, nextNodeIndex, currentNode, nextNode;
+		potentialConnections = [],
+		nodeIndex, nextNodeIndex, currentNode, nextNode,
+		edge;
 	for(nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
 		if(field.nodes[nodeIndex] === undefined) {
 			continue;
 		}
+		potentialConnections = [];
 		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
 			//This needs to go here so current node will have the proper number of links each time
 			currentNode = field.nodes[nodeIndex];
@@ -85,24 +88,45 @@ function connectField (field, radii, maxConnections) {
 			if(nextNode === undefined){
 				continue;
 			}
-			if(withinRange(currentNode, nextNode, radii) && restrictMaxNodes(currentNode, nextNode, maxConnections)){
+			if(withinRange(currentNode, nextNode, radii)){
 				//for some reason currentNode and nextNode are acting like copies, not references.  Why???
-				var edge = {
+				potentialConnections.push(nextNode.id);
+			}
+		}
+		potentialConnections.forEach(function (potentialNode){
+			if(currentNode.id === field.bases.host.id || currentNode.id === field.bases.client.id){
+				edge = {
 					id: id.toString(), 
 					source: currentNode.id, 
-					target: nextNode.id,
+					target: potentialNode,
 					color: "#000000",
 					hidden: false,
 					type: "gameEdge"
 				}
-				field.nodes[nodeIndex].links.push(nextNode.id);
+				field.nodes[nodeIndex].links.push(potentialNode);
 				field.nodes[nodeIndex].edges.push(edge.id);
-				field.nodes[nextNodeIndex].links.push(currentNode.id);
-				field.nodes[nextNodeIndex].edges.push(edge.id);
+				field.nodes[potentialNode].links.push(currentNode.id);
+				field.nodes[potentialNode].edges.push(edge.id);
 				id++;
 				edges.push(edge);
 			}
-		}
+			if(Math.random() < 0.5){
+				edge = {
+					id: id.toString(), 
+					source: currentNode.id, 
+					target: potentialNode,
+					color: "#000000",
+					hidden: false,
+					type: "gameEdge"
+				}
+				field.nodes[nodeIndex].links.push(potentialNode);
+				field.nodes[nodeIndex].edges.push(edge.id);
+				field.nodes[potentialNode].links.push(currentNode.id);
+				field.nodes[potentialNode].edges.push(edge.id);
+				id++;
+				edges.push(edge);
+			}
+		});
 	}
 	field.edges = edges;
 	return field;

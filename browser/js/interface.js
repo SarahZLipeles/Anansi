@@ -6,8 +6,8 @@ define([], function () {
 	function updateLinks(node, color, claiming){
 		color = color || "#000000";
 		node.color = color;
-		if(!node.trunk){
-			node.trunk = lastNode;
+		if(!node.from){
+			node.from = lastNode;
 			lastNode = node.id;
 		}
 		var nodelinks = view.graph.nodes(node.links);
@@ -19,14 +19,12 @@ define([], function () {
 			}
 			if(nodelinks[i].color === color){
 				nodeedges[i].color = color;
-				node.from.push(nodelinks[i].id)
+				// node.from.push(nodelinks[i].id)
 				nodelinks[i].to.push(node.id)
 			}else if(nodelinks[i].color !== "#000000"){
-				var index = nodelinks[i].from.indexOf(node.id)
-				if(index !== -1){
-					if(nodelinks[i].from.length < 3){
-						updateLinks(nodelinks[i], color, true)
-					}
+				var isSource = nodelinks[i].from === node.id;
+				if(isSource){
+					updateLinks(nodelinks[i], color, true);
 				}else{
 					nodeedges[i].color = "#000000";
 				}

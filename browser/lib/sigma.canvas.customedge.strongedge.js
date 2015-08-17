@@ -21,9 +21,9 @@
 		defaultEdgeColor = settings('defaultEdgeColor'),
 		sourceX, sourceY, targetX, targetY, halfX, halfY,
 		headlen = 8, angle;
-		if(target.trunk === source.id){
+		if(target.from === source.id){
 			edgeType = "toSource";
-		}else if(source.trunk === target.id){
+		}else if(source.from === target.id){
 			edgeType = "toTarget";
 		}
 

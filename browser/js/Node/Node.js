@@ -29,7 +29,7 @@ function BuildFactory(options){
 			x: x,
 			y: y,
 			hidden: false,
-			from: [],
+			from: undefined,
 			to: []
 		}
 	}
