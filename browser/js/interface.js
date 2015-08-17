@@ -1,4 +1,4 @@
-define([], function () {
+define([], function (Thread) {
 	var view, board;
 	var obj = {};
 	function updateLinks(node, color, claiming){
@@ -23,7 +23,7 @@ define([], function () {
 
 
 	function Interface (game) {
-		var color = game.board[game.role]
+		var color = game.board[game.role];
 		this.playerColor = color;
 		this.opponent = game.opponent;
 		board = game.board;
@@ -34,6 +34,7 @@ define([], function () {
 						type: "canvas"
 					}]
 				});
+		this.thread = new Thread(30, view.graph);
 		var clickANode = function (func, event) { func(event.data.node); };
 
 		var hey = function (func, event) { 
