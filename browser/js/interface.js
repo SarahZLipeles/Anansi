@@ -1,14 +1,18 @@
-define([], function (Thread) {
+define(["js/Thread/Thread"], function (Thread) {
+	
+	"use strict";
+
 	var view, board;
 	var obj = {};
 	var lastNode;
 
-	function updateLinks(node, color, claiming){
+	function updateLinks(node, color, claiming, sourceNode){
 		color = color || "#000000";
 		node.color = color;
-		if(!node.from){
-			node.from = lastNode;
-			lastNode = node.id;
+		if(!node.from && sourceNode){
+			node.from = sourceNode.id;
+			// lastNode = node.id;
+			sourceNode.to.push(node.id)
 		}
 		var nodelinks = view.graph.nodes(node.links);
 		var nodeedges = view.graph.edges(node.edges);
@@ -20,7 +24,7 @@ define([], function (Thread) {
 			if(nodelinks[i].color === color){
 				nodeedges[i].color = color;
 				// node.from.push(nodelinks[i].id)
-				nodelinks[i].to.push(node.id)
+				// nodelinks[i].to.push(node.id)
 			}else if(nodelinks[i].color !== "#000000"){
 				var isSource = nodelinks[i].from === node.id;
 				if(isSource){
@@ -48,8 +52,39 @@ define([], function (Thread) {
 					}],
 					settings: {"drawLabels": false}
 				});
-		this.thread = new Thread(30, view.graph);
-		var clickANode = function (func, event) { func(event.data.node); };
+		view.graph.bases = game.board.bases
+		console.log(view.graph)
+		this.thread = new Thread(40, view.graph, this.claim.bind(this), game.role);
+		// var clickANode = function (func, event) { func(event.data.node); };
+
+		// var clickANode = function(event){
+		// 	var claimedLinks = []
+		// 	this.thread.crawl(event.data.node.id, {
+		// 		start: function(id){
+		// 			this.attackNode('0', id)
+		// 		},
+		// 		receiveLinks: function(id, links){
+		// 			var self = this
+		// 			claimedLinks.push(id)
+		// 			// links.forEach(function(link){
+		// 			// 	if(claimedLinks.indexOf(link) === -1)
+		// 			// 		self.attackNode(id, link)
+		// 			// })
+		// 			for(var i=(links.length - 1); i >= 0; i--){
+		// 				if(claimedLinks.indexOf(links[i]) === -1){
+		// 					self.attackNode(id, links[i])
+		// 					break;
+		// 				}
+		// 			}
+		// 		}
+		// 	})
+
+		// }
+
+		var clickANode = function(event){
+			this.thread.moveBase(event.data.node.id)
+			view.refresh()
+		}
 
 		var hey = function (func, event) { 
 			var crawl = function(node) {
@@ -72,8 +107,9 @@ define([], function (Thread) {
 		};
 
 		hey = hey.bind(this, this.claim.bind(this));
-		clickANode = clickANode.bind(this, this.claim.bind(this));
-		view.bind("clickNode", hey);
+		// clickANode = clickANode.bind(this, this.claim.bind(this));
+		clickANode = clickANode.bind(this)
+		view.bind("clickNode", clickANode);
 
 		var baseId = game.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
 		var base = view.graph.nodes(baseId);
@@ -86,8 +122,8 @@ define([], function (Thread) {
 		this.opponent = opponent;
 	}
 
-	Interface.prototype.claim = function (node) {
-		var returnedNode = updateLinks(node, this.playerColor, true);
+	Interface.prototype.claim = function (node, sourceNode) {
+		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
 		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	}

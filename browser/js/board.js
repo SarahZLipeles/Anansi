@@ -167,13 +167,9 @@ function checkField (field) {
 
 function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeField(fieldOptions);
-	console.log("made", field);
 	field = clearBaseArea(field, radii);
-	console.log("cleared");
 	field = connectField(field, radii, maxConnections);
-	console.log("connected")
 	field = checkField(field);
-	console.log("checked");
 	if(field.isolatedNodes.indexOf(field.bases.client.id) === -1){
 		return field;
 	}else{
