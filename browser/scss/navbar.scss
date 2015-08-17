@@ -1,0 +1,67 @@
+//
+//
+//@mixin flexbox() {
+//  display: -webkit-box;
+//  display: -moz-box;
+//  display: -ms-flexbox;
+//  display: -webkit-flex;
+//  display: flex;
+//}
+//
+//@mixin flex($values) {
+//  -webkit-box-flex: $values;
+//  -moz-box-flex:  $values;
+//  -webkit-flex:  $values;
+//  -ms-flex:  $values;
+//  flex:  $values;
+//}
+//
+//@mixin order($val) {
+//  -webkit-box-ordinal-group: $val;
+//  -moz-box-ordinal-group: $val;
+//  -ms-flex-order: $val;
+//  -webkit-order: $val;
+//  order: $val;
+//}
+
+.container {
+  display: -webkit-flex;
+  display: flex;
+  //justify-content: flex-end;
+  //align-items: center;
+
+
+
+}
+
+.item {
+
+  //width: 22%;
+  color: red;
+  //background-color: rgb(255,150,100);
+}
+
+.item:hover{
+  font-weight:bold;
+  size:15px;
+}
+.title {
+  font-family: 'Droid Sans', sans-serif;
+  color: red;
+  width: 100%;
+  margin: 0px auto;
+  float:left;
+}
+
+
+.spider {
+  height:350px;
+  background: url('asset/spider.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity:0.0;
+}
+
+.spider:hover {
+  opacity:0.5;
+}
