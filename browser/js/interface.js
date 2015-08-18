@@ -32,12 +32,27 @@ define(["js/Thread/Thread"], function (Thread) {
 
 
 		var nodelinks = view.graph.nodes(node.links);
+// <<<<<<< HEAD
 		// var nodeedges = view.graph.edges(node.edges);
 
 		if(claimer){
 			for(var i = 0; i < nodelinks.length; i++){
 				nodelinks[i].hidden = false;
 				// nodeedges[i].hidden = false;
+// =======
+// 		for(var i = 0; i < nodelinks.length; i++){
+// 			if(claiming){
+// 				nodelinks[i].hidden = false;
+// 			}
+// 			if(nodelinks[i].color === color){
+// 				// node.from.push(nodelinks[i].id)
+// 				// nodelinks[i].to.push(node.id)
+// 			}else if(nodelinks[i].color !== "#000000"){
+// 				var isSource = nodelinks[i].from === node.id;
+// 				if(isSource){
+// 					updateLinks(nodelinks[i], color, true);
+// 				}
+// >>>>>>> 8d740a5f41c7c0fdde90a2f89d71c823ba9fb535
 			}
 			// if(nodelinks[i].color !== "#000000"){
 			// 	var isSource = nodelinks[i].from === node.id;
@@ -71,7 +86,10 @@ define(["js/Thread/Thread"], function (Thread) {
 						container: document.getElementById("container"),
 						type: "svg"
 					}],
-					// settings: {"drawLabels": false}
+					settings: {
+						drawLabels: false,
+						player: color
+					}
 				});
 		view.graph.bases = game.board.bases;
 		view.graph.color = color;
@@ -146,7 +164,7 @@ define(["js/Thread/Thread"], function (Thread) {
 
 	Interface.prototype.claim = function (node, sourceNode) {
 		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
-		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
+		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	};
 

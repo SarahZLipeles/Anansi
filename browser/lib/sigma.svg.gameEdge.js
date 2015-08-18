@@ -36,7 +36,7 @@
                     break;
                 }
             }
-
+            //Calculate needed points
             var sourceX = source[prefix + "x"],
                 sourceY = source[prefix + "y"],
                 targetX = target[prefix + "x"],
@@ -50,31 +50,33 @@
                 toTargetStartPoint = (halfX + headlen * Math.cos(angle - Math.PI / 6)) + "," + (halfY + headlen * Math.sin(angle - Math.PI / 6)),
                 toTargetEndPoint = (halfX + headlen * Math.cos(angle + Math.PI / 6)) + "," + (halfY + headlen * Math.sin(angle + Math.PI / 6)),
                 halfPoint = halfX + "," + halfY;
-
+            //Create svg elements
             var line = document.createElementNS(settings("xmlns"), "line");
             var arrowToSource = document.createElementNS(settings("xmlns"), "polyline");
             var arrowToTarget = document.createElementNS(settings("xmlns"), "polyline");
+            //Build point strings for arrows
             var toSourcePoints = toSourceStartPoint + " " + halfPoint + " " + toSourceEndPoint;
             var toTargetPoints = toTargetStartPoint + " " + halfPoint + " " + toTargetEndPoint;
-
+            //Set up the to source arrow
             arrowToSource.setAttributeNS(null, "points", toSourcePoints);
             arrowToSource.setAttributeNS(null, "class", settings("classPrefix") + "-arrow");
             arrowToSource.setAttributeNS(null, "stroke", color);
             arrowToSource.setAttributeNS(null, "fill", "none");
             arrowToSource.setAttributeNS(null, "display", "none");
-
+            //Set up the to target arrow
             arrowToTarget.setAttributeNS(null, "points", toTargetPoints);
             arrowToTarget.setAttributeNS(null, "class", settings("classPrefix") + "-arrow");
             arrowToTarget.setAttributeNS(null, "stroke", color);
             arrowToTarget.setAttributeNS(null, "fill", "none");
             arrowToTarget.setAttributeNS(null, "display", "none");
-
+            //Add arrows to board
             arrowContainer.appendChild(arrowToTarget);
             arrowContainer.appendChild(arrowToSource);
-            // Attributes
+            //Setting up the line attributes
             line.setAttributeNS(null, "data-edge-id", edge.id);
             line.setAttributeNS(null, "class", settings("classPrefix") + "-edge");
             line.setAttributeNS(null, "stroke", color);
+            line.setAttributeNS(null, "display", "none");
             //Took this from below, makes dragging and zooming possible
             //Would need to put this back to reenable that
             line.setAttributeNS(null, "stroke-width", edge[prefix + "size"] || 1);
@@ -84,7 +86,6 @@
             line.setAttributeNS(null, "y2", targetY);
 
             edge.arrows = {toSource: arrowToSource, toTarget: arrowToTarget};
-
             return line;
         },
 
@@ -99,28 +100,35 @@
     */
     update: function(edge, line, source, target, settings) {
         var sourceColor = source.color,
-            targetColor = target.color;
+            targetColor = target.color,
+            player = settings("player");
         if(sourceColor !== "#000000" && targetColor === sourceColor){// && !edge.arrow){
             line.setAttributeNS(null, "stroke", sourceColor);
             edge.color = sourceColor;
-            //toSource
-            if(target.from === source.id){
-                edge.arrows.toSource.setAttributeNS(null, "stroke", sourceColor);
-                edge.arrows.toSource.setAttributeNS(null, "display", "block");
-            //toTarget
-            }else if(source.from === target.id){
-                edge.arrows.toTarget.setAttributeNS(null, "stroke", sourceColor);
-                edge.arrows.toTarget.setAttributeNS(null, "display", "block");
+            //Only show arrows if the line belongs to the player
+            if(sourceColor === player){
+                //toSource
+                if(target.from === source.id){
+                    edge.arrows.toSource.setAttributeNS(null, "stroke", sourceColor);
+                    edge.arrows.toSource.setAttributeNS(null, "display", "block");
+                //toTarget
+                }else if(source.from === target.id){
+                    edge.arrows.toTarget.setAttributeNS(null, "stroke", sourceColor);
+                    edge.arrows.toTarget.setAttributeNS(null, "display", "block");
+                }
             }
         }else if(edge.color !== "#000000"){
             line.setAttributeNS(null, "stroke", "#000000");
+            edge.color = "#000000";
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");
-            edge.color = "#000000";
         }
-
-        // Showing
-        line.style.display = "";
+        //If either node belongs to the player, show the line
+        if(targetColor === player || sourceColor === player){
+            line.setAttributeNS(null, "display", "block");
+        }else{
+            line.setAttributeNS(null, "display", "none");
+        }
 
         return this;
     }

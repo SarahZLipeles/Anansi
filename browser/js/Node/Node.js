@@ -21,14 +21,13 @@ function BuildFactory(options){
 			maxHealth: maxHealth || 10,
 			health: maxHealth || 10,
 			links: [],
-			playerVisibility: [],
 			color: "#000000",
 			resources: resources || undefined,
 			edges: [],
 			size: 0.03,
 			x: x,
 			y: y,
-			hidden: true,
+			hidden: false,
 			from: undefined,
 			to: []
 		}
