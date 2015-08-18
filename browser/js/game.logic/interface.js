@@ -8,13 +8,18 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 		var node = queue(nodeid);
 		var sourceNode = nodes(sourceNodeid);
 		color = color || "#000000";
+		console.log("nodeid, nodefrom", node.id, node.from, "baseid:" + view.graph.bases[this.role].id);
 		if(node.id !== view.graph.bases[this.role].id){
+			console.log(node, node.from);
 			if(!node.from){
 				node.from = sourceNode.id;
 				sourceNode.to.push(node.id);
 			}else if(node.from && node.color !== sourceNode.color){
 				var oldFrom = nodes(node.from);
-				oldFrom.to.splice(oldFrom.to.indexOf(node.id), 1)
+				var toIndex = oldFrom.to.indexOf(node.id);
+				if(~toIndex){
+					oldFrom.to.splice(toIndex, 1)
+				}
 				node.from = sourceNode.id;
 				sourceNode.to.push(node.id);
 
@@ -24,7 +29,7 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 					//should flatten in the future, maybe
 					changeNode.to.forEach(function(id){
 						makeBlack(id);
-					})
+					});
 					changeNode.to.length = 0;
 					changeNode.from = undefined;
 				}
@@ -34,6 +39,7 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 			}
 		}
 		node.color = color;
+		console.log("nodeid, nodefrom", node.id, node.from, "baseid:" + view.graph.bases[this.role].id);
 		return node;
 	}
 	
@@ -144,7 +150,9 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 		view.bind("clickNode", clickANode);
 
 		var baseId = this.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
-		queue(baseId).color = color;
+		var base = queue(baseId)
+		base.color = color;
+		base.from = baseId;
 	}
 
 	Interface.prototype.addOpponent = function (opponent) {
