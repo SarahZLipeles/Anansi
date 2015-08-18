@@ -8,6 +8,7 @@ define([], function () {
             var node = graph.nodes(destId);
             if(source.links.indexOf(destId) !== -1){
                 var attk = function() {
+                    console.log(node.health)
                     if (node.health > 0) {
                         node.health -= 5;
                         crawlQ.push(attk);

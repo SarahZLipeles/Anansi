@@ -70,12 +70,19 @@ define(["js/Thread/Thread"], function (Thread) {
 		this.threads = 2
 		this.currentThread = 'thread1';
 		this.state = 'attackNode'
+		this.source = view.graph.bases[this.role].id
 
 		var self = this
 		//controls
 		window.addEventListener("keypress", function(e) {
 			var keyCode = e.keyCode;
 			var controls = {
+
+				//select source node
+				102: function(){
+					self.state = 'selectSrc'
+					console.log('selecting')
+				},
 				//cycle functions
 				//a
 				97: function(){
@@ -163,16 +170,18 @@ define(["js/Thread/Thread"], function (Thread) {
 				var availableLinks = [];
 				this[this.currentThread].crawl(event.data.node.id, {
 					start: function(id){
-						this.attackNode(view.graph.bases[game.role].id, id)
+						this.attackNode(self.source, id)
 					},
 					receiveLinks: function(id, links){
+						self.source = id
+
 						//breadth first
-						var self = this
-						claimedLinks.push(id)
-						links.forEach(function(link){
-							if(claimedLinks.indexOf(link) === -1)
-								self.attackNode(id, link)
-						});
+						// var self = this
+						// claimedLinks.push(id)
+						// links.forEach(function(link){
+						// 	if(claimedLinks.indexOf(link) === -1)
+						// 		self.attackNode(id, link)
+						// });
 
 						//depth first
 						// if (availableLinks.length !== 0) {
@@ -199,6 +208,9 @@ define(["js/Thread/Thread"], function (Thread) {
 			}else if(this.state === 'moveBase'){
 				this[this.currentThread].moveBase(event.data.node.id)
 				view.refresh({skipIndexation: true})
+			}else if(this.state === 'selectSrc'){
+				this.source = event.data.node.id
+				console.log('selected a new source')
 			}
 		};
 
