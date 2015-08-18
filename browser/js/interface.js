@@ -4,32 +4,52 @@ define(["js/Thread/Thread"], function (Thread) {
 
 	var view;
 
-	function updateLinks(node, color, claiming, sourceNode){
+	function updateLinks(node, color, claimer, sourceNode){
 		color = color || "#000000";
 		node.color = color;
 		if(!node.from && sourceNode){
 			node.from = sourceNode.id;
 			sourceNode.to.push(node.id);
+		}else if(node.from && sourceNode){
+			var oldNode = view.graph.nodes(node.from)
+			oldNode.to.splice(oldNode.to.indexOf(node.id), 1)
+			node.from = sourceNode.id;
+			sourceNode.to.push(node.id);
+
+			var makeBlack = function(nodeId){
+				var node = view.graph.nodes(nodeId)
+				node.color = "#000000"
+				node.to.forEach(function(id){
+					makeBlack(id)
+				})
+				node.to.length = 0
+				node.from = undefined
+			}
+
+			node.to.forEach(makeBlack)
 		}
+
+
+
 		var nodelinks = view.graph.nodes(node.links);
-		var nodeedges = view.graph.edges(node.edges);
-		for(var i = 0; i < nodelinks.length; i++){
-			if(claiming){
+		// var nodeedges = view.graph.edges(node.edges);
+
+		if(claimer){
+			for(var i = 0; i < nodelinks.length; i++){
 				nodelinks[i].hidden = false;
-				nodeedges[i].hidden = false;
+				// nodeedges[i].hidden = false;
 			}
-			if(nodelinks[i].color === color){
-				// node.from.push(nodelinks[i].id)
-				// nodelinks[i].to.push(node.id)
-			}else if(nodelinks[i].color !== "#000000"){
-				var isSource = nodelinks[i].from === node.id;
-				if(isSource){
-					updateLinks(nodelinks[i], color, true);
-				}else{
-					nodeedges[i].color = "#000000";
-				}
-			}
+			// if(nodelinks[i].color !== "#000000"){
+			// 	var isSource = nodelinks[i].from === node.id;
+			// 	if(isSource){
+			// 		updateLinks(nodelinks[i], color, true);
+			// 	}
+			// }
 		}
+		// else{
+
+		// }
+
 		view.refresh({skipIndexation: true});
 		return node;
 	}
