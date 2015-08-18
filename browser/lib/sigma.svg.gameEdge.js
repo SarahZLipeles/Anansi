@@ -105,31 +105,29 @@
         if(sourceColor !== "#000000" && targetColor === sourceColor){// && !edge.arrow){
             line.setAttributeNS(null, "stroke", sourceColor);
             edge.color = sourceColor;
-            //toSource
-            if(target.from === source.id){
-                if(sourceColor === player){
+            //Only show arrows if the line belongs to the player
+            if(sourceColor === player){
+                //toSource
+                if(target.from === source.id){
                     edge.arrows.toSource.setAttributeNS(null, "stroke", sourceColor);
                     edge.arrows.toSource.setAttributeNS(null, "display", "block");
-                }
-            //toTarget
-            }else if(source.from === target.id){
-                if(sourceColor === player){
+                //toTarget
+                }else if(source.from === target.id){
                     edge.arrows.toTarget.setAttributeNS(null, "stroke", sourceColor);
                     edge.arrows.toTarget.setAttributeNS(null, "display", "block");
                 }
             }
         }else if(edge.color !== "#000000"){
-            console.log("hey")
             line.setAttributeNS(null, "stroke", "#000000");
+            edge.color = "#000000";
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");
-            edge.color = "#000000";
         }
-        if(targetColor !== player && sourceColor !== player){
-                line.setAttributeNS(null, "display", "none");
-        }
+        //If either node belongs to the player, show the line
         if(targetColor === player || sourceColor === player){
             line.setAttributeNS(null, "display", "block");
+        }else{
+            line.setAttributeNS(null, "display", "none");
         }
 
         return this;

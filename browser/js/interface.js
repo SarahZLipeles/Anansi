@@ -124,13 +124,7 @@ define(["js/Thread/Thread"], function (Thread) {
 
 
 	Interface.prototype.claim = function (node, sourceNode) {
-		var color;
-		if(node.color === this.playerColor){
-			color = "#000000";
-		}else{
-			color = this.playerColor;
-		}
-		var returnedNode = updateLinks(node, color, true, sourceNode);
+		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
 		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	};
