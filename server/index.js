@@ -23,6 +23,9 @@ app.use("/api", peerServer);
 
 app.use("/", router);
 
+app.get('/*', function (req, res) {
+    res.sendFile(app.get('indexHTMLPath'));
+});
 
 server.listen(app.get("port"), function () {
   console.log("Server running at %s:%d", app.get("ip"), app.get("port"));

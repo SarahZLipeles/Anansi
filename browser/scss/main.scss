@@ -1,2 +1,14 @@
-@import "navbar";
 @import "anchor";
+@import "navbar";
+@import "play-container";
+@import "play-editor";
+
+#container{
+  width: 100vw;
+  height: 100vh;
+}
+
+.clearfix {
+  overflow: auto;
+  zoom: 1;
+}

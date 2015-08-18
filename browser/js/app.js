@@ -27,9 +27,7 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 		//When the connection opens...
 		peerconn.on("open", function () {
 			liveConn = true;
-			console.log(game.role);
 			if(game.role === "host") {
-				console.log(game.board)
 				peerconn.send({type: "board", data: game.board});
 				gameInterface.addOpponent(peerconn);
 			}
@@ -74,7 +72,6 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 		if (res.meet === "hold") {
 			game.role = "host";
 			game.board = Board.generate();
-			console.log(game.board);
 			gameInterface = new Interface(game);
 			console.log("Waiting for a new friend");
 		} else {
@@ -100,7 +97,6 @@ define(["lib/peer", "js/board", "js/interface"], function (Peer, Board, Interfac
 		}
 		//When the peer connection is established
 		game.player.on("open", function (id) {
-			console.log("my id: ", id);
 			game.myId = id;
 			//Try to meet someone
 			httpGet("/meet/" + id, meetSomeone);

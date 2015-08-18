@@ -100,7 +100,7 @@ function connectField (field, radii, maxConnections) {
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
-					hidden: false,
+					hidden: true,
 					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
@@ -109,14 +109,13 @@ function connectField (field, radii, maxConnections) {
 				field.nodes[potentialNode].edges.push(edge.id);
 				id++;
 				edges.push(edge);
-			}
-			if(Math.random() < 0.5){
+			}else if(Math.random() < 0.5){
 				edge = {
 					id: id.toString(), 
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
-					hidden: false,
+					hidden: true,
 					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
@@ -167,13 +166,9 @@ function checkField (field) {
 
 function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeField(fieldOptions);
-	console.log("made", field);
 	field = clearBaseArea(field, radii);
-	console.log("cleared");
 	field = connectField(field, radii, maxConnections);
-	console.log("connected")
 	field = checkField(field);
-	console.log("checked");
 	if(field.isolatedNodes.indexOf(field.bases.client.id) === -1){
 		return field;
 	}else{
