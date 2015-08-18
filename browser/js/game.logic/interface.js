@@ -61,7 +61,8 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 						drawLabels: false,
 						player: color,
 						width: game.board.width,
-						height: game.board.height
+						height: game.board.height,
+						doubleClickEnabled: false
 					}
 				});
 		queue = view.graph.queueNodes,
@@ -146,7 +147,7 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 		// hey = hey.bind(this, this.claim.bind(this));
 		clickANode = clickANode.bind(this, this.claim.bind(this));
 		// clickANode = clickANode.bind(this);
-
+		// var test = function (e) { console.log(e.data); };
 		view.bind("clickNode", clickANode);
 
 		var baseId = this.role === "host" ? game.board.bases.host.id : game.board.bases.client.id;
