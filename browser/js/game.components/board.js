@@ -1,4 +1,4 @@
-define(["js/Node/Node"], function (BuildFactory) {
+define(["js/game.components/Node"], function (BuildFactory) {
 
 "use strict";
 
@@ -177,8 +177,8 @@ function makeGraph (fieldOptions, radii, maxConnections){
 }
 
 var fieldOptions = {
-	width: 500,
-	height: 500,
+	width: 100,
+	height: 100,
 	numNodes: 500,
 	padding: 10,
 	fieldType: "hex"
