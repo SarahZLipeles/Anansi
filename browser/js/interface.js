@@ -12,11 +12,9 @@ define(["js/Thread/Thread"], function (Thread) {
 			sourceNode.to.push(node.id);
 		}
 		var nodelinks = view.graph.nodes(node.links);
-		var nodeedges = view.graph.edges(node.edges);
 		for(var i = 0; i < nodelinks.length; i++){
 			if(claiming){
 				nodelinks[i].hidden = false;
-				// nodeedges[i].hidden = false;
 			}
 			if(nodelinks[i].color === color){
 				// node.from.push(nodelinks[i].id)
@@ -25,8 +23,6 @@ define(["js/Thread/Thread"], function (Thread) {
 				var isSource = nodelinks[i].from === node.id;
 				if(isSource){
 					updateLinks(nodelinks[i], color, true);
-				}else{
-					nodeedges[i].color = "#000000";
 				}
 			}
 		}
@@ -128,7 +124,13 @@ define(["js/Thread/Thread"], function (Thread) {
 
 
 	Interface.prototype.claim = function (node, sourceNode) {
-		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
+		var color;
+		if(node.color === this.playerColor){
+			color = "#000000";
+		}else{
+			color = this.playerColor;
+		}
+		var returnedNode = updateLinks(node, color, true, sourceNode);
 		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	};

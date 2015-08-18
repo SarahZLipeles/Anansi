@@ -86,7 +86,6 @@
             line.setAttributeNS(null, "y2", targetY);
 
             edge.arrows = {toSource: arrowToSource, toTarget: arrowToTarget};
-            console.log("made line");
             return line;
         },
 
@@ -120,13 +119,14 @@
                 }
             }
         }else if(edge.color !== "#000000"){
+            console.log("hey")
             line.setAttributeNS(null, "stroke", "#000000");
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");
             edge.color = "#000000";
-            if(targetColor !== player && sourceColor !== player){
+        }
+        if(targetColor !== player && sourceColor !== player){
                 line.setAttributeNS(null, "display", "none");
-            }
         }
         if(targetColor === player || sourceColor === player){
             line.setAttributeNS(null, "display", "block");
