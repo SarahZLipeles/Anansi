@@ -29,7 +29,8 @@ function BuildFactory(options){
 			y: y,
 			hidden: false,
 			from: undefined,
-			to: []
+			to: [],
+			type: "gameNode"
 		}
 	}
 
