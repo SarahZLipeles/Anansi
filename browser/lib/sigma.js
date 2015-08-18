@@ -8078,9 +8078,11 @@ if (typeof exports !== 'undefined') {
 
     // Hiding everything
     // TODO: find a more sensible way to perform this operation
-    this.hideDOMElements(this.domElements.nodes);
-    this.hideDOMElements(this.domElements.edges);
-    this.hideDOMElements(this.domElements.labels);
+
+    // *** NOTE: disabled these to 
+    // this.hideDOMElements(this.domElements.nodes);
+    // this.hideDOMElements(this.domElements.edges);
+    // this.hideDOMElements(this.domElements.labels);
 
     // Find which nodes are on screen
     this.edgesOnScreen = [];
@@ -10410,6 +10412,7 @@ if (typeof exports !== 'undefined') {
      * @param  {DOMElement}               element   The DOM element to hide.
      */
     hide: function(element) {
+      console.log(arguments.callee)
       element.style.display = 'none';
       return this;
     }

@@ -16,7 +16,7 @@ define(["js/Thread/Thread"], function (Thread) {
 		for(var i = 0; i < nodelinks.length; i++){
 			if(claiming){
 				nodelinks[i].hidden = false;
-				nodeedges[i].hidden = false;
+				// nodeedges[i].hidden = false;
 			}
 			if(nodelinks[i].color === color){
 				// node.from.push(nodelinks[i].id)
@@ -51,7 +51,10 @@ define(["js/Thread/Thread"], function (Thread) {
 						container: document.getElementById("container"),
 						type: "svg"
 					}],
-					// settings: {"drawLabels": false}
+					settings: {
+						drawLabels: false,
+						player: color
+					}
 				});
 		view.graph.bases = game.board.bases;
 		view.graph.color = color;
@@ -126,7 +129,7 @@ define(["js/Thread/Thread"], function (Thread) {
 
 	Interface.prototype.claim = function (node, sourceNode) {
 		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
-		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
+		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	};
 
