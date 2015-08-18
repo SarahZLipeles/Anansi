@@ -4,11 +4,11 @@ app.directive('navbar', function(){
         templateUrl: '/app/navbar/navbar.html',
         link: function(scope) {
             scope.categories = [{
-                label: 'Join Game',
-                state: 'joinGame'
+                label: 'Play',
+                state: 'editor'
             }, {
-                label: 'Create User',
-                state: 'createUser'
+                label: 'Signup',
+                state: 'signup'
             }, {
                 label: 'Login',
                 state: 'login'

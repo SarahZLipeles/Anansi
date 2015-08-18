@@ -13,8 +13,6 @@ var gulp = require('gulp'),
 var js_client_path = './browser/app/**/*.js';
 var js_client_start_path = './browser/app/index.js';
 var js_server_path = './server/**/*.js';
-var css_client_start_path = './browser/scss/main.scss';
-var css_client_path = './browser/scss/navbar.scss';
 
 gulp.task('lintJS', function(){
     return gulp.src([js_client_path, js_server_path])
@@ -35,9 +33,9 @@ gulp.task('buildJS', ['lintJS'], function(){
 });
 
 gulp.task('buildCSS', function () {
-    return gulp.src([css_client_start_path,css_client_path])
+    return gulp.src(['./browser/scss/main.scss'])
         .pipe(sass({
-            //includePaths:require('node-normalize-scss').includePaths,
+            includePaths:require('node-normalize-scss').includePaths,
             errLogToConsole:true
         }))
         .pipe(rename('styles.css'))
@@ -49,13 +47,13 @@ gulp.task('buildCSS', function () {
 gulp.task('default', function(){
 
     gulp.start(['buildJS', 'buildCSS']);
-
-    gulp.watch([css_client_start_path,css_client_path], function(){
-        runSeq('buildCSS');
-    });
     gulp.watch([js_client_start_path, js_client_path, js_server_path], ['lintJS']);
     gulp.watch([js_client_start_path,js_client_path], function(){
         runSeq('buildJS');
     });
+    gulp.watch('./browser/scss/*.scss', function(){
+        runSeq('buildCSS');
+    });
+
 });
 
