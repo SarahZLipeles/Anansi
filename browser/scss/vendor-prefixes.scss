@@ -1,0 +1,17 @@
+
+@mixin vendor-prefix-shorthand($name, $argument, $arg1, $arg2) {
+  -webkit-#{$name}: #{$argument, $arg1, $arg2};
+  -ms-#{$name}: #{$argument, $arg1, $arg2};
+  -moz-#{$name}: #{$argument, $arg1, $arg2};
+  -o-#{$name}: #{$argument, $arg1, $arg2};
+  #{$name}: #{$argument, $arg1, $arg2};
+}
+
+@mixin prefix($property, $value, $vendors: webkit moz ms o) {
+  @if $vendors {
+    @each $vendor in $vendors {
+      #{"-" + $vendor + "-" + $property}: #{$value};
+    }
+  }
+  #{$property}: #{$value};
+}

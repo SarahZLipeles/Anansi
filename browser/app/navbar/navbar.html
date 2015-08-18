@@ -1,0 +1,7 @@
+<div class="container">
+    <li class="item title"><a ui-sref="/">Welcome to Spider Wars</a></li>
+    <li class="item search"><a href="#">Search</a></li>
+    <li class="item " ng-repeat="category in categories">
+        <a ui-sref-active="active" ui-sref="{{category.state}}">{{category.label}}</a>
+    </li>
+</div>

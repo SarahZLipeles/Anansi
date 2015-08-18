@@ -1,0 +1,61 @@
+
+@import 'vendor-prefixes.scss';
+
+.play-editor-container {
+  font-family: 'Droid Sans', sans-serif;
+  @include prefix(justify-content, center);
+  //background-color: #555;
+  width: 100%;
+  margin: 0 auto;
+  //opacity:0.60;
+  display:flex;
+  flex-direction:column;
+
+}
+
+
+.play-editor-item {
+  background-color:black;
+  color:white;
+  list-style-type: none;
+
+  border-top: 1px white solid;
+  border-bottom: 1px white solid;
+  padding: 0.5em 2em 0.5em 2em;
+  font-size:2em;
+  text-align:center;
+  @include prefix(flex-basis,150px);
+  @include prefix(flex-grow,1);
+
+}
+
+.play-editor-title {
+  background-color:black;
+  color:white;
+  padding: 0.5em 2em 0.5em 2em;
+  font-size:1.5em;
+  text-align:center;
+}
+
+//.play-editor-container input{
+//  float:left;
+//}
+
+.play-editor-container textarea.resizedTextBox{
+  width:80%;
+  height:300px;
+  padding: 0.5em 2em 0.5em 2em;
+  font-size:1em;
+  rows:30;
+  cols:50
+}
+
+
+.play-editor-container input[type=button], input[type=submit]{
+  float:left;
+}
+
+.play-editor-container label {
+  //float:left;
+}
+

@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<base href="/" />
 	<title>Spider Wars</title>
-	<link rel="stylesheet" type="text/css" href="/stylesheet.css" />
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
-<body>
-<div id="container"></div>
+<body class="blackweb" ng-app="SpiderWars">
+<navbar></navbar>
+<ui-view></ui-view>
+
 
 <script type="text/javascript" src="/require.js"></script>
 <script type="text/javascript" src="/lib/sigma.js"></script>
@@ -13,5 +17,9 @@
 <script type="text/javascript" src="/lib/sigma.svg.gameEdge.js"></script>
 <script type="text/javascript" src="/lib/sigma.svg.gameNode.js"></script>
 <script type="text/javascript" src="/main.js"></script>
+<script type="text/javascript" src="/angular/angular.min.js"></script>
+<script type="text/javascript" src="/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="/spiderwars.js"></script>
+
 </body>
 </html>
