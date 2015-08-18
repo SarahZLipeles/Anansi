@@ -10410,6 +10410,7 @@ if (typeof exports !== 'undefined') {
      * @param  {DOMElement}               element   The DOM element to hide.
      */
     hide: function(element) {
+      console.log(arguments.callee)
       element.style.display = 'none';
       return this;
     }

@@ -100,7 +100,7 @@ function connectField (field, radii, maxConnections) {
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
-					hidden: true,
+					hidden: false,
 					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
@@ -115,7 +115,7 @@ function connectField (field, radii, maxConnections) {
 					source: currentNode.id, 
 					target: potentialNode,
 					color: "#000000",
-					hidden: true,
+					hidden: false,
 					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(potentialNode);
@@ -177,9 +177,9 @@ function makeGraph (fieldOptions, radii, maxConnections){
 }
 
 var fieldOptions = {
-	width: 1000,
+	width: 500,
 	height: 500,
-	numNodes: 1300,
+	numNodes: 500,
 	padding: 10,
 	fieldType: "hex"
 };
