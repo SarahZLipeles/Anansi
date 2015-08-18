@@ -12,11 +12,9 @@ define(["js/Thread/Thread"], function (Thread) {
 			sourceNode.to.push(node.id);
 		}
 		var nodelinks = view.graph.nodes(node.links);
-		var nodeedges = view.graph.edges(node.edges);
 		for(var i = 0; i < nodelinks.length; i++){
 			if(claiming){
 				nodelinks[i].hidden = false;
-				nodeedges[i].hidden = false;
 			}
 			if(nodelinks[i].color === color){
 				// node.from.push(nodelinks[i].id)
@@ -25,8 +23,6 @@ define(["js/Thread/Thread"], function (Thread) {
 				var isSource = nodelinks[i].from === node.id;
 				if(isSource){
 					updateLinks(nodelinks[i], color, true);
-				}else{
-					nodeedges[i].color = "#000000";
 				}
 			}
 		}
@@ -45,14 +41,24 @@ define(["js/Thread/Thread"], function (Thread) {
 		var color = game.board[game.role];
 		this.playerColor = color;
 		this.opponent = game.opponent;
+		console.log(game.board);
 		view = new sigma({
 					graph: game.board,
 					renderers: [{
 						container: document.getElementById("container"),
-						type: "svg"
+						type: "gameSvg",
+						settings: {
+							enableHovering: true
+						}
 					}],
-					// settings: {"drawLabels": false}
+					settings: {
+						drawLabels: false,
+						player: color,
+						width: game.board.width,
+						height: game.board.height
+					}
 				});
+		console.log(view);
 		view.graph.bases = game.board.bases;
 		view.graph.color = color;
 		this.thread = new Thread(40, view.graph, this.claim.bind(this), game.role);
@@ -126,7 +132,7 @@ define(["js/Thread/Thread"], function (Thread) {
 
 	Interface.prototype.claim = function (node, sourceNode) {
 		var returnedNode = updateLinks(node, this.playerColor, true, sourceNode);
-		this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
+		// this.opponent.send({type: "claim", data: node.id, color: this.playerColor});
 		return returnedNode;
 	};
 
