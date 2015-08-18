@@ -13,6 +13,7 @@ define([], function () {
                         crawlQ.push(attk);
                     }
                     if (node.health === 0) {
+                        node.health = 6;
                         claim(node, source);
                         //return links to player
                         currentCrawler.receiveLinks.call(userScope, destId, node.links);
@@ -28,6 +29,7 @@ define([], function () {
                     var node = graph.nodes(id);
                     if (node.health < node.maxHealth) {
                         node.health++;
+                        console.log(node.health)
                         if(times){
                             crawlQ.push(reinforce.bind(null, --times));
                         }else if(times === undefined){
