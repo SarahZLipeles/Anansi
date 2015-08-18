@@ -67,6 +67,8 @@
     // Indexes:
     this.nodesOnScreen = [];
     this.edgesOnScreen = [];
+    this.nodesToRender = [];
+    this.edgesToRender = [];
 
     // Find the prefix:
     this.options.prefix = 'renderer' + sigma.utils.id() + ':';
@@ -257,6 +259,150 @@
         (renderers[a[i].type] || renderers.def).update(
           a[i],
           this.domElements.edges[a[i].id],
+          source,
+          target,
+          embedSettings
+        );
+       }
+
+    this.dispatchEvent('render');
+
+    return this;
+  };
+  /**
+   * This method extends sigma to allow the user to queue nodes to be rendered later
+   *
+   * @param {string|array} v   One id, an array of ids
+   * @return {object|array}    The related node or array of nodes
+   */
+  sigma.prototype.queueNodes = function (v) {
+    // Return the related node:
+    if (arguments.length === 1 &&
+        (typeof v === 'string' || typeof v === 'number')){
+      var node = this.nodesIndex[v];
+      this.renderers[0].nodesToRender.push(node);
+      return node;
+    }
+
+    // Return an array of the related node:
+    if (
+      arguments.length === 1 &&
+      Object.prototype.toString.call(v) === '[object Array]'
+    ) {
+      var i,
+          l,
+          a = [];
+
+      for (i = 0, l = v.length; i < l; i++)
+        if (typeof v[i] === 'string' || typeof v[i] === 'number')
+          a.push(this.nodesIndex[v[i]]);
+        else
+          throw 'nodes: Wrong arguments: ' + v[i].toString() + "in: " + v.toString;
+      Array.prototype.push.apply(this.renderers[0].nodesToRender, a);
+      return a;
+    }
+
+    throw 'nodes: Wrong arguments: ' + v.toString();
+  };
+
+  /**
+   * This method renders the graph on the svg scene, but only the nodes that need an update.
+   *
+   * @param  {?object}                options Eventually an object of options.
+   * @return {sigma.renderers.gameSvg}            Returns the instance itself.
+   */
+  sigma.renderers.gameSvg.prototype.renderUpdate = function(options) {
+    options = options || {};
+
+    var a,
+        i,
+        k,
+        e,
+        l,
+        o,
+        source,
+        target,
+        start,
+        edges,
+        renderers,
+        subrenderers,
+        index = {},
+        graph = this.graph,
+        nodes = this.graph.nodes,
+        prefix = this.options.prefix || '',
+        drawEdges = this.settings(options, 'drawEdges'),
+        drawNodes = this.settings(options, 'drawNodes'),
+        drawLabels = this.settings(options, 'drawLabels'),
+        embedSettings = this.settings.embedObjects(options, {
+          prefix: this.options.prefix,
+          forceLabels: this.options.forceLabels
+        });
+
+    // Apply the camera's view:
+    this.camera.applyView(
+      undefined,
+      this.options.prefix,
+      {
+        width: this.width,
+        height: this.height
+      }
+    );
+
+
+    // Node index
+    for (a = this.nodesToUpdate, i = 0, l = a.length; i < l; i++){
+      index[a[i].id] = a[i];
+    }
+
+    // Find which edges need to be updated
+    // Could probably speed up the game by doing 
+    // this in the loop where you submit nodes to update
+    for (a = graph.edges(), i = 0, l = a.length; i < l; i++) {
+      o = a[i];
+      if (index[o.source] || index[o.target]){
+        this.edgesToUpdate.push(o);
+      }
+    }
+
+    // Display nodes
+    //---------------
+    renderers = sigma.svg.nodes;
+    subrenderers = sigma.svg.labels;
+
+    //-- We update the nodes
+    if (drawNodes)
+      for (a = this.nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+        // Node
+        var node = a.shift();
+
+        (renderers[node.type] || renderers.def).update(
+          node,
+          this.domElements.nodes[node.id],
+          embedSettings
+        );
+
+        // Label
+        (subrenderers[node.type] || subrenderers.def).update(
+          node,
+          this.domElements.labels[node.id],
+          embedSettings
+        );
+      }
+
+    // Display edges
+    //---------------
+    renderers = sigma.svg.edges;
+
+    //-- We update the edges
+    if (drawEdges)
+      for (a = this.edgesToUpdate, i = 0, l = a.length; i < l; i++) {
+        var edge = a.shift();
+        source = nodes(edge.source);
+        target = nodes(edge.target);
+
+        (renderers[edge.type] || renderers.def).update(
+          edge,
+          this.domElements.edges[edge.id],
           source,
           target,
           embedSettings

@@ -46,7 +46,10 @@ define(["js/Thread/Thread"], function (Thread) {
 					graph: game.board,
 					renderers: [{
 						container: document.getElementById("container"),
-						type: "gameSvg"
+						type: "gameSvg",
+						settings: {
+							enableHovering: true
+						}
 					}],
 					settings: {
 						drawLabels: false,
@@ -55,6 +58,7 @@ define(["js/Thread/Thread"], function (Thread) {
 						height: game.board.height
 					}
 				});
+		console.log(view);
 		view.graph.bases = game.board.bases;
 		view.graph.color = color;
 		this.thread = new Thread(40, view.graph, this.claim.bind(this), game.role);
