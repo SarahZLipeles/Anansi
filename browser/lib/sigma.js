@@ -477,6 +477,7 @@
    *                             quadtrees or not (default: false).
    */
   sigma.prototype.refresh = function(options) {
+    console.log("YOU ARE CALLING REFRESH AND THAT IS EXPENSIVE");
     var i,
         l,
         k,
@@ -3416,6 +3417,14 @@ if (typeof exports !== 'undefined') {
       edgesIndex: Object.create(null),
 
       /**
+       * ADDITIONAL INDEXES:
+       * *******************
+       * Queues of nodes and edges to update
+       */
+       nodesToUpdate: [],
+       // edgesToUpdate: [],
+
+      /**
        * LOCAL INDEXES:
        * **************
        * These indexes refer from node to nodes. Each key is an id, and each
@@ -4106,7 +4115,6 @@ if (typeof exports !== 'undefined') {
 
       return a;
     }
-
     throw 'nodes: Wrong arguments.';
   });
 
@@ -4189,6 +4197,44 @@ if (typeof exports !== 'undefined') {
     }
 
     throw 'edges: Wrong arguments.';
+  });
+
+  /**
+   * This method extends sigma to allow the user to queue nodes to be rendered later
+   *
+   * @param {string|array} v   One id, an array of ids
+   * @return {object|array}    The related node or array of nodes
+   */
+  graph.addMethod("queueNodes", function (v) {
+    if (!arguments.length)
+      return this.nodesToUpdate;
+    // Return the related node:
+    if (arguments.length === 1 &&
+        (typeof v === 'string' || typeof v === 'number')){
+      var node = this.nodesIndex[v];
+      this.nodesToUpdate.push(node);
+      return node;
+    }
+
+    // Return an array of the related node:
+    if (
+      arguments.length === 1 &&
+      Object.prototype.toString.call(v) === '[object Array]'
+    ) {
+      var i,
+          l,
+          a = [];
+
+      for (i = 0, l = v.length; i < l; i++)
+        if (typeof v[i] === 'string' || typeof v[i] === 'number')
+          a.push(this.nodesIndex[v[i]]);
+        else
+          throw 'nodes: Wrong arguments: ' + v[i].toString() + "in: " + v.toString;
+      Array.prototype.push.apply(this.nodesToUpdate, a);
+      return a;
+    }
+
+    throw 'nodes: Wrong arguments: ' + v.toString();
   });
 
 
