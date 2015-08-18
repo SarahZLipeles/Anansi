@@ -80,10 +80,12 @@ define(["js/Thread/Thread"], function (Thread) {
 				//a
 				97: function(){
 					self.state = 'attackNode'
+					console.log('attacking')
 				},
 				//d
 				100: function(){
 					self.state = 'reinforceNode'
+					console.log('reinforcing')
 				},
 
 				//cycle threads
@@ -134,6 +136,7 @@ define(["js/Thread/Thread"], function (Thread) {
 				//t
 				116: function(){
 					self.state = 'moveBase'
+					console.log('moving')
 				},
 
 				//default
@@ -195,7 +198,7 @@ define(["js/Thread/Thread"], function (Thread) {
 				})
 			}else if(this.state === 'moveBase'){
 				this[this.currentThread].moveBase(event.data.node.id)
-				view.refresh()
+				view.refresh({skipIndexation: true})
 			}
 		};
 
