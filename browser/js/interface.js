@@ -41,15 +41,18 @@ define(["js/Thread/Thread"], function (Thread) {
 		var color = game.board[game.role];
 		this.playerColor = color;
 		this.opponent = game.opponent;
+		console.log(game.board);
 		view = new sigma({
 					graph: game.board,
 					renderers: [{
 						container: document.getElementById("container"),
-						type: "svg"
+						type: "gameSvg"
 					}],
 					settings: {
 						drawLabels: false,
-						player: color
+						player: color,
+						width: game.board.width,
+						height: game.board.height
 					}
 				});
 		view.graph.bases = game.board.bases;

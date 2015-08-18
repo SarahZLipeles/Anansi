@@ -8078,11 +8078,9 @@ if (typeof exports !== 'undefined') {
 
     // Hiding everything
     // TODO: find a more sensible way to perform this operation
-
-    // *** NOTE: disabled these to 
-    // this.hideDOMElements(this.domElements.nodes);
-    // this.hideDOMElements(this.domElements.edges);
-    // this.hideDOMElements(this.domElements.labels);
+    this.hideDOMElements(this.domElements.nodes);
+    this.hideDOMElements(this.domElements.edges);
+    this.hideDOMElements(this.domElements.labels);
 
     // Find which nodes are on screen
     this.edgesOnScreen = [];
