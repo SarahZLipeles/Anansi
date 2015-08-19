@@ -1,4 +1,5 @@
-require(["js/app"],
-	function (app) {
+require(["app/index", "lib/sigma/sigma.customize"],
+	function () {
+		angular.bootstrap(document, ["SpiderWars"]);
 	}
 );

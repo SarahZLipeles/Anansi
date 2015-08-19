@@ -90,13 +90,13 @@ function connectField (field, radii, maxConnections) {
 		};
 
 	for(nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
-		if(typeof field.nodes[nodeIndex] === undefined) { continue; }
+		if(typeof field.nodes[nodeIndex] === "undefined") { continue; }
 		potentialConnections = [];
 		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
 			//This needs to go here so current node will have the proper number of links each time
 			currentNode = field.nodes[nodeIndex];
 			nextNode = field.nodes[nextNodeIndex];
-			if(typeof nextNode === undefined){ continue; }
+			if(typeof nextNode === "undefined"){ continue; }
 			if(withinRange(currentNode, nextNode, radii)){
 				potentialConnections.push(nextNode.id);
 			}
@@ -139,7 +139,7 @@ function checkField (field) {
 	})
 
 	//Check if the two bases are connected
-	return isolatedNodes.indexOf(field.bases.client.id) === -1) ? field : false;
+	return isolatedNodes.indexOf(field.bases.client.id) === -1 ? field : false;
 }
 
 function makeGraph (fieldOptions, radii, maxConnections){
