@@ -1,4 +1,6 @@
-;(function(undefined) {
+define([], function () {
+  
+return function (style) {
   'use strict';
 
   // Initialize packages:
@@ -74,4 +76,5 @@
       return this;
     }
   };
-}).call(this);
+};
+});

@@ -1,9 +1,8 @@
-define([], function () {
+define(["js/game.components/style.js"], function (style) {
 
 "use strict";
 function BuildFactory(options){
 	var id = -1;
-	var playerColors = ['#ff0000', '#00ff00', '#0000ff','#ffff0'];
 	var width = options.width;
 	var height = options.height;
 	var padding = options.padding;
@@ -14,16 +13,15 @@ function BuildFactory(options){
 	var startX = spacing;
 	var startY = spacing;
 
-	function Nodule(x, y, maxHealth, resources){
+	function Nodule(x, y){
 		id++;
 		return {
 			id: id.toString(),
-			maxHealth: maxHealth || 10,
-			health: maxHealth || 10,
+			maxHealth: 10,
+			health: 10,
 			links: [],
-			color: "#000000",
+			color: style.default,
 			resources: resources || undefined,
-			edges: [],
 			size: 0.03,
 			x: x,
 			y: y,
@@ -34,6 +32,12 @@ function BuildFactory(options){
 		}
 	}
 
+	Nodule.prototype.basify = function () {
+		this.maxHealth = 50;
+		this.health = 50;
+		this.size = 0.15;
+	}
+
 	function RandomFieldFactory (isHome) {
 		var x, y, pos, base;
 		if(isHome){
@@ -41,8 +45,7 @@ function BuildFactory(options){
 			x = pos[0];
 			y = pos[1];
 			base = Nodule(x, y);
-			base.color = playerColors.shift();
-			base.size = 0.15;
+			base.basify();
 			return base;
 		}else if(id === numNodes){
 			return false;
@@ -60,8 +63,7 @@ function BuildFactory(options){
 			x = pos[0];
 			y = pos[1];
 			base = Nodule(x, y);
-			base.color = playerColors.shift();
-			base.size = 0.15;
+			base.basify();
 			return base;
 		}else{
 			startX += spacing * 2;

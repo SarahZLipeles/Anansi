@@ -1,4 +1,4 @@
-define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (Thread, RenderLoop) {
+define(["js/game.components/Thread", "js/game.logic/renderloop.js", "js/game.components/style"], function (Thread, RenderLoop, style) {
 	
 	"use strict";
 
@@ -7,7 +7,7 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 	function updateLinks(nodeid, color, sourceNodeid){
 		var node = queue(nodeid);
 		var sourceNode = nodes(sourceNodeid);
-		color = color || "#000000";
+		color = color || style.default;
 		if(node.id !== view.graph.bases[this.role].id){
 			console.log(node, node.from);
 			if(!node.from){
@@ -24,7 +24,7 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 
 				var makeBlack = function(nodeId){
 					var changeNode = queue(nodeId);
-					changeNode.color = "#000000";
+					changeNode.color = style.default;
 					//should flatten in the future, maybe
 					changeNode.to.forEach(function(id){
 						makeBlack(id);
@@ -42,7 +42,7 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 	}
 	
 	function Interface (game) {
-		this.role = game.role;
+		this.role = game.role; //"host or client"
 		var color = game.board[this.role];
 		this.playerColor = color;
 		this.opponent = game.opponent;

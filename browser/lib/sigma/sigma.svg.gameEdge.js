@@ -1,6 +1,8 @@
-;(function() {
+define([], function () {
+    
+return function (style) {
     "use strict";
-
+    var defaultColor = style.default;
     sigma.utils.pkg("sigma.svg.edges");
 
     /**
@@ -102,7 +104,7 @@
         var sourceColor = source.color,
             targetColor = target.color,
             player = settings("player");
-        if(sourceColor !== "#000000" && targetColor === sourceColor){// && !edge.arrow){
+        if(sourceColor !== defaultColor && targetColor === sourceColor){// && !edge.arrow){
             line.setAttributeNS(null, "stroke", sourceColor);
             edge.color = sourceColor;
             //Only show arrows if the line belongs to the player
@@ -117,9 +119,9 @@
                     edge.arrows.toTarget.setAttributeNS(null, "display", "block");
                 }
             }
-        }else if(edge.color !== "#000000"){
-            line.setAttributeNS(null, "stroke", "#000000");
-            edge.color = "#000000";
+        }else if(edge.color !== defaultColor){
+            line.setAttributeNS(null, "stroke", defaultColor);
+            edge.color = defaultColor;
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");
         }
@@ -133,4 +135,5 @@
         return this;
     }
     };
-})();
+};
+});

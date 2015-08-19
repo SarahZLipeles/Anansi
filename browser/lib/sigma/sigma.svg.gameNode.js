@@ -1,4 +1,6 @@
-;(function() {
+define([], function () {
+
+return function(style) {
   'use strict';
 
   sigma.utils.pkg('sigma.svg.nodes');
@@ -50,4 +52,5 @@
       return this;
     }
   };
-})();
+};
+});
