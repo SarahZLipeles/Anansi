@@ -16,7 +16,7 @@ define([], function () {
                     }
                     if (node.health === 0) {
                         // node.health = 6;
-                        claim(node, source);
+                        claim(destId, sourceId);
                         //return links to player
                         currentCrawler.receiveLinks.call(userScope, destId, node.links);
                     }
