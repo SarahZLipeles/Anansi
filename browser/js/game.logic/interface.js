@@ -8,7 +8,6 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 		var node = queue(nodeid);
 		var sourceNode = nodes(sourceNodeid);
 		color = color || "#000000";
-		console.log("nodeid, nodefrom", node.id, node.from, "baseid:" + view.graph.bases[this.role].id);
 		if(node.id !== view.graph.bases[this.role].id){
 			console.log(node, node.from);
 			if(!node.from){
@@ -39,7 +38,6 @@ define(["js/game.components/Thread", "js/game.logic/renderloop.js"], function (T
 			}
 		}
 		node.color = color;
-		console.log("nodeid, nodefrom", node.id, node.from, "baseid:" + view.graph.bases[this.role].id);
 		return node;
 	}
 	

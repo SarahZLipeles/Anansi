@@ -303,6 +303,11 @@
           forceLabels: this.options.forceLabels
         });
 
+        // Check the 'hideEdgesOnMove' setting:
+    if (this.settings(options, 'hideEdgesOnMove'))
+      if (this.camera.isAnimated || this.camera.isMoving)
+        drawEdges = false;
+
     // Apply the camera's view:
     this.camera.applyView(
       undefined,
@@ -312,7 +317,6 @@
         height: this.height
       }
     );
-
 
     // Node index
     for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++){
@@ -338,7 +342,7 @@
     if (drawNodes)
       for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
         // Node
-        var node = a.shift();
+        var node = a.pop();
 
         (renderers[node.type] || renderers.def).update(
           node,
@@ -361,7 +365,7 @@
     //-- We update the edges
     if (drawEdges)
       for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
-        var edge = a.shift();
+        var edge = a.pop();
         source = nodes(edge.source);
         target = nodes(edge.target);
 

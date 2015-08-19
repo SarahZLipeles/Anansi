@@ -490,12 +490,13 @@
 
     // Call each middleware:
     a = this.middlewares || [];
-    for (i = 0, l = a.length; i < l; i++)
+    for (i = 0, l = a.length; i < l; i++){
       a[i].call(
         this,
         (i === 0) ? '' : 'tmp' + prefix + ':',
         (i === l - 1) ? 'ready:' : ('tmp' + (++prefix) + ':')
       );
+    }
 
     // Then, for each camera, call the "rescale" middleware, unless the
     // settings specify not to:
@@ -505,7 +506,7 @@
         c.settings('autoRescale') &&
         this.renderersPerCamera[c.id] &&
         this.renderersPerCamera[c.id].length
-      )
+      ){
         sigma.middlewares.rescale.call(
           this,
           a.length ? 'ready:' : '',
@@ -515,12 +516,13 @@
             height: this.renderersPerCamera[c.id][0].height
           }
         );
-      else
+      }else{
         sigma.middlewares.copy.call(
           this,
           a.length ? 'ready:' : '',
           c.readPrefix
         );
+      }
 
       if (!options.skipIndexation) {
         // Find graph boundaries:
@@ -575,7 +577,7 @@
           this.renderers[a[i]].process();
       }
 
-    this.render();
+    this.render(options);
 
     return this;
   };
@@ -585,7 +587,7 @@
    *
    * @return {sigma} Returns the instance itself.
    */
-  sigma.prototype.render = function() {
+  sigma.prototype.render = function(options) {
     var i,
         l,
         a,
@@ -596,15 +598,24 @@
     for (i = 0, l = a.length; i < l; i++)
       if (this.settings('skipErrors'))
         try {
-          this.renderers[a[i]].render();
+          if(options.partial){
+            this.renderers[a[i]].renderUpdate();
+          }else{
+            this.renderers[a[i]].render();
+          }
         } catch (e) {
           if (this.settings('verbose'))
             console.log(
               'Warning: The renderer "' + a[i] + '" crashed on ".render()"'
             );
         }
-      else
-        this.renderers[a[i]].render();
+      else{
+        if(options.partial){
+          this.renderers[a[i]].renderUpdate();
+        }else{
+          this.renderers[a[i]].render();
+        }
+      }
 
     return this;
   };
