@@ -23,7 +23,7 @@ return function(style) {
       // Defining the node's circle
       circle.setAttributeNS(null, 'data-node-id', node.id);
       circle.setAttributeNS(null, 'class', settings('classPrefix') + '-node');
-      circle.setAttributeNS(null, 'fill', node.color || settings('defaultNodeColor'));
+      circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
 
       // Taken from below, part of disabling resize readjustment
       circle.setAttributeNS(null, 'cx', node[prefix + 'x']);
@@ -44,9 +44,8 @@ return function(style) {
     update: function(node, circle, settings) {
       // var player = settings("player");
       // Updating only if not freestyle
-      if (!settings('freeStyle'))
-        circle.setAttributeNS(null, 'fill', node.color || settings('defaultNodeColor'));
-      // Showing
+      circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
+      
       circle.style.display = '';
 
       return this;

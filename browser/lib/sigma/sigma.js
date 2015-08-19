@@ -477,7 +477,7 @@
    *                             quadtrees or not (default: false).
    */
   sigma.prototype.refresh = function(options) {
-    console.log("YOU ARE CALLING REFRESH AND THAT IS EXPENSIVE");
+    // console.log("YOU ARE CALLING REFRESH AND THAT IS EXPENSIVE");
     var i,
         l,
         k,

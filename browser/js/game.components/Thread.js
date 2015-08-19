@@ -1,5 +1,5 @@
-define([], function () {
-
+define(["js/game.components/style"], function (style) {
+    var defaultColor = style.default;
     function Thread(speed, graph, claim, role) {
         var crawlQ = [];
         var nodes = graph.nodes;
@@ -26,7 +26,7 @@ define([], function () {
         };
 
         var reinforceNode = function(id, times) {
-            if(nodes(id).color !== '#000000'){
+            if(nodes(id).color !== defaultColor){
                 var reinforce = function() {
                     var node = nodes(id);
                     if (node.health < node.maxHealth) {
@@ -42,23 +42,23 @@ define([], function () {
                 crawlQ.unshift(reinforce);
             }
         };
+        //to fix
+        // this.moveBase = function(id){
+        //     var moveTo = nodes(id);
+        //     var oldBase = nodes(graph.bases[role].id);
+        //     if (oldBase.links.indexOf(id) !== -1/* && moveTo.color === graph.color*/) {
+        //         oldBase.size = 0.03;
+        //         oldBase.from = id;
+        //         var index = moveTo.to.indexOf(id);
+        //         oldBase.to.splice(index,1);
 
-        this.moveBase = function(id){
-            var moveTo = nodes(id);
-            var oldBase = nodes(graph.bases[role].id);
-            if (oldBase.links.indexOf(id) !== -1/* && moveTo.color === graph.color*/) {
-                oldBase.size = 0.03;
-                oldBase.from = id;
-                var index = moveTo.to.indexOf(id);
-                oldBase.to.splice(index,1);
+        //         moveTo.size = 0.15;
+        //         moveTo.from = undefined;
+        //         moveTo.to.push(oldBase.id);
 
-                moveTo.size = 0.15;
-                moveTo.from = undefined;
-                moveTo.to.push(oldBase.id);
-
-                graph.bases[role] = moveTo;
-            }
-        };
+        //         graph.bases[role] = moveTo;
+        //     }
+        // };
 
         var userScope = {
             attackNode: attackNode,

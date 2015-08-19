@@ -78,8 +78,6 @@ function connectField (field, radii, maxConnections) {
 					id: id.toString(), 
 					source: currentNode.id, 
 					target: node,
-					color: style.default,
-					hidden: false,
 					type: "gameEdge"
 				}
 				field.nodes[nodeIndex].links.push(node);

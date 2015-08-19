@@ -19,25 +19,10 @@ return function (style) {
         */
         create: function(edge, source, target, settings) {
             var arrowContainer = document.getElementById("sigma-group-arrows");
-            var color = edge.color,
-            prefix = settings("prefix") || "",
-            edgeColor = settings("edgeColor"),
-            defaultNodeColor = settings("defaultNodeColor"),
-            defaultEdgeColor = settings("defaultEdgeColor");
+            var color = settings("defaultEdgeColor"),
+            prefix = settings("prefix") || "";
 
-            if (!color){
-                switch (edgeColor) {
-                    case "source":
-                    color = source.color || defaultNodeColor;
-                    break;
-                    case "target":
-                    color = target.color || defaultNodeColor;
-                    break;
-                    default:
-                    color = defaultEdgeColor;
-                    break;
-                }
-            }
+
             //Calculate needed points
             var sourceX = source[prefix + "x"],
                 sourceY = source[prefix + "y"],
@@ -101,32 +86,31 @@ return function (style) {
     * @param  {configurable}             settings   The settings function.
     */
     update: function(edge, line, source, target, settings) {
-        var sourceColor = source.color,
-            targetColor = target.color,
+        var sourceOwner = source.owner,
+            targetOwner = target.owner,
             player = settings("player");
-        if(sourceColor !== defaultColor && targetColor === sourceColor){// && !edge.arrow){
-            line.setAttributeNS(null, "stroke", sourceColor);
-            edge.color = sourceColor;
+        if(targetOwner === sourceOwner){// && !edge.arrow){
+            var ownerColor = settings(sourceOwner);
+            line.setAttributeNS(null, "stroke", ownerColor);
             //Only show arrows if the line belongs to the player
-            if(sourceColor === player){
+            if(sourceOwner === player){
                 //toSource
                 if(target.from === source.id){
-                    edge.arrows.toSource.setAttributeNS(null, "stroke", sourceColor);
+                    edge.arrows.toSource.setAttributeNS(null, "stroke", ownerColor);
                     edge.arrows.toSource.setAttributeNS(null, "display", "block");
                 //toTarget
                 }else if(source.from === target.id){
-                    edge.arrows.toTarget.setAttributeNS(null, "stroke", sourceColor);
+                    edge.arrows.toTarget.setAttributeNS(null, "stroke", ownerColor);
                     edge.arrows.toTarget.setAttributeNS(null, "display", "block");
                 }
             }
-        }else if(edge.color !== defaultColor){
+        }else{
             line.setAttributeNS(null, "stroke", defaultColor);
-            edge.color = defaultColor;
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");
         }
         //If either node belongs to the player, show the line
-        if(targetColor === player || sourceColor === player){
+        if(targetOwner === player || sourceOwner === player){
             line.setAttributeNS(null, "display", "block");
         }else{
             line.setAttributeNS(null, "display", "none");

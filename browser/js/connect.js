@@ -5,7 +5,8 @@ define(["lib/peer", "js/game.components/board", "js/game.logic/interface", "lib/
 	var game = {myId: undefined, player: undefined, opponent: undefined, board: undefined};
 	var gameInterface;
 
-	function PeerConnect () {
+	function PeerConnect (playerData) {
+		playerData = playerData || {playerColor: "#ff0000", opponentColor: "#00ff00"};
 		httpGet("/env", connectToServer);
 
 		//When a peer DataConnection is established
@@ -15,15 +16,16 @@ define(["lib/peer", "js/game.components/board", "js/game.logic/interface", "lib/
 			//When the connection opens...
 			peerconn.on("open", function () {
 				if(game.role === "host") {
+					console.log(game.board);
 					peerconn.send({type: "board", data: game.board});
-					gameInterface.addOpponent(peerconn);
+					gameInterface = new Interface(game, playerData);
 				}
 				//Listen for data
 				peerconn.on('data', function (data) {
 					//Do stuff with incoming data
 					if(data.type === "board"){
 						game.board = data.data;
-						gameInterface = new Interface(game);
+						gameInterface = new Interface(game, playerData);
 					}else if (data.type === "claim"){
 						gameInterface.updateBoard(data.data, data.color, data.source);
 					}
@@ -48,11 +50,12 @@ define(["lib/peer", "js/game.components/board", "js/game.logic/interface", "lib/
 		function meetSomeone(res) {
 			if (res.meet === "hold") {
 				game.role = "host";
+				game.opponentRole = "client";
 				game.board = Board.generate();
-				gameInterface = new Interface(game);
 				console.log("Waiting for a new friend");
 			} else {
 				game.role = "client";
+				game.opponentRole = "host";
 				console.log("Meet ", res.meet);
 				peerDataCommunication(game.player.connect(res.meet));
 			}

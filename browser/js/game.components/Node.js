@@ -15,25 +15,26 @@ function BuildFactory(options){
 
 	function Nodule(x, y){
 		id++;
-		this.id = id.toString();
-		this.maxHealth = 10;
-		this.health = 10;
-		this.links = [];
-		this.color = style.default;
-		this.resources = undefined;
-		this.size = 0.03;
-		this.x = x;
-		this.y = y;
-		this.hidden = false;
-		this.from = undefined;
-		this.to = [];
-		this.type = "gameNode";
+		return {
+			id: id.toString(),
+			maxHealth: 10,
+			health: 10,
+			links: [],
+			resources: undefined,
+			size: 0.03,
+			x: x,
+			y: y,
+			from: undefined,
+			to: [],
+			type: "gameNode",
+			owner: undefined
+		};
 	}
 
-	Nodule.prototype.basify = function () {
-		this.maxHealth = 50;
-		this.health = 50;
-		this.size = 0.15;
+	Nodule.basify = function (node) {
+		node.maxHealth = 50;
+		node.health = 50;
+		node.size = 0.15;
 	}
 
 	function RandomFieldFactory (isHome) {
@@ -42,15 +43,15 @@ function BuildFactory(options){
 			pos = startLocations.shift();
 			x = pos[0];
 			y = pos[1];
-			base = new Nodule(x, y);
-			base.basify();
+			base = Nodule(x, y);
+			Nodule.basify(base);
 			return base;
 		}else if(id === numNodes){
 			return false;
 		}else{
 			x = Math.floor(Math.random() * width);
 			y = Math.floor(Math.random() * height);
-			return new Nodule(x, y);
+			return Nodule(x, y);
 		}
 	}
 
@@ -60,8 +61,8 @@ function BuildFactory(options){
 			pos = startLocations.shift();
 			x = pos[0];
 			y = pos[1];
-			base = new Nodule(x, y);
-			base.basify();
+			base = Nodule(x, y);
+			Nodule.basify(base);
 			return base;
 		}else{
 			startX += spacing * 2;
@@ -73,7 +74,7 @@ function BuildFactory(options){
 					return false;
 				}
 			}
-			return new Nodule(startX, startY);
+			return Nodule(startX, startY);
 		}
 	}
 
