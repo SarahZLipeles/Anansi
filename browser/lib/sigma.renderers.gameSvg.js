@@ -67,8 +67,6 @@
     // Indexes:
     this.nodesOnScreen = [];
     this.edgesOnScreen = [];
-    this.nodesToRender = [];
-    this.edgesToRender = [];
 
     // Find the prefix:
     this.options.prefix = 'renderer' + sigma.utils.id() + ':';
@@ -269,41 +267,7 @@
 
     return this;
   };
-  /**
-   * This method extends sigma to allow the user to queue nodes to be rendered later
-   *
-   * @param {string|array} v   One id, an array of ids
-   * @return {object|array}    The related node or array of nodes
-   */
-  sigma.prototype.queueNodes = function (v) {
-    // Return the related node:
-    if (arguments.length === 1 &&
-        (typeof v === 'string' || typeof v === 'number')){
-      var node = this.nodesIndex[v];
-      this.renderers[0].nodesToRender.push(node);
-      return node;
-    }
 
-    // Return an array of the related node:
-    if (
-      arguments.length === 1 &&
-      Object.prototype.toString.call(v) === '[object Array]'
-    ) {
-      var i,
-          l,
-          a = [];
-
-      for (i = 0, l = v.length; i < l; i++)
-        if (typeof v[i] === 'string' || typeof v[i] === 'number')
-          a.push(this.nodesIndex[v[i]]);
-        else
-          throw 'nodes: Wrong arguments: ' + v[i].toString() + "in: " + v.toString;
-      Array.prototype.push.apply(this.renderers[0].nodesToRender, a);
-      return a;
-    }
-
-    throw 'nodes: Wrong arguments: ' + v.toString();
-  };
 
   /**
    * This method renders the graph on the svg scene, but only the nodes that need an update.
@@ -313,7 +277,6 @@
    */
   sigma.renderers.gameSvg.prototype.renderUpdate = function(options) {
     options = options || {};
-
     var a,
         i,
         k,
@@ -329,6 +292,8 @@
         index = {},
         graph = this.graph,
         nodes = this.graph.nodes,
+        nodesToUpdate = graph.queueNodes(),
+        edgesToUpdate = [],
         prefix = this.options.prefix || '',
         drawEdges = this.settings(options, 'drawEdges'),
         drawNodes = this.settings(options, 'drawNodes'),
@@ -350,7 +315,7 @@
 
 
     // Node index
-    for (a = this.nodesToUpdate, i = 0, l = a.length; i < l; i++){
+    for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++){
       index[a[i].id] = a[i];
     }
 
@@ -360,7 +325,7 @@
     for (a = graph.edges(), i = 0, l = a.length; i < l; i++) {
       o = a[i];
       if (index[o.source] || index[o.target]){
-        this.edgesToUpdate.push(o);
+        edgesToUpdate.push(o);
       }
     }
 
@@ -371,7 +336,7 @@
 
     //-- We update the nodes
     if (drawNodes)
-      for (a = this.nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+      for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
         // Node
         var node = a.shift();
 
@@ -395,7 +360,7 @@
 
     //-- We update the edges
     if (drawEdges)
-      for (a = this.edgesToUpdate, i = 0, l = a.length; i < l; i++) {
+      for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
         var edge = a.shift();
         source = nodes(edge.source);
         target = nodes(edge.target);

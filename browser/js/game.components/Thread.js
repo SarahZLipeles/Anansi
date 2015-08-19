@@ -2,10 +2,11 @@ define([], function () {
 
     function Thread(speed, graph, claim, role) {
         var crawlQ = [];
+        var nodes = graph.nodes;
 
         var attackNode = function(sourceId, destId) {
-            var source = graph.nodes(sourceId);
-            var node = graph.nodes(destId);
+            var source = nodes(sourceId);
+            var node = nodes(destId);
             if(source.links.indexOf(destId) !== -1){
                 var attk = function() {
                     console.log(node.health)
@@ -25,9 +26,9 @@ define([], function () {
         };
 
         var reinforceNode = function(id, times) {
-            if(graph.nodes(id).color !== '#000000'){
+            if(nodes(id).color !== '#000000'){
                 var reinforce = function() {
-                    var node = graph.nodes(id);
+                    var node = nodes(id);
                     if (node.health < node.maxHealth) {
                         node.health+=5;
                         console.log(node.health)
@@ -43,8 +44,8 @@ define([], function () {
         };
 
         this.moveBase = function(id){
-            var moveTo = graph.nodes(id);
-            var oldBase = graph.nodes(graph.bases[role].id);
+            var moveTo = nodes(id);
+            var oldBase = nodes(graph.bases[role].id);
             if (oldBase.links.indexOf(id) !== -1/* && moveTo.color === graph.color*/) {
                 oldBase.size = 0.03;
                 oldBase.from = id;
