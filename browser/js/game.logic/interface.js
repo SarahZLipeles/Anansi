@@ -11,6 +11,7 @@ define(["js/game.components/Thread",
 	var view, queue, nodes, updateNode;
 
 	function initGlobals (s) {
+		console.log(s);
 		view = s;
 		queue = s.graph.queueNodes;
 		nodes = s.graph.nodes;
@@ -21,7 +22,6 @@ define(["js/game.components/Thread",
 		this.role = game.role; //"host or client"
 		setBases(game, playerData);
 		this.opponent = game.opponent; //peerconn
-		console.log(game.board, playerData, game.role, game.board.width, game.board.height)
 		initGlobals(new sigma(
 			{
 				graph: game.board,
@@ -77,7 +77,7 @@ define(["js/game.components/Thread",
 		};
 		view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
 		//need to fix ^^^
-
+		view.refresh();
 		this.initThreads(game.board);
 		setControls(this);
 	};

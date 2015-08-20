@@ -6,12 +6,14 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
     babel = require('gulp-babel'),
+    rjsOptimize = require('gulp-requirejs-optimize'),
     //wrap = require('gulp-wrap'),
     sourcemaps = require('gulp-sourcemaps'),
     runSeq = require('run-sequence');
 
 var js_client_path = './browser/app/**/*.js';
-var js_client_start_path = './browser/app/index.js';
+var js_out_file = "spiderwars.js"
+var js_client_start_path = './browser/main.js';
 var js_server_path = './server/**/*.js';
 
 gulp.task('lintJS', function(){
@@ -22,7 +24,11 @@ gulp.task('lintJS', function(){
 });
 
 gulp.task('buildJS', ['lintJS'], function(){
-    return gulp.src([js_client_start_path, js_client_path])
+    return gulp.src(js_client_start_path)
+        .pipe(rjsOptimize({
+            optimize: "none", 
+            out: js_out_file
+        }))
         .pipe(plumber())
         .pipe(sourcemaps.init())
         //.pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))

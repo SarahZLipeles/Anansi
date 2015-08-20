@@ -21,6 +21,13 @@
     "angular-ui-router": "^0.2.15",
     "babel": "^5.8.21",
     "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "morgan": "^1.6.1",
+    "peer": "^0.2.8",
+    "run-sequence": "^1.1.2",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.0",
     "gulp-concat": "^2.6.0",
@@ -30,13 +37,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
-    "lodash": "^3.10.1",
-    "morgan": "^1.6.1",
-    "peer": "^0.2.8",
-    "run-sequence": "^1.1.2",
-    "serve-favicon": "^2.3.0"
-  },
-  "devDependencies": {
+    "gulp-requirejs-optimize": "^0.2.0",
     "node-normalize-scss": "^1.0.3"
   }
 }

@@ -1,59 +1,59 @@
 define([], function () {
 
-	var setControls = function (interface){
+	var setControls = function (intface){
 		var controls = {
 			//select source node
 			102: function(){
-				interface.state = 'selectSrc'
+				intface.state = 'selectSrc'
 				console.log('selecting')
 			},
 			//cycle functions
 			//a
 			97: function(){
-				interface.state = 'attackNode'
+				intface.state = 'attackNode'
 				console.log('attacking')
 			},
 			//d
 			100: function(){
-				interface.state = 'reinforceNode'
+				intface.state = 'reinforceNode'
 				console.log('reinforcing')
 			},
 
 			//cycle threads
 			//w
 			119: function(){
-				var thread = interface.currentThread
+				var thread = intface.currentThread
 				var length = thread.length
 				var num = parseInt(thread[length-1])
-				if(++num > interface.threads){
+				if(++num > intface.threads){
 					num = 1
 				}
-				interface.currentThread = "thread" + num
-				console.log('switch to ' + interface.currentThread)
+				intface.currentThread = "thread" + num
+				console.log('switch to ' + intface.currentThread)
 			},
 			//s
 			115: function(){
-				var thread = interface.currentThread
+				var thread = intface.currentThread
 				var length = thread.length
 				var num = parseInt(thread[length-1])
 				if(--num < 1){
-					num = interface.threads
+					num = intface.threads
 				}
-				interface.currentThread = "thread" + num
-				console.log('switch to ' + interface.currentThread)
+				intface.currentThread = "thread" + num
+				console.log('switch to ' + intface.currentThread)
 			},
 
 			//num switch threads
 			//1
 			49: function(){
-				interface.currentThread = "thread1"
-				console.log('switch to ' + interface.currentThread)
+				intface.currentThread = "thread1"
+				console.log('switch to ' + intface.currentThread)
 			},
 
 			//2
 			50: function(){
-				interface.currentThread = "thread2"
-				console.log('switch to ' + interface.currentThread)
+				intface.currentThread = "thread2"
+				console.log('switch to ' + intface.currentThread)
 			},
 
 			//3
@@ -66,7 +66,7 @@ define([], function () {
 			//toggle move base
 			//t
 			116: function(){
-				interface.state = 'moveBase'
+				intface.state = 'moveBase'
 				console.log('moving')
 			},
 

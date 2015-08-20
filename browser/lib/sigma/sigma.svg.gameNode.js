@@ -24,7 +24,6 @@ return function(style) {
       circle.setAttributeNS(null, 'data-node-id', node.id);
       circle.setAttributeNS(null, 'class', settings('classPrefix') + '-node');
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
-
       // Taken from below, part of disabling resize readjustment
       circle.setAttributeNS(null, 'cx', node[prefix + 'x']);
       circle.setAttributeNS(null, 'cy', node[prefix + 'y']);
