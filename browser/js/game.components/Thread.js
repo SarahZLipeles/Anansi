@@ -14,7 +14,7 @@ define(["js/game.components/style"], function (style) {
                         node.health -= 5;
                         crawlQ.push(attk);
                     }
-                    if (node.health === 0) {
+                    if (node.health <= 0) {
                         // node.health = 6;
                         claim(destId, sourceId);
                         //return links to player

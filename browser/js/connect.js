@@ -26,10 +26,10 @@ define(["lib/peer", "js/game.components/board", "js/game.logic/interface", "lib/
 					if(data.type === "board"){
 						game.board = data.board;
 						gameInterface = new Interface(game, playerData);
-					}else if (data.type === "claim"){
+					}else if (data.type === "confirm"){
 						gameInterface.updateBoard(data.target, data.source);
-					}else if (data.type === "confirmation"){
-						gameInterface.confirmMove(data.resolution, data.id);
+					}else if (data.type === "attempt"){
+						gameInterface.confirmMove(data);
 					}
 				});
 			});

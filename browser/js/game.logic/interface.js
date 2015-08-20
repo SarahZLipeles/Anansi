@@ -10,17 +10,19 @@ define(["js/game.components/Thread",
 
 	var view, queue, nodes, updateNode;
 
-	function initGlobals (s) {
+	function initGlobals (s, opponent) {
 		view = s;
 		queue = s.graph.queueNodes;
 		nodes = s.graph.nodes;
-		updateNode = UpdateBuilder(queue, nodes);
+		updateNode = UpdateBuilder({
+			queue: queue, 
+			nodes: nodes,
+			opponent: opponent);
 	}
 	
 	function Interface (game, playerData) {
 		this.role = game.role; //"host or client"
 		setBases(game, playerData);
-		this.opponent = game.opponent; //peerconn
 		initGlobals(new sigma(
 			{
 				graph: game.board,
@@ -42,7 +44,7 @@ define(["js/game.components/Thread",
 					defaultEdgeColor: style.default
 				}
 			}
-		));
+		), game.opponent);
 		var self = this;
 		//need to fix vvv
 		RenderLoop(view); // fix this to only render when a node is inserted
@@ -89,12 +91,15 @@ define(["js/game.components/Thread",
 	};
 
 	Interface.prototype.claim = function (nodeid, sourceNodeid) {
-		updateNode(nodeid, sourceNodeid);
-		this.opponent.send({type: "claim", target: nodeid, source: sourceNodeid});
+		moves.attempt(nodeid, sourceNodeid);
 	};
 
+	Interface.prototype.confirmMove = function (data) {
+		moves.confirm(data);
+	}
+
 	Interface.prototype.updateBoard = function (nodeid, sourceId) {
-		updateNode.call(this, nodeid, sourceId);
+		moves.update.call(this, nodeid, sourceId);
 	};
 
 
