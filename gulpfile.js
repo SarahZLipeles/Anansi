@@ -1,17 +1,19 @@
 var gulp = require('gulp'),
-    concat = require('gulp-concat'),
     plumber = require('gulp-plumber'),
     eslint = require('gulp-eslint'),
     rename = require('gulp-rename'),
     sass = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
     babel = require('gulp-babel'),
+    rjsOptimize = require('gulp-requirejs-optimize'),
     //wrap = require('gulp-wrap'),
     sourcemaps = require('gulp-sourcemaps'),
+    uglify = require("gulp-uglify"),
     runSeq = require('run-sequence');
 
-var js_client_path = './browser/app/**/*.js';
-var js_client_start_path = './browser/app/index.js';
+var js_client_path = './browser/**/*.js';
+var js_out_file = "spiderwars.js"
+var js_client_start_path = './browser/main.js';
 var js_server_path = './server/**/*.js';
 
 gulp.task('lintJS', function(){
@@ -22,12 +24,16 @@ gulp.task('lintJS', function(){
 });
 
 gulp.task('buildJS', ['lintJS'], function(){
-    return gulp.src([js_client_start_path, js_client_path])
-        .pipe(plumber())
+    return gulp.src(js_client_start_path)
         .pipe(sourcemaps.init())
+        .pipe(rjsOptimize({
+            optimize: "none", 
+            out: js_out_file
+        }))
+        .pipe(plumber())
         //.pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
-        .pipe(concat('spiderwars.js'))
         .pipe(babel())
+        .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
 });

@@ -1,4 +1,5 @@
-;(function(undefined) {
+define([], function () {
+return function () {
   'use strict';
 
   if (typeof sigma === 'undefined')
@@ -30,8 +31,7 @@
     var i,
         l,
         a,
-        fn,
-        self = this;
+        fn;
 
     sigma.classes.dispatcher.extend(this);
 
@@ -108,23 +108,18 @@
 
     var a,
         i,
-        k,
         e,
         l,
         o,
         source,
         target,
-        start,
-        edges,
         renderers,
         subrenderers,
         index = {},
         graph = this.graph,
         nodes = this.graph.nodes,
-        prefix = this.options.prefix || '',
         drawEdges = this.settings(options, 'drawEdges'),
         drawNodes = this.settings(options, 'drawNodes'),
-        drawLabels = this.settings(options, 'drawLabels'),
         embedSettings = this.settings.embedObjects(options, {
           prefix: this.options.prefix,
           forceLabels: this.options.forceLabels
@@ -279,14 +274,10 @@
     options = options || {};
     var a,
         i,
-        k,
-        e,
         l,
         o,
         source,
         target,
-        start,
-        edges,
         renderers,
         subrenderers,
         index = {},
@@ -294,14 +285,17 @@
         nodes = this.graph.nodes,
         nodesToUpdate = graph.queueNodes(),
         edgesToUpdate = [],
-        prefix = this.options.prefix || '',
         drawEdges = this.settings(options, 'drawEdges'),
         drawNodes = this.settings(options, 'drawNodes'),
-        drawLabels = this.settings(options, 'drawLabels'),
         embedSettings = this.settings.embedObjects(options, {
           prefix: this.options.prefix,
           forceLabels: this.options.forceLabels
         });
+
+        // Check the 'hideEdgesOnMove' setting:
+    if (this.settings(options, 'hideEdgesOnMove'))
+      if (this.camera.isAnimated || this.camera.isMoving)
+        drawEdges = false;
 
     // Apply the camera's view:
     this.camera.applyView(
@@ -312,7 +306,6 @@
         height: this.height
       }
     );
-
 
     // Node index
     for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++){
@@ -338,7 +331,7 @@
     if (drawNodes)
       for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
         // Node
-        var node = a.shift();
+        var node = a.pop();
 
         (renderers[node.type] || renderers.def).update(
           node,
@@ -361,7 +354,7 @@
     //-- We update the edges
     if (drawEdges)
       for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
-        var edge = a.shift();
+        var edge = a.pop();
         source = nodes(edge.source);
         target = nodes(edge.target);
 
@@ -568,4 +561,5 @@
   sigma.utils.pkg('sigma.svg.nodes');
   sigma.utils.pkg('sigma.svg.edges');
   sigma.utils.pkg('sigma.svg.labels');
-}).call(this);
+};
+});

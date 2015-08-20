@@ -1,8 +1,14 @@
-'use strict'
+define([], function () {
+	'use strict'
 
-app.config(function ($stateProvider){
-    $stateProvider.state('play', {
-        url: '/play',
-        templateUrl: '/app/play/play.html'
-    })
-})
+	var playState = function ($stateProvider){
+		$stateProvider.state('play', {
+			url: '/play',
+			templateUrl: '/app/play/play.html'
+		})
+	};
+	playState.$inject = ["$stateProvider"];
+	
+	return playState;
+});
+

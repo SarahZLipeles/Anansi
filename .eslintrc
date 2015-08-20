@@ -34,18 +34,9 @@
   },
 
   "globals": {
-    "angular" : 1,
-    "app": 1,
-    "io": 1,
-    "_": 1,
-    "inject": 1,
-    "expect": 1,
-    "sinon": 1,
-    "jsfeat": 1,
-    "compatibility": 1,
-    "objectdetect": 1,
-    "Smoother": 1,
-    "Peer": 1
+    "angular": 1,
+    "define": 1,
+    "sigma": 1
   },
 
   "rules": {
