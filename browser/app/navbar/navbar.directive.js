@@ -14,7 +14,7 @@ define([], function () {
                 }, {
                     label: 'Login',
                     state: 'login'
-                }]
+                }];
             }
         };
     };

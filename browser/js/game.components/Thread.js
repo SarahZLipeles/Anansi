@@ -18,7 +18,7 @@ define(["js/game.components/style"], function (style) {
                         // node.health = 6;
                         claim(destId, sourceId);
                         //return links to player
-                        currentCrawler.receiveLinks.call(userScope, destId, node.links);
+                        currentCrawler.receiveNode.call(userScope, {id: node.id, links: node.links});
                     }
                 };
                 crawlQ.unshift(attk);
@@ -77,6 +77,7 @@ define(["js/game.components/style"], function (style) {
     			crawlQ.length = 0;
     		}
             currentCrawler = crawler;
+            console.log(currentCrawler);
     		this.crawling = true;
     		crawler.start.call(userScope, startId);
     	};

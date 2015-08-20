@@ -1,7 +1,7 @@
 "use strict";
 var path = require('path');
 var express = require('express');
-
+var favicon = require("serve-favicon");
 
 module.exports = function (app) {
 
@@ -12,6 +12,7 @@ module.exports = function (app) {
     var indexHTMLPath = path.join(root, './server/layout.html');
 
     app.setValue('indexHTMLPath', indexHTMLPath);
+    app.use(favicon(app.getValue('faviconPath')));
     app.use(express.static(npmPath));
     app.use(express.static(publicPath));
     app.use(express.static(browserPath));

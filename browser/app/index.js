@@ -15,6 +15,6 @@ function (playState, navbar, game, editor){
 	app.directive(navbar.name, navbar.func);
 	app.directive(game.name, game.func);
 	app.directive(editor.name, editor.func);
-})
+});
 
 
