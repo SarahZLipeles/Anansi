@@ -3,16 +3,19 @@ define([], function () {
 		var bases = game.board.bases;
 		var yourBase = bases[game.role];
 		var theirBase = bases[game.opponentRole];
+		var yoBase = game.board.nodes.find(function(node){node.id === yourBase.id});
+		var thBase = game.board.nodes.find(function(node){node.id === theirBase.id});
 
 		yourBase.owner = game.role;
 		yourBase.from = yourBase.id;
-
-		//need to get the bases from nodes not from bases
-		//the client doesn't get the reference, they get separate objects
-
+		yoBase.owner = game.role;
+		yoBase.from = yoBase.id;
 
 		theirBase.owner = game.opponentRole;
 		theirBase.from = theirBase.id;
+		thBase.owner = game.opponentRole;
+		thBase.from = thBase.id;
+
 	};
 
 	return setBases;
