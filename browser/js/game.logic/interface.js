@@ -8,13 +8,15 @@ define(["js/game.components/Thread",
 	
 	"use strict";
 
-	var view, queue, nodes, handleMove;
+	var view, handleMove;
 
 	function initGlobals (s, opponent) {
 		view = s;
-		queue = s.graph.queueNodes;
-		nodes = s.graph.nodes;
-		handleMove = MakeMoveHandler(opponent);
+		handleMove = MakeMoveHandler({
+			queue: s.graph.queueNodes,
+			nodes: s.graph.nodes,
+			opponent: opponent
+		});
 	}
 	
 	function Interface (game, playerData) {

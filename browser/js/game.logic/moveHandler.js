@@ -1,4 +1,4 @@
-define(["js/game.logic/moves"], function (BuildMoves) {
+define(["js/game.logic/buildMoves"], function (BuildMoves) {
 
 	function MoveHandler(options){
 		var threads = {},
@@ -6,8 +6,8 @@ define(["js/game.logic/moves"], function (BuildMoves) {
 			opponent = options.opponent,
 			moves = BuildMoves(options);
 
-		var registerThread = (threadid) => {
-			threads[threadid] = 0;
+		var registerThread = (thread) => {
+			threads[thread.id] = {moveIndex: 0, thread: thread};
 		};
 
 		var clearThread = (threadid) => {
@@ -18,12 +18,30 @@ define(["js/game.logic/moves"], function (BuildMoves) {
 			});
 			threads[threadid] = 0;
 		}
-
-		var update = (move, threadid) => {
-			//add the move
+		//move could need source
+		//needs definitely threadid, target, type
+		var update = (move) => {
+			var threadEntry = threads[move.threadid];
+			var moveSlot = pendingMoves[threadEntry.moveIndex]
+			if(moveSlot){
+				moveSlot.push(move);
+			}else{
+				pendingMoves[threadEntry.moveIndex] = [move];
+			}
 		}
 
-		var handleMove = (move) => {
+		var handleUserMove = (move) => {
+			var threadEntry = threads[move.thread]
+			var thread = threadEntry.thread;
+			if(move.type === "attack"){
+				thread.currentCrawler.receive(moves.attack(move));
+			}else if(move.type === "reinforce"){
+				thread.currentCrawler.receive(moves.reinforce(move));
+			}
+			threadEntry.moveIndex--;
+		};
+
+		var handleOpponentMove = (move) => {
 			if(move.type === "attack"){
 				moves.attack(move);
 			}else if(move.type === "reinforce"){
@@ -33,7 +51,7 @@ define(["js/game.logic/moves"], function (BuildMoves) {
 
 		var makeMoves = () => {
 			var nextMoves = pendingMoves.splice(0, 1);
-			nextMoves.forEach(handleMove);
+			nextMoves.forEach(handleUserMove);
 			opponent.send({type: "move", moves: nextMoves});
 		};
 
@@ -47,7 +65,7 @@ define(["js/game.logic/moves"], function (BuildMoves) {
 
 		var execute = (data) => {
 			if(data.moves.length > 0){
-				data.moves.forEach(handleMove);
+				data.moves.forEach(handleOpponentMove);
 			}
 			if(pendingMoves.length > 0){
 				makeMoves();

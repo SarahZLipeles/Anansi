@@ -1,102 +1,98 @@
 define([], function () {
 
+	var BuildMoves = (options) => {
+		var queue = options.queue,
+			nodes = options.nodes;
 
-	var attack = (data) => {
-		var sourceId = data.source;
-		var targetId = data.target;
-		var source = nodes(sourceId);
-		var target = nodes(targetId);
-		if(source.links.indexOf(targetId) !== -1){
-			if (target.health > 0) {
-				target.health -= 5;
-				console.log(target.health);
+		var attack = (data) => {
+			var targetId = data.target;
+			var source = nodes(data.source);
+			var target = queue(targetId);
+			var returnVal = {id: targetId};
+			if(source.links.indexOf(targetId) !== -1){
+				if (target.health > 0) {
+					target.health -= 5;
+					console.log(target.health);
+				}
+				if (target.health <= 0) {
+					claim(target, source);
+					returnVal.links = target.links;
+				}else{
+					returnVal.health = target.health;
+				}
 			}
-			if (target.health <= 0) {
-                // target.health = 6;
-                claim(targetId, sourceId);
-                //return links to player
-                // currentCrawler.receiveLinks.call(userScope, targetId, target.links);
-            }else{
-            	// give back other info
-            }
-        }
-    };
+			return returnVal;
+		};
 
-    
-    var reinforce = (data) => {
-    	var id = data.target;
-    	if(nodes(id).color !== defaultColor){
-    		var reinforce = function() {
-    			var node = nodes(id);
-    			if (node.health < node.maxHealth) {
-    				node.health+=5;
-    				console.log(node.health);
-    				if(times){
-    					crawlQ.push(reinforce.bind(null, --times));
-    				}else if(times === undefined){
-    					crawlQ.push(reinforce);
-    				}
-    			}
-    		};
-    		crawlQ.unshift(reinforce);
-    	}
-    };
 
-    var removeOwner = (nodeId) => {
-    	var changeNode = queue(nodeId);
-    	changeNode.owner = undefined;
-            //should flatten in the future, maybe
-            changeNode.to.forEach((id) => {
-            	removeOwner(id);
-            });
-            changeNode.to.length = 0;
-            changeNode.from = undefined;
-        };
+		var reinforce = (data) => {
+			var node = queue(data.target);
+			if(node.owner){
+				var healthDiff = node.maxHealth - node.health;
+				if (healthDiff > 0) {
+					node.health += healthDiff < 10 ? healthDiff : 10;
+					console.log(node.health);
+				}
+			}
+			return {id: data.target, health: node.health};
+		};
 
-        var claim = (nodeid, sourceNodeid) => {
-        	var node = queue(nodeid);
-        	var sourceNode = nodes(sourceNodeid);
-        	var owner = sourceNode.owner;
-            // if(node.id !== view.graph.bases[this.role].id){
-            	if(!node.from){
-            		node.from = sourceNode.id;
-            		sourceNode.to.push(node.id);
-            	}else if(node.from && node.owner !== owner){
-            		var oldFrom = nodes(node.from);
-            		var toIndex = oldFrom.to.indexOf(node.id);
-            		if(~toIndex){
-            			oldFrom.to.splice(toIndex, 1);
-            		}
-            		node.from = sourceNode.id;
-            		sourceNode.to.push(node.id);
-            		for(var i = 0, l = node.to.length; i < l; i++){
-            			removeOwner(node.to.pop());
-            		}
-            	}
-            // } 
-            node.owner = owner;
-        };
+		var removeOwner = (nodeId) => {
+			var changeNode = queue(nodeId);
+			changeNode.owner = undefined;
+			//should flatten in the future, maybe
+			changeNode.to.forEach((id) => {
+				removeOwner(id);
+			});
+			changeNode.to.length = 0;
+			changeNode.from = undefined;
+		};
 
-        //to fix
-        // this.moveBase = function(id){
-        //     var moveTo = nodes(id);
-        //     var oldBase = nodes(graph.bases[role].id);
-        //     if (oldBase.links.indexOf(id) !== -1/* && moveTo.color === graph.color*/) {
-        //         oldBase.size = 0.03;
-        //         oldBase.from = id;
-        //         var index = moveTo.to.indexOf(id);
-        //         oldBase.to.splice(index,1);
+		var claim = (target, source) => {
+			var owner = source.owner;
+			// if(target.id !== view.graph.bases[this.role].id){
+			if(!target.from){
+				target.from = source.id;
+				source.to.push(target.id);
+			}else if(target.from && target.owner !== owner){
+				var oldFrom = nodes(target.from);
+				var toIndex = oldFrom.to.indexOf(target.id);
+				if(~toIndex){
+					oldFrom.to.splice(toIndex, 1);
+				}
+				target.from = source.id;
+				source.to.push(target.id);
+				for(var i = 0, l = target.to.length; i < l; i++){
+					removeOwner(target.to.pop());
+				}
+			}
+			// } 
+			target.owner = owner;
+		};
 
-        //         moveTo.size = 0.15;
-        //         moveTo.from = undefined;
-        //         moveTo.to.push(oldBase.id);
+		//to fix
+		// this.moveBase = function(id){
+		//     var moveTo = nodes(id);
+		//     var oldBase = nodes(graph.bases[role].id);
+		//     if (oldBase.links.indexOf(id) !== -1/* && moveTo.color === graph.color*/) {
+		//         oldBase.size = 0.03;
+		//         oldBase.from = id;
+		//         var index = moveTo.to.indexOf(id);
+		//         oldBase.to.splice(index,1);
 
-        //         graph.bases[role] = moveTo;
-        //     }
-        // };
+		//         moveTo.size = 0.15;
+		//         moveTo.from = undefined;
+		//         moveTo.to.push(oldBase.id);
 
-        return {
-        	attack: attack,
-        	reinforce: reinforce
-        }
-    });
+		//         graph.bases[role] = moveTo;
+		//     }
+		// };
+
+		return {
+			attack: attack,
+			reinforce: reinforce
+		}
+	};
+
+	return BuildMoves;
+});
