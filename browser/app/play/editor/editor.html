@@ -1,12 +1,14 @@
-<div class="play-editor-title">Create Custom Functions</div>
-<div class="play-editor-container">
+<div class="editor">
+    <div class="editor-title">Create Custom Functions</div>
+    <div class="editor-container">
 
-    <form novalidate class="simple-form">
-    <label>Function Name: </label>
-        <input type="text" ng-model="func.name" />
-        <!--<input type="text" class="resizedTextBox" placeholder="write function here" ng-model="func.data"/>-->
-        <textarea class="resizedTextBox" placeholder="write function here" ng-model="func.data"></textarea>
-    <input type="button" ng-click="reset()" value="Reset" />
-    <input type="submit" ng-click="createFunction(func)" value="Save" />
-</form>
+        <form novalidate class="simple-form">
+        <label>Crawler Name: </label>
+            <input type="text" ng-model="obj.name" />
+            <pre>var data = {};<br>var {{obj.name}} = {<br>    start: function(nodeId, data) {<br>        <textarea class="resizedTextBox" placeholder="write start function here" ng-model="obj.start"></textarea><br>   },<br>    receiveNode: function(node, data) {<br>        <textarea class="resizedTextBox" placeholder="write receiveNode function here" ng-model="obj.receiveNode"></textarea><br>    }<br>};</pre>
+        <input type="button" ng-click="reset()" value="Reset" />
+        <input type="submit" ng-click="createFunction(obj)" value="Save" /><br>
+    <!--     <pre>{{crawlers | json}}</pre> -->
+    </form>
+    </div>
 </div>

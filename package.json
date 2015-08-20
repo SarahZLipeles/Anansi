@@ -1,5 +1,5 @@
 {
-  "name": "SpiderWars",
+  "name": "Anansi",
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
@@ -8,19 +8,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TheoLipeles/SpiderWars.git"
+    "url": "https://github.com/TheoLipeles/Anansi.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheoLipeles/SpiderWars/issues"
+    "url": "https://github.com/TheoLipeles/Anansi/issues"
   },
-  "homepage": "https://github.com/TheoLipeles/SpiderWars",
+  "homepage": "https://github.com/TheoLipeles/Anansi",
   "dependencies": {
     "angular": "^1.4.4",
     "angular-ui-router": "^0.2.15",
     "babel": "^5.8.21",
     "express": "^4.13.3",
+    "gulp-traceur": "^0.17.1",
     "gulp-uglify": "^1.2.0",
     "lodash": "^3.10.1",
     "morgan": "^1.6.1",
@@ -40,6 +41,7 @@
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
     "merge-stream": "^1.0.0",
-    "node-normalize-scss": "^1.0.3"
+    "node-normalize-scss": "^1.0.3",
+    "traceur": "0.0.91"
   }
 }

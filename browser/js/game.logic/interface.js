@@ -3,24 +3,26 @@ define(["js/game.components/Thread",
 	"js/game.components/style",
 	"js/game.logic/controls",
 	"js/game.logic/setBases",
-	"js/game.logic/updateNode"], 
-	function (Thread, RenderLoop, style, setControls, setBases, UpdateBuilder) {
+	"js/game.logic/moveHandler",
+	"app/play/editor/crawlersFactory"], 
+	function (Thread, RenderLoop, style, setControls, setBases, MakeMoveHandler, Crawlers) {
 	
 	"use strict";
 
-	var view, queue, nodes, updateNode;
+	var view, handleMove;
 
-	function initGlobals (s) {
+	function initGlobals (s, opponent) {
 		view = s;
-		queue = s.graph.queueNodes;
-		nodes = s.graph.nodes;
-		updateNode = UpdateBuilder(queue, nodes);
+		handleMove = MakeMoveHandler({
+			queue: s.graph.queueNodes,
+			nodes: s.graph.nodes,
+			opponent: opponent
+		});
 	}
 	
 	function Interface (game, playerData) {
 		this.role = game.role; //"host or client"
 		setBases(game, playerData);
-		this.opponent = game.opponent; //peerconn
 		initGlobals(new sigma(
 			{
 				graph: game.board,
@@ -42,61 +44,58 @@ define(["js/game.components/Thread",
 					defaultEdgeColor: style.default
 				}
 			}
-		));
+		), game.opponent);
 		var self = this;
 		//need to fix vvv
-		RenderLoop(view); // fix this to only render when a node is inserted
+		var loop = new RenderLoop(view); // fix this to only render when a node is inserted
 		view.graph.bases = game.board.bases;
 		view.graph.color = this.playerColor;
-		var clickANode = function (func, event) {
-			if(this.state === 'attackNode'){
-				this[this.currentThread].crawl(event.data.node.id, {
-					start: function(id){
-						this.attackNode(self.source, id);
-					},
-					receiveLinks: function(id){
-						self.source = id;
-					}
-				});
-			}else if(this.state === 'reinforceNode'){
-				this[this.currentThread].crawl(event.data.node.id, {
-					start: function(id){
-						this.reinforceNode(id);
-					}
-				});
-			}else if(this.state === 'moveBase'){
-				this[this.currentThread].moveBase(event.data.node.id);
-				view.refresh({skipIndexation: true});
-			}else if(this.state === 'selectSrc'){
-				this.source = event.data.node.id;
-				console.log('selected a new source');
-			}
-		};
-		view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
+		this.initThreads(game.board, handleMove);
+		// var clickANode = function (func, event) {
+		// 	if(this.state === 'attackNode'){
+		// 		this[this.currentThread].crawl(event.data.node.id, {
+		// 			start: function(id){
+		// 				this.attackNode(self.source, id);
+		// 			},
+		// 			receiveLinks: function(node){
+		// 				self.source = node.id;
+		// 			}
+		// 		});
+		// 	}else if(this.state === 'reinforceNode'){
+		// 		this[this.currentThread].crawl(event.data.node.id, {
+		// 			start: function(id){
+		// 				this.reinforceNode(id);
+		// 			}
+		// 		});
+		// 	}else if(this.state === 'moveBase'){
+		// 		this[this.currentThread].moveBase(event.data.node.id);
+		// 		view.refresh({skipIndexation: true});
+		// 	}else if(this.state === 'selectSrc'){
+		// 		this.source = event.data.node.id;
+		// 		console.log('selected a new source');
+		// 	}
+		// };
+		view.bind("clickNode", (function(event) {
+			this.thread1.crawl(event.data.node.id, Crawlers.getCrawler("test"));
+		}).bind(this));
+		// view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
 		//need to fix ^^^
 		view.refresh();
-		this.initThreads(game.board);
 		setControls(this);
 	}
 
-	Interface.prototype.initThreads = function (board) {
+	Interface.prototype.initThreads = function (board, handler) {
 		this.currentThread = 'thread1';
 		this.state = 'attackNode';
 		this.source = board.bases[this.role].id;
-		this.thread1 = new Thread(2, view.graph, this.claim.bind(this));
-		this.thread2 = new Thread(2, view.graph, this.claim.bind(this));
+		this.thread1 = new Thread(handler);
+		this.thread2 = new Thread(handler);
 		this.threads = 2;
 	};
 
-	Interface.prototype.claim = function (nodeid, sourceNodeid) {
-		updateNode(nodeid, sourceNodeid);
-		this.opponent.send({type: "claim", data: nodeid, source: sourceNodeid});
+	Interface.prototype.updateBoard = function (data) {
+		handleMove.execute(data);
 	};
-
-	Interface.prototype.updateBoard = function (nodeid, sourceId) {
-		updateNode.call(this, nodeid, sourceId);
-	};
-
 
 	return Interface;
 });

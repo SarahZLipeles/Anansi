@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     runSeq = require('run-sequence');
 
 var js_client_path = './browser/**/*.js';
-var js_out_file = "spiderwars.js"
+var js_out_file = "anansi.js"
 var js_client_start_path = './browser/main.js';
 var js_server_path = './server/**/*.js';
 
@@ -25,15 +25,17 @@ gulp.task('lintJS', function(){
 
 gulp.task('buildJS', ['lintJS'], function(){
     return gulp.src(js_client_start_path)
-        .pipe(sourcemaps.init())
         .pipe(rjsOptimize({
             optimize: "none", 
             out: js_out_file
         }))
         .pipe(plumber())
         //.pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
+        .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(uglify())
+        .pipe(uglify({
+            mangle: false
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
 });
