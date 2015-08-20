@@ -3,8 +3,9 @@ define(["js/game.components/Thread",
 	"js/game.components/style",
 	"js/game.logic/controls",
 	"js/game.logic/setBases",
-	"js/game.logic/moveHandler"], 
-	function (Thread, RenderLoop, style, setControls, setBases, MakeMoveHandler) {
+	"js/game.logic/moveHandler",
+	"app/play/editor/crawlersFactory"], 
+	function (Thread, RenderLoop, style, setControls, setBases, MakeMoveHandler, Crawlers) {
 	
 	"use strict";
 
@@ -49,34 +50,37 @@ define(["js/game.components/Thread",
 		var loop = new RenderLoop(view); // fix this to only render when a node is inserted
 		view.graph.bases = game.board.bases;
 		view.graph.color = this.playerColor;
-		var clickANode = function (func, event) {
-			if(this.state === 'attackNode'){
-				this[this.currentThread].crawl(event.data.node.id, {
-					start: function(id){
-						this.attackNode(self.source, id);
-					},
-					receiveLinks: function(id){
-						self.source = id;
-					}
-				});
-			}else if(this.state === 'reinforceNode'){
-				this[this.currentThread].crawl(event.data.node.id, {
-					start: function(id){
-						this.reinforceNode(id);
-					}
-				});
-			}else if(this.state === 'moveBase'){
-				this[this.currentThread].moveBase(event.data.node.id);
-				view.refresh({skipIndexation: true});
-			}else if(this.state === 'selectSrc'){
-				this.source = event.data.node.id;
-				console.log('selected a new source');
-			}
-		};
-		view.bind("clickNode", clickANode.bind(this));
+		this.initThreads(game.board, handleMove);
+		// var clickANode = function (func, event) {
+		// 	if(this.state === 'attackNode'){
+		// 		this[this.currentThread].crawl(event.data.node.id, {
+		// 			start: function(id){
+		// 				this.attackNode(self.source, id);
+		// 			},
+		// 			receiveLinks: function(node){
+		// 				self.source = node.id;
+		// 			}
+		// 		});
+		// 	}else if(this.state === 'reinforceNode'){
+		// 		this[this.currentThread].crawl(event.data.node.id, {
+		// 			start: function(id){
+		// 				this.reinforceNode(id);
+		// 			}
+		// 		});
+		// 	}else if(this.state === 'moveBase'){
+		// 		this[this.currentThread].moveBase(event.data.node.id);
+		// 		view.refresh({skipIndexation: true});
+		// 	}else if(this.state === 'selectSrc'){
+		// 		this.source = event.data.node.id;
+		// 		console.log('selected a new source');
+		// 	}
+		// };
+		view.bind("clickNode", (function(event) {
+			this.thread1.crawl(event.data.node.id, Crawlers.getCrawler("test"));
+		}).bind(this));
+		// view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
 		//need to fix ^^^
 		view.refresh();
-		this.initThreads(game.board, handleMove);
 		setControls(this);
 	}
 
