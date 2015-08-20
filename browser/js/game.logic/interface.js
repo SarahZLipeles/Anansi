@@ -11,7 +11,6 @@ define(["js/game.components/Thread",
 	var view, queue, nodes, updateNode;
 
 	function initGlobals (s) {
-		console.log(s);
 		view = s;
 		queue = s.graph.queueNodes;
 		nodes = s.graph.nodes;

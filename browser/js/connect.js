@@ -27,7 +27,7 @@ define(["lib/peer", "js/game.components/board", "js/game.logic/interface", "lib/
 						game.board = data.data;
 						gameInterface = new Interface(game, playerData);
 					}else if (data.type === "claim"){
-						gameInterface.updateBoard(data.data, data.color, data.source);
+						gameInterface.updateBoard(data.data, data.source);
 					}
 				});
 			});

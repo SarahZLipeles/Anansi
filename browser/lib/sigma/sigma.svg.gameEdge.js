@@ -104,7 +104,7 @@ return function (style) {
                     edge.arrows.toTarget.setAttributeNS(null, "display", "block");
                 }
             }
-        }else if(targetOwner || sourceOwner){
+        }else{
             line.setAttributeNS(null, "stroke", defaultColor);
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");

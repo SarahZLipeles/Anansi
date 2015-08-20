@@ -161,8 +161,8 @@ function makeGraph (fieldOptions, radii, maxConnections){
 }
 
 var fieldOptions = {
-	width: 1000,
-	height: 800,
+	width: 100,
+	height: 100,
 	numNodes: 500,
 	padding: 10,
 	fieldType: "hex"
