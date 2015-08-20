@@ -35,7 +35,8 @@
 
   "globals": {
     "angular": 1,
-    "require": 1
+    "define": 1,
+    "sigma": 1
   },
 
   "rules": {
