@@ -46,7 +46,7 @@ define(["js/game.components/Thread",
 		), game.opponent);
 		var self = this;
 		//need to fix vvv
-		RenderLoop(view); // fix this to only render when a node is inserted
+		var loop = new RenderLoop(view); // fix this to only render when a node is inserted
 		view.graph.bases = game.board.bases;
 		view.graph.color = this.playerColor;
 		var clickANode = function (func, event) {
@@ -73,10 +73,10 @@ define(["js/game.components/Thread",
 				console.log('selected a new source');
 			}
 		};
-		view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
+		view.bind("clickNode", clickANode.bind(this));
 		//need to fix ^^^
 		view.refresh();
-		this.initThreads(game.board);
+		this.initThreads(game.board, handleMove);
 		setControls(this);
 	}
 

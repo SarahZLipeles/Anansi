@@ -5,7 +5,6 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
     babel = require('gulp-babel'),
-    traceur = require("gulp-traceur"),
     rjsOptimize = require('gulp-requirejs-optimize'),
     //wrap = require('gulp-wrap'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -31,10 +30,12 @@ gulp.task('buildJS', ['lintJS'], function(){
             out: js_out_file
         }))
         .pipe(plumber())
-        .pipe(sourcemaps.init())
         //.pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
-        .pipe(traceur())
-        .pipe(uglify())
+        .pipe(sourcemaps.init())
+        .pipe(babel())
+        .pipe(uglify({
+            mangle: false
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
 });
