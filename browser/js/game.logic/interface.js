@@ -21,7 +21,7 @@ define(["js/game.components/Thread",
 		this.role = game.role; //"host or client"
 		setBases(game, playerData);
 		this.opponent = game.opponent; //peerconn
-		console.log(game.board)
+		console.log(game.board, playerData, game.role, game.board.width, game.board.height)
 		initGlobals(new sigma(
 			{
 				graph: game.board,

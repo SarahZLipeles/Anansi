@@ -89,7 +89,7 @@ return function (style) {
         var sourceOwner = source.owner,
             targetOwner = target.owner,
             player = settings("player");
-        if(targetOwner === sourceOwner){// && !edge.arrow){
+        if(targetOwner && targetOwner === sourceOwner){// && !edge.arrow){
             var ownerColor = settings(sourceOwner);
             line.setAttributeNS(null, "stroke", ownerColor);
             //Only show arrows if the line belongs to the player
@@ -104,7 +104,7 @@ return function (style) {
                     edge.arrows.toTarget.setAttributeNS(null, "display", "block");
                 }
             }
-        }else{
+        }else if(targetOwner || sourceOwner){
             line.setAttributeNS(null, "stroke", defaultColor);
             edge.arrows.toSource.setAttributeNS(null, "display", "none");
             edge.arrows.toTarget.setAttributeNS(null, "display", "none");

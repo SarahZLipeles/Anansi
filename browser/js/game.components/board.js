@@ -111,8 +111,10 @@ function wiggleNodes (field, factors) {
 		xfactor = typeof factors === "object" ? factors.x : factors,
 		yfactor = typeof factors === "object" ? factors.y : factors;
 	nodes.forEach(function (node) {
-		node.x = node.x + (Math.random() - 0.5) * xfactor;
-		node.y = node.y + (Math.random() - 0.5) * yfactor;
+		if(node){
+			node.x = node.x + (Math.random() - 0.5) * xfactor;
+			node.y = node.y + (Math.random() - 0.5) * yfactor;
+		}
 	});
 }
 
