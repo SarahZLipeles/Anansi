@@ -3,22 +3,18 @@ define(["js/game.components/Thread",
 	"js/game.components/style",
 	"js/game.logic/controls",
 	"js/game.logic/setBases",
-	"js/game.logic/updateNode"], 
-	function (Thread, RenderLoop, style, setControls, setBases, MoveMachine) {
+	"js/game.logic/moveHandler"], 
+	function (Thread, RenderLoop, style, setControls, setBases, MakeMoveHandler) {
 	
 	"use strict";
 
-	var view, queue, nodes, moves;
+	var view, queue, nodes, handleMove;
 
 	function initGlobals (s, opponent) {
 		view = s;
 		queue = s.graph.queueNodes;
 		nodes = s.graph.nodes;
-		moves = MoveMachine({
-			queue: queue, 
-			nodes: nodes,
-			opponent: opponent
-		});
+		handleMove = MakeMoveHandler(opponent);
 	}
 	
 	function Interface (game, playerData) {
@@ -82,27 +78,18 @@ define(["js/game.components/Thread",
 		setControls(this);
 	}
 
-	Interface.prototype.initThreads = function (board) {
+	Interface.prototype.initThreads = function (board, handler) {
 		this.currentThread = 'thread1';
 		this.state = 'attackNode';
 		this.source = board.bases[this.role].id;
-		this.thread1 = new Thread(2, view.graph, this.claim.bind(this));
-		this.thread2 = new Thread(2, view.graph, this.claim.bind(this));
+		this.thread1 = new Thread(handler);
+		this.thread2 = new Thread(handler);
 		this.threads = 2;
 	};
 
-	Interface.prototype.claim = function (nodeid, sourceNodeid) {
-		moves.attempt(nodeid, sourceNodeid);
-	};
-
-	// Interface.prototype.confirmMove = function (data) {
-	// 	moves.confirm(data);
-	// }
-
 	Interface.prototype.updateBoard = function (data) {
-		moves.update(data);
+		handleMove.execute(data);
 	};
-
 
 	return Interface;
 });
