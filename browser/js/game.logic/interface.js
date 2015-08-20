@@ -51,13 +51,11 @@ define(["js/game.components/Thread",
 		view.graph.color = this.playerColor;
 		var clickANode = function (func, event) {
 			if(this.state === 'attackNode'){
-				var claimedLinks = []
-				var availableLinks = [];
 				this[this.currentThread].crawl(event.data.node.id, {
 					start: function(id){
 						this.attackNode(self.source, id)
 					},
-					receiveLinks: function(id, links){
+					receiveLinks: function(id){
 						self.source = id
 					}
 				})

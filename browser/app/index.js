@@ -7,8 +7,8 @@ function (playState, navbar, game, editor){
 	var app = angular.module('SpiderWars', ['ui.router']);
 
 	app.config(function($urlRouterProvider, $locationProvider){
-	    $locationProvider.html5Mode(true);
-	    $urlRouterProvider.otherwise('/');
+		$locationProvider.html5Mode(true);
+		$urlRouterProvider.otherwise('/');
 	});
 
 	app.config(playState);

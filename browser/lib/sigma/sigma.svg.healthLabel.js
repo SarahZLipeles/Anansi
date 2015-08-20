@@ -1,6 +1,6 @@
 define([], function () {
   
-return function (style) {
+return function () {
   'use strict';
 
   // Initialize packages:

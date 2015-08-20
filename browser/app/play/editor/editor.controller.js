@@ -1,17 +1,15 @@
 define([], function () {
-	var editorController = function($scope, $element) {
+	var editorController = function($scope) {
         $scope.reset = function(){
             $scope.func = null;
         }
         $scope.createFunction = function(func){
-            var data = {}
             $scope.data = angular.copy(func.data);
-            console.log($scope.data);
             eval($scope.data);
         }
     };
 
-    editorController.$inject = ["$scope", "$element"];
+    editorController.$inject = ["$scope"];
 
     return editorController;
 });

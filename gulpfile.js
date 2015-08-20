@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     rjsOptimize = require('gulp-requirejs-optimize'),
     //wrap = require('gulp-wrap'),
     sourcemaps = require('gulp-sourcemaps'),
+    uglify = require("gulp-uglify"),
     runSeq = require('run-sequence');
 
 var js_client_path = './browser/**/*.js';
@@ -32,6 +33,7 @@ gulp.task('buildJS', ['lintJS'], function(){
         .pipe(plumber())
         //.pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
         .pipe(babel())
+        .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./public'));
 });

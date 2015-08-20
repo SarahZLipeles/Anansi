@@ -1,4 +1,4 @@
-define(["js/game.components/style.js"], function (style) {
+define([], function () {
 
 "use strict";
 function BuildFactory(options){

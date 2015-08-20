@@ -1,5 +1,5 @@
 define([], function () {
-return function (style) {
+return function () {
   'use strict';
 
   if (typeof sigma === 'undefined')
@@ -31,8 +31,7 @@ return function (style) {
     var i,
         l,
         a,
-        fn,
-        self = this;
+        fn;
 
     sigma.classes.dispatcher.extend(this);
 
@@ -109,23 +108,18 @@ return function (style) {
 
     var a,
         i,
-        k,
         e,
         l,
         o,
         source,
         target,
-        start,
-        edges,
         renderers,
         subrenderers,
         index = {},
         graph = this.graph,
         nodes = this.graph.nodes,
-        prefix = this.options.prefix || '',
         drawEdges = this.settings(options, 'drawEdges'),
         drawNodes = this.settings(options, 'drawNodes'),
-        drawLabels = this.settings(options, 'drawLabels'),
         embedSettings = this.settings.embedObjects(options, {
           prefix: this.options.prefix,
           forceLabels: this.options.forceLabels
@@ -280,14 +274,10 @@ return function (style) {
     options = options || {};
     var a,
         i,
-        k,
-        e,
         l,
         o,
         source,
         target,
-        start,
-        edges,
         renderers,
         subrenderers,
         index = {},
@@ -295,10 +285,8 @@ return function (style) {
         nodes = this.graph.nodes,
         nodesToUpdate = graph.queueNodes(),
         edgesToUpdate = [],
-        prefix = this.options.prefix || '',
         drawEdges = this.settings(options, 'drawEdges'),
         drawNodes = this.settings(options, 'drawNodes'),
-        drawLabels = this.settings(options, 'drawLabels'),
         embedSettings = this.settings.embedObjects(options, {
           prefix: this.options.prefix,
           forceLabels: this.options.forceLabels

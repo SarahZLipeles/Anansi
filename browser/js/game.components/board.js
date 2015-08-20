@@ -1,4 +1,4 @@
-define(["js/game.components/Node", "js/game.components/style"], function (BuildFactory, style) {
+define(["js/game.components/Node"], function (BuildFactory) {
 
 "use strict";
 
@@ -33,20 +33,20 @@ function withinRange (node1, node2, radii){
 	return dist < radii.outer && dist > radii.inner;
 }
 
-function restrictMaxNodes (node1, node2, maxConnections) {
-	var chanceConnect = 1;
-	var node1ok = node1.links.length / maxConnections < chanceConnect;
-	var node2ok = node2.links.length / maxConnections < chanceConnect;
-	return node1ok && node2ok;
-}
+// function restrictMaxNodes (node1, node2, maxConnections) {
+// 	var chanceConnect = 1;
+// 	var node1ok = node1.links.length / maxConnections < chanceConnect;
+// 	var node2ok = node2.links.length / maxConnections < chanceConnect;
+// 	return node1ok && node2ok;
+// }
 
 function withinRadius (node1, node2, radii) {
 	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) < radii.outer;
 }
 
-function outsideRadius (node1, node2, radii) {
-	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) > radii.inner;
-}
+// function outsideRadius (node1, node2, radii) {
+// 	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) > radii.inner;
+// }
 
 function clearBaseArea(field, radii) {
 	var host = field.bases.host,

@@ -4,8 +4,8 @@ define(["lib/sigma/sigma.renderers.gameSvg",
 	"lib/sigma/sigma.svg.healthLabel",
 	"js/game.components/style"], 
 	function (renderer, edge, node, label, style) {
-		renderer(style);
+		renderer();
 		edge(style);
-		node(style);
-		label(style);
+		node();
+		label();
 });

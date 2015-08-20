@@ -1,9 +1,9 @@
 define(["js/game.components/style"], function (style) {
     var defaultColor = style.default;
-    function Thread(speed, graph, claim, role) {
+    function Thread(speed, graph, claim) {
         var crawlQ = [];
         var nodes = graph.nodes;
-
+        var currentCrawler;
         var attackNode = function(sourceId, destId) {
             var source = nodes(sourceId);
             var node = nodes(destId);
@@ -64,7 +64,7 @@ define(["js/game.components/style"], function (style) {
             attackNode: attackNode,
             reinforceNode: reinforceNode
         };
-        var currentCrawler;
+        
         
         var crawlTimer = setInterval(function() {
         	if (crawlQ.length > 0) {
