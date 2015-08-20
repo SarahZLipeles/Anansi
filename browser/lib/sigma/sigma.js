@@ -2941,7 +2941,7 @@ if (typeof exports !== 'undefined') {
     // {boolean}
     touchEnabled: true,
     // {boolean}
-    mouseEnabled: false,
+    mouseEnabled: true,
     // {boolean}
     mouseWheelEnabled: true,
     // {boolean}
@@ -4125,6 +4125,7 @@ if (typeof exports !== 'undefined') {
           throw 'nodes: Wrong arguments.';
 
       return a;
+      
     }
     throw 'nodes: Wrong arguments.';
   });

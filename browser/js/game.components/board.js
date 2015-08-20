@@ -106,6 +106,16 @@ function connectField (field, radii, maxConnections) {
 	return field;
 }
 
+function wiggleNodes (field, factors) {
+	var nodes = field.nodes,
+		xfactor = typeof factors === "object" ? factors.x : factors,
+		yfactor = typeof factors === "object" ? factors.y : factors;
+	nodes.forEach(function (node) {
+		node.x = node.x + (Math.random() - 0.5) * xfactor;
+		node.y = node.y + (Math.random() - 0.5) * yfactor;
+	});
+}
+
 //Checks if the bases are connected 
 function checkField (field) {
 	var connected = [field.bases.host.id],
@@ -144,12 +154,13 @@ function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeField(fieldOptions);
 	field = clearBaseArea(field, radii);
 	field = connectField(field, radii, maxConnections);
+	wiggleNodes(field, 20);
 	return checkField(field) || makeGraph(fieldOptions, radii, maxConnections);
 }
 
 var fieldOptions = {
-	width: 100,
-	height: 100,
+	width: 1000,
+	height: 800,
 	numNodes: 500,
 	padding: 10,
 	fieldType: "hex"
@@ -158,7 +169,6 @@ var fieldOptions = {
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
 //still need clipping of dense nodes
-
 
 
 return {
