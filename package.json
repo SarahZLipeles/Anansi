@@ -36,9 +36,10 @@
     "gulp-minify-css": "^1.2.0",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
+    "gulp-requirejs-optimize": "^0.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-requirejs-optimize": "^0.2.0",
+    "merge-stream": "^1.0.0",
     "node-normalize-scss": "^1.0.3"
   }
 }
