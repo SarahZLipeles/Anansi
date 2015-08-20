@@ -175,6 +175,6 @@ var fieldOptions = {
 
 return {
 	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 33}, 5); }
-}
+};
 
 });

@@ -9,7 +9,7 @@ define(["js/game.components/style"], function (style) {
             var node = nodes(destId);
             if(source.links.indexOf(destId) !== -1){
                 var attk = function() {
-                    console.log(node.health)
+                    console.log(node.health);
                     if (node.health > 0) {
                         node.health -= 5;
                         crawlQ.push(attk);
@@ -31,7 +31,7 @@ define(["js/game.components/style"], function (style) {
                     var node = nodes(id);
                     if (node.health < node.maxHealth) {
                         node.health+=5;
-                        console.log(node.health)
+                        console.log(node.health);
                         if(times){
                             crawlQ.push(reinforce.bind(null, --times));
                         }else if(times === undefined){

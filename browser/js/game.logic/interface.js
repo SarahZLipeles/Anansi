@@ -52,24 +52,24 @@ define(["js/game.components/Thread",
 			if(this.state === 'attackNode'){
 				this[this.currentThread].crawl(event.data.node.id, {
 					start: function(id){
-						this.attackNode(self.source, id)
+						this.attackNode(self.source, id);
 					},
 					receiveLinks: function(id){
-						self.source = id
+						self.source = id;
 					}
-				})
+				});
 			}else if(this.state === 'reinforceNode'){
 				this[this.currentThread].crawl(event.data.node.id, {
 					start: function(id){
-						this.reinforceNode(id)
+						this.reinforceNode(id);
 					}
-				})
+				});
 			}else if(this.state === 'moveBase'){
-				this[this.currentThread].moveBase(event.data.node.id)
-				view.refresh({skipIndexation: true})
+				this[this.currentThread].moveBase(event.data.node.id);
+				view.refresh({skipIndexation: true});
 			}else if(this.state === 'selectSrc'){
-				this.source = event.data.node.id
-				console.log('selected a new source')
+				this.source = event.data.node.id;
+				console.log('selected a new source');
 			}
 		};
 		view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
@@ -77,7 +77,7 @@ define(["js/game.components/Thread",
 		view.refresh();
 		this.initThreads(game.board);
 		setControls(this);
-	};
+	}
 
 	Interface.prototype.initThreads = function (board) {
 		this.currentThread = 'thread1';
@@ -86,7 +86,7 @@ define(["js/game.components/Thread",
 		this.thread1 = new Thread(2, view.graph, this.claim.bind(this));
 		this.thread2 = new Thread(2, view.graph, this.claim.bind(this));
 		this.threads = 2;
-	}
+	};
 
 	Interface.prototype.claim = function (nodeid, sourceNodeid) {
 		updateNode(nodeid, sourceNodeid);
