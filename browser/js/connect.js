@@ -17,17 +17,19 @@ define(["lib/peer", "js/game.components/board", "js/game.logic/interface", "lib/
 			peerconn.on("open", function () {
 				if(game.role === "host") {
 					console.log(game.board);
-					peerconn.send({type: "board", data: game.board});
+					peerconn.send({type: "board", board: game.board});
 					gameInterface = new Interface(game, playerData);
 				}
 				//Listen for data
 				peerconn.on('data', function (data) {
 					//Do stuff with incoming data
 					if(data.type === "board"){
-						game.board = data.data;
+						game.board = data.board;
 						gameInterface = new Interface(game, playerData);
 					}else if (data.type === "claim"){
-						gameInterface.updateBoard(data.data, data.source);
+						gameInterface.updateBoard(data.target, data.source);
+					}else if (data.type === "confirmation"){
+						gameInterface.confirmMove(data.resolution, data.id);
 					}
 				});
 			});

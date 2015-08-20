@@ -90,7 +90,7 @@ define(["js/game.components/Thread",
 
 	Interface.prototype.claim = function (nodeid, sourceNodeid) {
 		updateNode(nodeid, sourceNodeid);
-		this.opponent.send({type: "claim", data: nodeid, source: sourceNodeid});
+		this.opponent.send({type: "claim", target: nodeid, source: sourceNodeid});
 	};
 
 	Interface.prototype.updateBoard = function (nodeid, sourceId) {
