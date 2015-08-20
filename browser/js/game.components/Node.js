@@ -35,7 +35,7 @@ function BuildFactory(options){
 		node.maxHealth = 50;
 		node.health = 50;
 		node.size = 0.15;
-	}
+	};
 
 	function RandomFieldFactory (isHome) {
 		var x, y, pos, base;
@@ -82,7 +82,7 @@ function BuildFactory(options){
 	if(options.fieldType === "random"){
 		return RandomFieldFactory;
 	}else if(options.fieldType === "hex"){
-		return HexFieldFactory
+		return HexFieldFactory;
 	}
 	
 }

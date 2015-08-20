@@ -10,7 +10,7 @@ define([], function () {
 			});
 			changeNode.to.length = 0;
 			changeNode.from = undefined;
-		}
+		};
 		var updateNode = function (nodeid, sourceNodeid) {
 			var node = queue(nodeid);
 			var sourceNode = nodes(sourceNodeid);
@@ -23,7 +23,7 @@ define([], function () {
 				var oldFrom = nodes(node.from);
 				var toIndex = oldFrom.to.indexOf(node.id);
 				if(~toIndex){
-					oldFrom.to.splice(toIndex, 1)
+					oldFrom.to.splice(toIndex, 1);
 				}
 				node.from = sourceNode.id;
 				sourceNode.to.push(node.id);
