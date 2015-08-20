@@ -4,20 +4,21 @@ define(["js/game.components/Thread",
 	"js/game.logic/controls",
 	"js/game.logic/setBases",
 	"js/game.logic/updateNode"], 
-	function (Thread, RenderLoop, style, setControls, setBases, UpdateBuilder) {
+	function (Thread, RenderLoop, style, setControls, setBases, MoveMachine) {
 	
 	"use strict";
 
-	var view, queue, nodes, updateNode;
+	var view, queue, nodes, moves;
 
 	function initGlobals (s, opponent) {
 		view = s;
 		queue = s.graph.queueNodes;
 		nodes = s.graph.nodes;
-		updateNode = UpdateBuilder({
+		moves = MoveMachine({
 			queue: queue, 
 			nodes: nodes,
-			opponent: opponent);
+			opponent: opponent
+		});
 	}
 	
 	function Interface (game, playerData) {
@@ -94,12 +95,12 @@ define(["js/game.components/Thread",
 		moves.attempt(nodeid, sourceNodeid);
 	};
 
-	Interface.prototype.confirmMove = function (data) {
-		moves.confirm(data);
-	}
+	// Interface.prototype.confirmMove = function (data) {
+	// 	moves.confirm(data);
+	// }
 
-	Interface.prototype.updateBoard = function (nodeid, sourceId) {
-		moves.update.call(this, nodeid, sourceId);
+	Interface.prototype.updateBoard = function (data) {
+		moves.update(data);
 	};
 
 

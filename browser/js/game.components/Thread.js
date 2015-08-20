@@ -24,7 +24,41 @@ define(["js/game.components/style"], function (style) {
                 crawlQ.unshift(attk);
             }
         };
+        var removeOwner = (nodeId) => {
+            var changeNode = queue(nodeId);
+            changeNode.owner = undefined;
+            //should flatten in the future, maybe
+            changeNode.to.forEach((id) => {
+                removeOwner(id);
+            });
+            changeNode.to.length = 0;
+            changeNode.from = undefined;
+        };
 
+        var execute = (nodeid, sourceNodeid) => {
+            var node = queue(nodeid);
+            var sourceNode = nodes(sourceNodeid);
+            var owner = sourceNode.owner;
+            // if(node.id !== view.graph.bases[this.role].id){
+            if(!node.from){
+                node.from = sourceNode.id;
+                sourceNode.to.push(node.id);
+            }else if(node.from && node.owner !== owner){
+                var oldFrom = nodes(node.from);
+                var toIndex = oldFrom.to.indexOf(node.id);
+                if(~toIndex){
+                    oldFrom.to.splice(toIndex, 1);
+                }
+                node.from = sourceNode.id;
+                sourceNode.to.push(node.id);
+                for(var i = 0, l = node.to.length; i < l; i++){
+                    removeOwner(node.to.pop());
+                }
+            }
+            // } 
+            node.owner = owner;
+        };
+        
         var reinforceNode = function(id, times) {
             if(nodes(id).color !== defaultColor){
                 var reinforce = function() {
