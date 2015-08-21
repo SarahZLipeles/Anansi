@@ -7,6 +7,7 @@ define(["js/game.logic/buildMoves"], function (BuildMoves) {
 			moves = BuildMoves(options);
 
 		var registerThread = (thread) => {
+			console.log(thread);
 			threads[thread.id] = {moveIndex: 0, thread: thread};
 		};
 
@@ -16,27 +17,30 @@ define(["js/game.logic/buildMoves"], function (BuildMoves) {
 					return move.thread !== threadid;
 				});
 			});
-			threads[threadid] = 0;
+			threads[threadid].moveIndex = 0;
 		}
 		//move could need source
 		//needs definitely threadid, target, type
 		var update = (move) => {
-			var threadEntry = threads[move.threadid];
+			var threadEntry = threads[move.thread];
 			var moveSlot = pendingMoves[threadEntry.moveIndex]
 			if(moveSlot){
 				moveSlot.push(move);
 			}else{
 				pendingMoves[threadEntry.moveIndex] = [move];
 			}
+			console.log(threadEntry);
+			threadEntry.moveIndex++;
 		}
 
 		var handleUserMove = (move) => {
-			var threadEntry = threads[move.thread]
+			console.log(threads, move, move.thread, threads[move.thread]);
+			var threadEntry = threads[move.thread];
 			var thread = threadEntry.thread;
 			if(move.type === "attack"){
-				thread.currentCrawler.receive(moves.attack(move));
+				thread.currentCrawler.receive.call(thread.userScope, moves.attack(move));
 			}else if(move.type === "reinforce"){
-				thread.currentCrawler.receive(moves.reinforce(move));
+				thread.currentCrawler.receive.call(thread.userScope, moves.reinforce(move));
 			}
 			threadEntry.moveIndex--;
 		};
@@ -50,7 +54,7 @@ define(["js/game.logic/buildMoves"], function (BuildMoves) {
 		};
 
 		var makeMoves = () => {
-			var nextMoves = pendingMoves.splice(0, 1);
+			var nextMoves = pendingMoves.shift();
 			nextMoves.forEach(handleUserMove);
 			opponent.send({type: "move", moves: nextMoves});
 		};
@@ -77,10 +81,11 @@ define(["js/game.logic/buildMoves"], function (BuildMoves) {
 
 
 		return {
-			execute: execute,
-			update: update,
+			execute,
+			update,
 			register: registerThread,
-			clearThread: clearThread
+			clearThread,
+			options
 		};
 	}
 	return MoveHandler;

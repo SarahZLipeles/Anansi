@@ -3,12 +3,12 @@ define(["app/play/editor/crawlersFactory"], function (Crawlers) {
         $scope.reset = function(){
             $scope.obj = {
                 start: null,
-                receiveNode: null
+                receive: null
             };
         };
         $scope.createFunction = function(){
             $scope.obj.start = eval("(function(nodeId, data){" + $scope.obj.start + "})");
-            $scope.obj.receiveNode = eval("(function(node, data) {" + $scope.obj.receiveNode + "})");
+            $scope.obj.receive = eval("(function(node, data) {" + $scope.obj.receive + "})");
             console.log($scope.obj);
             Crawlers.addCrawler($scope.obj);
             $scope.reset();

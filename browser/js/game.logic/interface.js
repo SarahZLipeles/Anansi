@@ -11,12 +11,13 @@ define(["js/game.components/Thread",
 
 	var view, handleMove;
 
-	function initGlobals (s, opponent) {
+	function initGlobals (s, game) {
 		view = s;
 		handleMove = MakeMoveHandler({
 			queue: s.graph.queueNodes,
 			nodes: s.graph.nodes,
-			opponent: opponent
+			opponent: game.opponent,
+			role: game.role
 		});
 	}
 	
@@ -44,7 +45,7 @@ define(["js/game.components/Thread",
 					defaultEdgeColor: style.default
 				}
 			}
-		), game.opponent);
+		), game);
 		
 		//need to fix vvv
 		var loop = new RenderLoop(view); // fix this to only render when a node is inserted
