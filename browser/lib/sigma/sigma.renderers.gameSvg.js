@@ -1,5 +1,4 @@
-define([], function () {
-return function () {
+;(function () {
   'use strict';
 
   if (typeof sigma === 'undefined')
@@ -561,5 +560,4 @@ return function () {
   sigma.utils.pkg('sigma.svg.nodes');
   sigma.utils.pkg('sigma.svg.edges');
   sigma.utils.pkg('sigma.svg.labels');
-};
-});
+})();

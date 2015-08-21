@@ -1,6 +1,4 @@
-define([], function () {
-
-return function() {
+(function() {
   'use strict';
 
   sigma.utils.pkg('sigma.svg.nodes');
@@ -50,5 +48,4 @@ return function() {
       return this;
     }
   };
-};
-});
+})();

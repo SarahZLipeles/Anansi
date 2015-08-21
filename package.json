@@ -4,7 +4,8 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "test": "nodemon server/index.js"
+    "test": "nodemon server/index.js",
+    "start": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,18 +21,20 @@
     "angular": "^1.4.4",
     "angular-ui-router": "^0.2.15",
     "babel": "^5.8.21",
+    "babelify": "^6.2.0",
+    "browserify": "^11.0.1",
     "express": "^4.13.3",
-    "gulp-traceur": "^0.17.1",
-    "gulp-uglify": "^1.2.0",
-    "lodash": "^3.10.1",
+    "gulp-babel": "^5.2.0",
     "morgan": "^1.6.1",
     "peer": "^0.2.8",
+    "requirejs": "^2.1.20",
     "run-sequence": "^1.1.2",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
+    "chai": "^3.2.0",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.0",
     "gulp-concat": "^2.6.0",
     "gulp-eslint": "^1.0.0",
     "gulp-minify-css": "^1.2.0",
@@ -40,8 +43,9 @@
     "gulp-requirejs-optimize": "^0.2.0",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
-    "merge-stream": "^1.0.0",
-    "node-normalize-scss": "^1.0.3",
-    "traceur": "0.0.91"
+    "gulp-traceur": "^0.17.1",
+    "gulp-uglify": "^1.2.0",
+    "karma": "^0.13.9",
+    "node-normalize-scss": "^1.0.3"
   }
 }

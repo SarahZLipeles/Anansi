@@ -9,7 +9,10 @@ var gulp = require('gulp'),
     //wrap = require('gulp-wrap'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require("gulp-uglify"),
-    runSeq = require('run-sequence');
+    runSeq = require('run-sequence'),
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream'),
+    babelify = require('babelify');
 
 var js_client_path = './browser/**/*.js';
 var js_out_file = "anansi.js"
@@ -23,21 +26,15 @@ gulp.task('lintJS', function(){
         .pipe(eslint.failOnError());
 });
 
-gulp.task('buildJS', ['lintJS'], function(){
-    return gulp.src(js_client_start_path)
-        .pipe(rjsOptimize({
-            optimize: "none", 
-            out: js_out_file
-        }))
-        .pipe(plumber())
-        //.pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
-        .pipe(sourcemaps.init())
-        .pipe(babel())
-        .pipe(uglify({
-            mangle: false
-        }))
-        .pipe(sourcemaps.write())
+gulp.task('buildJS', ["lintJS"], function () {
+
+    var bundler = browserify({ debug: true });
+    bundler.add('./browser/main.js');
+    bundler.transform(babelify);
+    bundler.bundle()
+        .pipe(source('anansi.js'))
         .pipe(gulp.dest('./public'));
+
 });
 
 gulp.task('buildCSS', function () {
@@ -49,6 +46,13 @@ gulp.task('buildCSS', function () {
         .pipe(rename('styles.css'))
         //.pipe(minifyCSS())
         .pipe(gulp.dest('./public'))
+});
+
+gulp.task('testBrowserJS', function (done) {
+    karma.start({
+        configFile: __dirname + '/tests/browser/karma.conf.js',
+        singleRun: true
+    }, done);
 });
 
 

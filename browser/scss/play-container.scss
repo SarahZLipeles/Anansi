@@ -13,12 +13,16 @@
 .game {
   background-color: white;
   //color: white;
-
+  width: 80%;
   border-top: 1px white solid;
   border-bottom: 1px white solid;
   padding: 0.5em 2em 0.5em 2em;
   text-align: left;
-  @include prefix(flex-basis, 450px);
-  @include prefix(flex-grow, 3);
+  // @include prefix(flex-basis, 450px);
+  // @include prefix(flex-grow, 3);
   border-left: 1px white solid;
+}
+
+.sidebar {
+  width:20%;
 }

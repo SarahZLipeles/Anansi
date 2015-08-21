@@ -9,8 +9,8 @@ $background-color: #000; //black
   border: 1px white solid;
   color: white;
   font-family: $font-stack;
-  height: 90vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   @include prefix(flex-flow, "row wrap");
   @include prefix(display, flex);
   @include prefix(align-self, stretch);

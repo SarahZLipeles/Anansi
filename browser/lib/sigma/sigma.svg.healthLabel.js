@@ -1,6 +1,4 @@
-define([], function () {
-  
-return function () {
+(function () {
   'use strict';
 
   // Initialize packages:
@@ -76,5 +74,4 @@ return function () {
       return this;
     }
   };
-};
-});
+})();
