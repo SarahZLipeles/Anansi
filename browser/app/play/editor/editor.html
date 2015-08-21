@@ -2,25 +2,24 @@
     <!--<div class="editor-title">Create Custom Functions</div>-->
 
     <form class="editor-input-container">
-
-            <legend>Create Custom Functions</legend>
-            <p>
-                <label>Function</label>
-                <input type="text" ng-model="obj.name" />
-            </p>
-            <p class="col-1">var data = {};</p>
-            <p><label class="var-data">var {{obj.name}} = {</label></p>
-            <p><label class="var-data">start: function(nodeId, data) { </label></p>
-            <p><textarea class="func-data" placeholder="write start function here" ng-model="obj.start"></textarea></p>
-            <p><label class="var-data">}, </label></p>
-            <p><label class="var-data">receiveNode: function(node, data) {</label></p>
-            <p><textarea class="func-data" placeholder="write receiveNode function here" ng-model="obj.receiveNode"></textarea></p>
-            <p><label class="var-data">}</label></p>
-
-            <p><label class="col-1">};</label></p>
-
+        <legend class="title">Create Custom Functions</legend>
+        <p>Function</p>
+        <p><textarea class="func-name" placeholder="write receiveNode function here" ng-model="obj.name"></textarea>
+        </p>
+        <p>var data = {};</p>
+        <p><label class="var-data">var {{obj.name}} = {</label></p>
+        <p><label class="var-data">start: function(nodeId, data) { </label></p>
+        <p><textarea class="func-data" placeholder="write start function here" ng-model="obj.start"></textarea></p>
+        <p><label class="var-data">}, </label></p>
+        <p><label class="var-data">receiveNode: function(node, data) {</label></p>
+        <p><textarea class="func-data" placeholder="write receiveNode function here" ng-model="obj.receiveNode"></textarea></p>
+        <p class="var-data">}</p>
+        <p>};</p>
+    <div class="editor-input-group">
         <input type="button" ng-click="reset()" value="Reset" />
         <input type="submit" ng-click="createFunction(obj)" value="Save" /><br>
+    </div>
+
     </form>
 
     <article class="editor-rules-container">

@@ -13,8 +13,14 @@ $background-color: #000; //black
   width: 100vw;
   @include prefix(flex-flow, "row wrap");
   @include prefix(display, flex);
-  @include prefix(align-content, flexstart);
+  @include prefix(align-self, stretch);
+}
 
+.editor-title-container {
+  @include prefix(display, flex);
+  @include prefix(flex-flow, "row wrap");
+  margin: 2%;
+  width:60%;
 }
 
 .editor-input-container {
@@ -25,12 +31,18 @@ $background-color: #000; //black
   //@include prefix(align-items, center);
   margin: 2%;
   border: 1px yellow solid;
-  width: 50%; //border-bottom: 1px white solid;
-  @include prefix(align-self, stretch);
-  @include prefix(align-items, stretch);
-  @include prefix(flex, "2 2 40%");
+  width: 60%; //border-bottom: 1px white solid;
+  @include prefix(align-self, auto);
+  //@include prefix(align-items, stretch);
+  //@include prefix(flex, "1 1 30%");
 
 }
+
+.editor-container .title{
+  font-size:1.5em;
+
+}
+
 
 // if row
 // align-content = cross axis
@@ -40,14 +52,14 @@ $background-color: #000; //black
   width: 30%;
   border: 1px blue solid;
   display: flex;
-  @include prefix(flex, "1 1 30%");
-  @include prefix(align-self, stretch);
+  @include prefix(flex, "0 1 auto");
+  //@include prefix(align-self, stretch);
   //width:30%;
 
 }
 .editor-rules-container input{
-  @include prefix(flex, "1 1 50%");
-  @include prefix(align-self, center);
+  @include prefix(flex, "0 1 auto");
+  @include prefix(align-self, auto);
   width:50%;
 }
 
@@ -56,8 +68,8 @@ $background-color: #000; //black
   @include prefix(flex-flow, "row wrap");
   margin: 2%;
   border: 1px red solid;
-  @include prefix(flex, "3 3 100%");
-  @include prefix(align-self, stretch);
+  @include prefix(flex, "0 1 auto");
+  //@include prefix(align-self, stretch);
   @include prefix(justify-content, flex-start);
   width: 100%;
   //min-width: 480px;
@@ -66,7 +78,7 @@ $background-color: #000; //black
 }
 
 .pre{
-  @include prefix(flex, "1 0 auto%");
+  @include prefix(flex, "1 0 auto");
 }
 .var-data {
   margin-left:5%;
@@ -74,9 +86,9 @@ $background-color: #000; //black
 
 .func-data {
   margin-left:10%;
-  @include prefix(align-self, center);
+  //@include prefix(align-self, center);
   @include prefix(flex, "3 3 60%");
-  width:60%;
+  width:85%;
   height:50%;
   rows:30;
   cols:50;
@@ -85,3 +97,53 @@ $background-color: #000; //black
 
 }
 
+.func-name {
+  margin-left:10%;
+  //@include prefix(align-self, center);
+  @include prefix(flex, "3 3 60%");
+  width:85%;
+  rows:30;
+  cols:50;
+  font-size:1em;
+}
+
+
+.editor-input-group {
+  @include prefix(flex-flow, "row wrap");
+  //@include prefix(justify-content, "flex-end");
+}
+
+
+.editor-input-group input{
+  font-size: 3em;
+  @include prefix(flex, "0 1 auto");
+  //@include prefix(align-self, flex-end);
+  margin-left:10%;
+
+  width:20%;
+  height:10%;
+}
+
+.editor-input-container input[type="text"]{
+  margin-left:10%;
+  //@include prefix(align-self, center);
+  @include prefix(flex, "3 3 60%");
+  width:85%;
+
+  rows:30;
+
+}
+
+//.editor-input-group input{
+//
+//}
+
+//
+//.editor-input-group input[type="button"]{
+//
+//  //@include prefix(justify-content, center);
+//}
+//
+//.editor-input-group input[type="submit"]{
+//  //@include prefix(align-self, flex-end);
+//}
