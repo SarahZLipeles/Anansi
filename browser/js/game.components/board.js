@@ -1,4 +1,4 @@
-define(["js/game.components/Node"], function (BuildFactory) {
+define(["js/game.components/node"], function (BuildFactory) {
 
 "use strict";
 

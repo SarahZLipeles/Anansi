@@ -1,9 +1,9 @@
-define(["js/game.components/Thread", 
-	"js/game.logic/renderloop.js", 
+define(["js/game.components/thread", 
+	"js/game.logic/initialization/renderloop.js", 
 	"js/game.components/style",
-	"js/game.logic/controls",
-	"js/game.logic/setBases",
-	"js/game.logic/moveHandler",
+	"js/game.logic/initialization/controls",
+	"js/game.logic/initialization/setBases",
+	"js/game.logic/builders/moveHandler",
 	"app/play/editor/crawlersFactory"], 
 	function (Thread, RenderLoop, style, setControls, setBases, MakeMoveHandler, Crawlers) {
 	
