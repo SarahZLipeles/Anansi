@@ -49,8 +49,7 @@ function withinRadius (node1, node2, radii) {
 // }
 
 function clearBaseArea(field, radii) {
-	var host = field.bases.host,
-		client = field.bases.client,
+	var {host, client} = field.bases,
 		proximity = {outer: radii.outer - 20};
 	field.nodes = field.nodes.map(function (node) {
 		if(node.id === host.id || node.id === client.id){

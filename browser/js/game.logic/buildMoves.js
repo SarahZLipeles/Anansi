@@ -1,8 +1,7 @@
 define([], function () {
 
 	var BuildMoves = (options) => {
-		var queue = options.queue,
-			nodes = options.nodes;
+		var {queue, nodes} = options;
 
 		var attack = (data) => {
 			var targetId = data.target;
@@ -49,7 +48,7 @@ define([], function () {
 		};
 
 		var claim = (target, source) => {
-			var owner = source.owner;
+			var {owner} = source;
 			// if(target.id !== view.graph.bases[this.role].id){
 			if(!target.from){
 				target.from = source.id;
