@@ -1,10 +1,10 @@
 define([], function () {
-	var setBases = function (game){
+	var setBases = (game) => {
 		var bases = game.board.bases;
 		var yourBase = bases[game.role];
 		var theirBase = bases[game.opponentRole];
-		var yoBase = game.board.nodes.find(function(node){return node.id === yourBase.id;});
-		var thBase = game.board.nodes.find(function(node){return node.id === theirBase.id;});
+		var yoBase = game.board.nodes.find((node) => {return node.id === yourBase.id; });
+		var thBase = game.board.nodes.find((node) => {return node.id === theirBase.id; });
 
 		yourBase.owner = game.role;
 		yourBase.from = yourBase.id;

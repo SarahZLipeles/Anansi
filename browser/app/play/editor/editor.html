@@ -5,7 +5,7 @@
         <form novalidate class="simple-form">
         <label>Crawler Name: </label>
             <input type="text" ng-model="obj.name" />
-            <pre>var data = {};<br>var {{obj.name}} = {<br>    start: function(nodeId, data) {<br>        <textarea class="resizedTextBox" placeholder="write start function here" ng-model="obj.start"></textarea><br>   },<br>    receiveNode: function(node, data) {<br>        <textarea class="resizedTextBox" placeholder="write receiveNode function here" ng-model="obj.receiveNode"></textarea><br>    }<br>};</pre>
+            <pre>var data = {};<br>var {{obj.name}} = {<br>    start: function(nodeId, data) {<br>        <textarea class="resizedTextBox" placeholder="write start function here" ng-model="obj.start"></textarea><br>   },<br>    receive: function(node, data) {<br>        <textarea class="resizedTextBox" placeholder="write receive function here" ng-model="obj.receive"></textarea><br>    }<br>};</pre>
         <input type="button" ng-click="reset()" value="Reset" />
         <input type="submit" ng-click="createFunction(obj)" value="Save" /><br>
     <!--     <pre>{{crawlers | json}}</pre> -->
