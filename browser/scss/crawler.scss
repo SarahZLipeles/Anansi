@@ -1,0 +1,24 @@
+@import 'vendor-prefixes.scss';
+.crawler-function {
+	img {
+		display: block;
+		margin: 0 auto;
+		width: 80%;
+	}
+	p {
+		display: none;
+	}
+	pre {
+		text-align: center;
+	}
+	width: 20%;
+	min-width: 15vw;
+	margin: 0 auto;
+}
+
+.crawler-function:hover {
+	p {
+		text-align: center;
+		display: block;
+	}
+}

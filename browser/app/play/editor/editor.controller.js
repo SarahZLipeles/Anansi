@@ -7,11 +7,16 @@ define(["app/play/editor/crawlersFactory"], function (Crawlers) {
             };
         };
         $scope.createFunction = function(){
-            $scope.obj.start = eval("(function(nodeId, data){" + $scope.obj.start + "})");
-            $scope.obj.receive = eval("(function(node, data) {" + $scope.obj.receive + "})");
+            $scope.obj.start = eval("(function(nodeId, data){" + $scope.obj.startText + "})");
+            $scope.obj.receive = eval("(function(node, data) {" + $scope.obj.receiveText + "})");
             console.log($scope.obj);
             Crawlers.addCrawler($scope.obj);
+            $scope.crawlers.push($scope.obj);
             $scope.reset();
+        };
+        $scope.editCrawler = function(crawler){
+            $scope.obj = crawler;
+            console.log(crawler);
         };
         $scope.reset();
         $scope.crawlers = [];
