@@ -1,4 +1,4 @@
-define(["lib/peer", "js/game.components/board", "js/game.logic/initialization/interface", "lib/httpUtil"], function (Peer, Board, Interface, httpGet) {
+define(["lib/peer", "game/game.components/board", "game/game.logic/initialization/interface", "lib/httpUtil"], function (Peer, Board, Interface, httpGet) {
 
 
 	//Utility object to hold the client's Id, peer reference, and current connection reference

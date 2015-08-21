@@ -1,4 +1,4 @@
-define(["js/connect"], function (connect) {
+define(["game/connect"], function (connect) {
 	var game = {name: "game"};
 	game.func = function(){
 		return {

@@ -1,4 +1,4 @@
-define(["js/game.logic/builders/userScope"], function (buildUserScope) {
+define(["game/game.logic/builders/userScope"], function (buildUserScope) {
     var id = 0;
     function Thread(handler) {
         this.id = id++;

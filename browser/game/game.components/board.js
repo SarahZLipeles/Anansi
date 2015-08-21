@@ -1,13 +1,11 @@
-define(["js/game.components/node"], function (NodeFactory) {
+define(["game/game.components/node"], function (NodeFactory) {
 
 "use strict";
-
-var ids = [];
 
 function makeField (options) {
 	var product = NodeFactory(options);
 	return {
-		bases: {host: product.base1, client: product.base2},
+		bases: {host: product.base1.id, client: product.base2.id},
 		nodes: product.nodes,
 		numNodes: product.nodes.length,
 		width: options.width,
@@ -27,68 +25,48 @@ function withinRange (node1, node2, radii){
 // 	return node1ok && node2ok;
 // }
 
-function withinRadius (node1, node2, radii) {
-	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) < radii.outer;
-}
+// function withinRadius (node1, node2, radii) {
+// 	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) < radii.outer;
+// }
 
 // function outsideRadius (node1, node2, radii) {
 // 	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) > radii.inner;
 // }
 
-// function clearBaseArea(field, radii) {
-// 	var {host, client} = field.bases,
-// 		proximity = {outer: radii.outer - 20};
-// 	field.nodes = field.nodes.map(function (node) {
-// 		if(node.id === host.id || node.id === client.id){
-// 			return node;
-// 		}else if(withinRadius(host, node, proximity) || withinRadius(client, node, proximity)){
-// 			return undefined;
-// 		}else{
-// 			return node;
-// 		}
-// 	});
-// 	return field;
-// }
-
 
 function connectField (field, radii) {
 	var edges = [],
-		id = 0,
 		potentialConnections,
 		nodeIndex, nextNodeIndex, currentNode, nextNode,
 		edge,
 		tryToConnect = function (node) {
-			if(currentNode.id === field.bases.host.id || currentNode.id === field.bases.client.id || Math.random() < 0.5){
+			var nodeid = node.id;
+			if(currentNode.id === field.bases.host || currentNode.id === field.bases.client || Math.random() < 0.5){
 				edge = {
-					id: id.toString(), 
+					id: Math.random().toString().slice(2), 
 					source: currentNode.id, 
-					target: node,
+					target: nodeid,
 					type: "gameEdge"
 				}
-				field.nodes[nodeIndex].links.push(node);
-				field.nodes[node].links.push(currentNode.id);
-				id++;
+				currentNode.links.push(nodeid);
+				node.links.push(currentNode.id);
 				edges.push(edge);
 			}
 		};
 
 	for(nodeIndex = 0; nodeIndex < field.numNodes; nodeIndex++){
-		if(typeof field.nodes[nodeIndex] === "undefined") { continue; }
+		currentNode = field.nodes[nodeIndex];
 		potentialConnections = [];
 		for(nextNodeIndex = nodeIndex + 1; nextNodeIndex < field.numNodes; nextNodeIndex++){
-			//This needs to go here so current node will have the proper number of links each time
-			currentNode = field.nodes[nodeIndex];
 			nextNode = field.nodes[nextNodeIndex];
-			if(typeof nextNode === "undefined"){ continue; }
 			if(withinRange(currentNode, nextNode, radii)){
-				potentialConnections.push(nextNode.id);
+				potentialConnections.push(nextNode);
 			}
 		}
 		potentialConnections.forEach(tryToConnect);
 	}
 
 	field.edges = edges;
-	return field;
 }
 
 function wiggleNodes (field, factors = 20) {
@@ -105,42 +83,37 @@ function wiggleNodes (field, factors = 20) {
 
 //Checks if the bases are connected 
 function checkField (field) {
-	var connected = [field.bases.host.id],
+	var connected = [field.bases.host],
+		nodes = field.nodes,
+		nextCheck,
 		check = [field.bases.host],
-		checkConnected = function (linkid, index, links) {
-			if(connected.indexOf(linkid) === -1){
+		checkConnected = (linkid) => {
+			if(!connected.includes(linkid)){
 				connected.push(linkid);
-				if(field.nodes[linkid] === undefined) console.log(linkid, links);
-				check.push(field.nodes[linkid]);
+				check.push(linkid);
 			}
 		},
-		links,
-		isolatedNodes;
+		findNode = (node) => nextCheck === node.id,
+		links;
 
 	while(check.length !== 0){
-		links = check.shift().links;
+		nextCheck = check.shift();
+		links = nodes.find(findNode).links;
 		links.forEach(checkConnected);
 	}
-	isolatedNodes = ids.filter(function(id){
-		return connected.indexOf(id) === -1;
-	});
+
 	//Filter out isolated nodes
-	field.nodes = field.nodes.filter(function (node) {
-		return node && !~isolatedNodes.indexOf(node.id);
-	});
+	field.nodes = field.nodes.filter((node) => connected.includes(node.id));
 	//Filter out the edges that attach isolated nodes
-	field.edges = field.edges.filter(function (edge) {
-		return !~isolatedNodes.indexOf(edge.source) && !~isolatedNodes.indexOf(edge.target);
-	})
+	field.edges = field.edges.filter((edge) => connected.includes(edge.source) && connected.includes(edge.target));
 
 	//Check if the two bases are connected
-	return isolatedNodes.indexOf(field.bases.client.id) === -1 ? field : false;
+	return connected.includes(field.bases.client) ? field : false;
 }
 
 function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeField(fieldOptions);
-	field = clearBaseArea(field, radii);
-	field = connectField(field, radii, maxConnections);
+	connectField(field, radii, maxConnections);
 	wiggleNodes(field);
 	return checkField(field) || makeGraph(fieldOptions, radii, maxConnections);
 }
