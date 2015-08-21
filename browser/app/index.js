@@ -4,7 +4,7 @@ define(["app/play/play.state",
 	"app/play/editor/editor.directive"], 
 function (playState, navbar, game, editor){
 	"use strict";
-	var app = angular.module('SpiderWars', ['ui.router']);
+	var app = angular.module('Anansi', ['ui.router']);
 
 	app.config(function($urlRouterProvider, $locationProvider){
 		$locationProvider.html5Mode(true);
@@ -15,6 +15,6 @@ function (playState, navbar, game, editor){
 	app.directive(navbar.name, navbar.func);
 	app.directive(game.name, game.func);
 	app.directive(editor.name, editor.func);
-})
+});
 
 

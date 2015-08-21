@@ -1,5 +1,5 @@
 {
-  "name": "SpiderWars",
+  "name": "Anansi",
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TheoLipeles/SpiderWars.git"
+    "url": "https://github.com/TheoLipeles/Anansi.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheoLipeles/SpiderWars/issues"
+    "url": "https://github.com/TheoLipeles/Anansi/issues"
   },
-  "homepage": "https://github.com/TheoLipeles/SpiderWars",
+  "homepage": "https://github.com/TheoLipeles/Anansi",
   "dependencies": {
     "angular": "^1.4.4",
     "angular-ui-router": "^0.2.15",

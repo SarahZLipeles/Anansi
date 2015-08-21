@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     runSeq = require('run-sequence');
 
 var js_client_path = './browser/**/*.js';
-var js_out_file = "spiderwars.js"
+var js_out_file = "anansi.js"
 var js_client_start_path = './browser/main.js';
 var js_server_path = './server/**/*.js';
 
