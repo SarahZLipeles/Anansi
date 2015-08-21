@@ -1,29 +1,29 @@
-define(["game/game.logic/builders/userScope"], function (buildUserScope) {
-    var id = 0;
-    function Thread(handler) {
-        this.id = id++;
-        this.crawling = false;
-        this.currentCrawler;
-        this.handler = handler;
-        this.userScope = buildUserScope(handler, this.id);
 
-        handler.register(this);
-    }
+var buildUserScope = require("../game.logic/builders/userScope");
+var id = 0;
+function Thread(handler) {
+    this.id = id++;
+    this.crawling = false;
+    this.currentCrawler;
+    this.handler = handler;
+    this.userScope = buildUserScope(handler, this.id);
 
-    Thread.prototype.crawl = function(startId, crawler) {
-        if (this.crawling) {
-            this.handler.clearThread(this.id);
-        }
-        this.crawling = true;
-        this.currentCrawler = crawler;
-        crawler.start.call(this.userScope, startId);
-    };
+    handler.register(this);
+}
 
-    Thread.prototype.stop = function () {
-        this.currentCrawler = undefined;
-        this.crawling = false;
+Thread.prototype.crawl = function(startId, crawler) {
+    if (this.crawling) {
         this.handler.clearThread(this.id);
     }
+    this.crawling = true;
+    this.currentCrawler = crawler;
+    crawler.start.call(this.userScope, startId);
+};
 
-    return Thread;
-});
+Thread.prototype.stop = function () {
+    this.currentCrawler = undefined;
+    this.crawling = false;
+    this.handler.clearThread(this.id);
+}
+
+module.exports = Thread;

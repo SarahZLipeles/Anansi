@@ -1,5 +1,4 @@
-require(["app/index", "lib/sigma/sigma.customize"],
-	function () {
-		angular.bootstrap(document, ["Anansi"]);
-	}
-);
+require("./app/index");
+require("./lib/sigma/sigma.customize");
+
+angular.bootstrap(document, ["Anansi"]);

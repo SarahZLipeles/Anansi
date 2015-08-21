@@ -1,5 +1,3 @@
-define([], function () {
-
 "use strict";
 function MakeNodes(options){
 	var width = options.width;
@@ -65,7 +63,5 @@ function MakeNodes(options){
 	return {nodes, base1, base2};	
 }
 
-return MakeNodes;
-
-});
+module.exports = MakeNodes;
 

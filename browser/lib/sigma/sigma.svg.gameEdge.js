@@ -1,6 +1,5 @@
-define([], function () {
-    
-return function (style) {
+var style = require("../../game/game.components/style");
+(function () {
     "use strict";
     var defaultColor = style.default;
     sigma.utils.pkg("sigma.svg.edges");
@@ -119,5 +118,4 @@ return function (style) {
         return this;
     }
     };
-};
-});
+})();

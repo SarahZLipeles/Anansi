@@ -1,13 +1,11 @@
-define([], function () {
-	'use strict'
+'use strict'
 
-	var homepageState = function ($stateProvider){
-		$stateProvider.state('homepage', {
-			url: '/',
-			templateUrl: '/app/homepage/homepage.html'
-		});
-	};
-	homepageState.$inject = ["$stateProvider"];
-	
-	return homepageState;
-});
+var homepageState = function ($stateProvider){
+	$stateProvider.state('homepage', {
+		url: '/',
+		templateUrl: '/app/homepage/homepage.html'
+	});
+};
+homepageState.$inject = ["$stateProvider"];
+
+module.exports = homepageState;

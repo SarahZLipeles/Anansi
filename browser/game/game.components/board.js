@@ -1,4 +1,4 @@
-define(["game/game.components/node"], function (NodeFactory) {
+var NodeFactory = require("./node");
 
 "use strict";
 
@@ -130,8 +130,7 @@ var fieldOptions = {
 //still need clipping of dense nodes
 
 
-return {
+module.exports = {
 	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 33}, 5); }
 };
 
-});

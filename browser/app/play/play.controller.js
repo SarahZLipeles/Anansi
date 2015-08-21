@@ -1,9 +1,9 @@
-define(["app/play/editor/crawlersFactory"], function (Crawlers) {
-	var playController = function($scope) {
-        $scope.crawlers = Crawlers.crawlers;
-    };
+var Crawlers = require("./editor/crawlersFactory");
 
-    playController.$inject = ["$scope"];
+var playController = function($scope) {
+    $scope.crawlers = Crawlers.crawlers;
+};
 
-    return playController;
-});
+playController.$inject = ["$scope"];
+
+module.exports = playController;
