@@ -1,14 +1,36 @@
-<div class="editor">
-    <div class="editor-title">Create Custom Functions</div>
-    <div class="editor-container">
+<div class="editor-container">
+    <!--<div class="editor-title">Create Custom Functions</div>-->
 
-        <form novalidate class="simple-form">
-        <label>Crawler Name: </label>
-            <input type="text" ng-model="obj.name" />
-            <pre>var data = {};<br>var {{obj.name}} = {<br>    start: function(nodeId, data) {<br>        <textarea class="resizedTextBox" placeholder="write start function here" ng-model="obj.start"></textarea><br>   },<br>    receiveNode: function(node, data) {<br>        <textarea class="resizedTextBox" placeholder="write receiveNode function here" ng-model="obj.receiveNode"></textarea><br>    }<br>};</pre>
+    <form class="editor-input-container">
+
+            <legend>Create Custom Functions</legend>
+            <p>
+                <label>Function</label>
+                <input type="text" ng-model="obj.name" />
+            </p>
+            <p class="col-1">var data = {};</p>
+            <p><label class="var-data">var {{obj.name}} = {</label></p>
+            <p><label class="var-data">start: function(nodeId, data) { </label></p>
+            <p><textarea class="func-data" placeholder="write start function here" ng-model="obj.start"></textarea></p>
+            <p><label class="var-data">}, </label></p>
+            <p><label class="var-data">receiveNode: function(node, data) {</label></p>
+            <p><textarea class="func-data" placeholder="write receiveNode function here" ng-model="obj.receiveNode"></textarea></p>
+            <p><label class="var-data">}</label></p>
+
+            <p><label class="col-1">};</label></p>
+
         <input type="button" ng-click="reset()" value="Reset" />
         <input type="submit" ng-click="createFunction(obj)" value="Save" /><br>
-    <!--     <pre>{{crawlers | json}}</pre> -->
     </form>
-    </div>
+
+    <article class="editor-rules-container">
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+
+
+    </article>
+    <aside class="editor-saved-container">
+        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+
+    </aside>
 </div>
