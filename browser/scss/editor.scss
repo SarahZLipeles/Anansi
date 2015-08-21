@@ -1,79 +1,149 @@
 
 @import 'vendor-prefixes.scss';
 
+$font-stack: Droid Sans, sans-serif;
+$background-color: #000; //black
+
 .editor-container {
-  font-family: 'Droid Sans', sans-serif;
-  @include prefix(justify-content, center);
-  //background-color: #555;
-  width: 100%;
-  // margin: 0 auto;
-  //opacity:0.60;
-  display:flex;
-  flex-direction:column;
+  background-color: $background-color;
+  border: 1px white solid;
+  color: white;
+  font-family: $font-stack;
+  height: 90vh;
+  width: 100vw;
+  @include prefix(flex-flow, "row wrap");
+  @include prefix(display, flex);
+  @include prefix(align-self, stretch);
+}
+
+.editor-title-container {
+  @include prefix(display, flex);
+  @include prefix(flex-flow, "row wrap");
+  margin: 2%;
+  width:60%;
+}
+
+.editor-input-container {
+  //for its children
+  @include prefix(display, flex);
+  @include prefix(flex-flow, "column wrap");
+
+  //@include prefix(align-items, center);
+  margin: 2%;
+  border: 1px yellow solid;
+  width: 60%; //border-bottom: 1px white solid;
+  @include prefix(align-self, auto);
+  //@include prefix(align-items, stretch);
+  //@include prefix(flex, "1 1 30%");
 
 }
 
-.editor {
-  background-color:black;
-  color:white;
-
-  border-top: 1px white solid;
-  border-bottom: 1px white solid;
-  padding: 0.5em 2em 0.5em 2em;
-  text-align:left;
-  @include prefix(flex-basis,150px);
-  @include prefix(flex-grow,1);
-
-}
-
-.editor-item {
-  background-color:black;
-  color:white;
-  list-style-type: none;
-
-  border-top: 1px white solid;
-  border-bottom: 1px white solid;
-  padding: 0.5em 2em 0.5em 2em;
-  font-size:2em;
-  text-align:center;
-  @include prefix(flex-basis,150px);
-  @include prefix(flex-grow,1);
-
-}
-
-.editor-title {
-  background-color:black;
-  color:white;
-  padding: 0.5em 2em 0.5em 2em;
+.editor-container .title{
   font-size:1.5em;
-  text-align:center;
+
 }
 
-//.editor-container input{
-//  float:left;
+
+// if row
+// align-content = cross axis
+// justify-content = main axis
+.editor-rules-container {
+  margin: 2%;
+  width: 30%;
+  border: 1px blue solid;
+  display: flex;
+  @include prefix(flex, "0 1 auto");
+  //@include prefix(align-self, stretch);
+  //width:30%;
+
+}
+.editor-rules-container input{
+  @include prefix(flex, "0 1 auto");
+  @include prefix(align-self, auto);
+  width:50%;
+}
+
+.editor-saved-container {
+  @include prefix(display, flex);
+  @include prefix(flex-flow, "row wrap");
+  margin: 2%;
+  border: 1px red solid;
+  @include prefix(flex, "0 1 auto");
+  //@include prefix(align-self, stretch);
+  @include prefix(justify-content, flex-start);
+  width: 100%;
+  //min-width: 480px;
+  //@include prefix(flex-basis, 75%);
+  //@include prefix(flex-grow,3);
+}
+
+.pre{
+  @include prefix(flex, "1 0 auto");
+}
+.var-data {
+  margin-left:5%;
+}
+
+.func-data {
+  margin-left:10%;
+  //@include prefix(align-self, center);
+  @include prefix(flex, "3 3 60%");
+  width:85%;
+  height:50%;
+  rows:30;
+  cols:50;
+  min-height:100px;
+  font-size:1em;
+
+}
+
+.func-name {
+  margin-left:10%;
+  //@include prefix(align-self, center);
+  @include prefix(flex, "3 3 60%");
+  width:85%;
+  rows:30;
+  cols:50;
+  font-size:1em;
+}
+
+
+.editor-input-group {
+  @include prefix(flex-flow, "row wrap");
+  //@include prefix(justify-content, "flex-end");
+}
+
+
+.editor-input-group input{
+  font-size: 3em;
+  @include prefix(flex, "0 1 auto");
+  //@include prefix(align-self, flex-end);
+  margin-left:10%;
+
+  width:20%;
+  height:10%;
+}
+
+.editor-input-container input[type="text"]{
+  margin-left:10%;
+  //@include prefix(align-self, center);
+  @include prefix(flex, "3 3 60%");
+  width:85%;
+
+  rows:30;
+
+}
+
+//.editor-input-group input{
+//
 //}
 
-.editor-container textarea.resizedTextBox{
-  width:600px;
-  height:400px;
-  padding: 0.5em 2em 0.5em 2em;
-  font-size:1em;
-  rows:30;
-  cols:50
-}
-
-pre {
-  float: left;
-}
-
-.func-def {
-  left: 100px;
-}
-.editor-container input[type=button], input[type=submit]{
-  float:left;
-}
-
-.editor-container label {
-  float:left;
-}
-
+//
+//.editor-input-group input[type="button"]{
+//
+//  //@include prefix(justify-content, center);
+//}
+//
+//.editor-input-group input[type="submit"]{
+//  //@include prefix(align-self, flex-end);
+//}
