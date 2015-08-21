@@ -51,6 +51,13 @@ gulp.task('buildCSS', function () {
         .pipe(gulp.dest('./public'))
 });
 
+gulp.task('testBrowserJS', function (done) {
+    karma.start({
+        configFile: __dirname + '/tests/browser/karma.conf.js',
+        singleRun: true
+    }, done);
+});
+
 
 gulp.task('default', function(){
 
