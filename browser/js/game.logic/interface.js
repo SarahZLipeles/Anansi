@@ -45,7 +45,7 @@ define(["js/game.components/Thread",
 				}
 			}
 		), game.opponent);
-		var self = this;
+		
 		//need to fix vvv
 		var loop = new RenderLoop(view); // fix this to only render when a node is inserted
 		view.graph.bases = game.board.bases;

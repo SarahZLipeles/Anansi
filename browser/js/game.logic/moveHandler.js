@@ -3,7 +3,7 @@ define(["js/game.logic/buildMoves"], function (BuildMoves) {
 	function MoveHandler(options){
 		var threads = {},
 			pendingMoves = [],
-			opponent = options.opponent,
+			{opponent} = options,
 			moves = BuildMoves(options);
 
 		var registerThread = (thread) => {

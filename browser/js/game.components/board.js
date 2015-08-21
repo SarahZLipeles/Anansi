@@ -64,8 +64,7 @@ function clearBaseArea(field, radii) {
 }
 
 
-function connectField (field, radii, maxConnections) {
-	maxConnections = maxConnections || Infinity;
+function connectField (field, radii) {
 	var edges = [],
 		id = 0,
 		potentialConnections,
@@ -105,7 +104,7 @@ function connectField (field, radii, maxConnections) {
 	return field;
 }
 
-function wiggleNodes (field, factors) {
+function wiggleNodes (field, factors = 20) {
 	var nodes = field.nodes,
 		xfactor = typeof factors === "object" ? factors.x : factors,
 		yfactor = typeof factors === "object" ? factors.y : factors;
@@ -155,7 +154,7 @@ function makeGraph (fieldOptions, radii, maxConnections){
 	var field = makeField(fieldOptions);
 	field = clearBaseArea(field, radii);
 	field = connectField(field, radii, maxConnections);
-	wiggleNodes(field, 20);
+	wiggleNodes(field);
 	return checkField(field) || makeGraph(fieldOptions, radii, maxConnections);
 }
 
