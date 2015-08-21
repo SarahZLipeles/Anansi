@@ -1,22 +1,17 @@
 define([], function () {
 
 "use strict";
-function BuildFactory(options){
-	var id = -1;
+function MakeNodes(options){
 	var width = options.width;
 	var height = options.height;
-	var padding = options.padding;
-	var startLocations = [[width / padding, height / 2], [width - width / padding, height / 2]];
-	var numNodes = options.numNodes;
 	var spacing = 15;
 	var odd = true;
 	var startX = spacing;
 	var startY = spacing;
 
 	function Nodule(x, y){
-		id++;
 		return {
-			id: id.toString(),
+			id: Math.random().toString(32).slice(2),
 			maxHealth: 10,
 			health: 10,
 			links: [],
@@ -31,63 +26,46 @@ function BuildFactory(options){
 		};
 	}
 
-	Nodule.basify = function (node) {
-		node.maxHealth = 50;
-		node.health = 50;
-		node.size = 0.15;
-	};
-
-	function RandomFieldFactory (isHome) {
-		var x, y, pos, base;
-		if(isHome){
-			pos = startLocations.shift();
-			x = pos[0];
-			y = pos[1];
-			base = Nodule(x, y);
-			Nodule.basify(base);
-			return base;
-		}else if(id === numNodes){
-			return false;
-		}else{
-			x = Math.floor(Math.random() * width);
-			y = Math.floor(Math.random() * height);
-			return Nodule(x, y);
-		}
-	}
-
-	function HexFieldFactory (isHome) {
-		var x, y, pos, base;
-		if(isHome){
-			pos = startLocations.shift();
-			x = pos[0];
-			y = pos[1];
-			base = Nodule(x, y);
-			Nodule.basify(base);
-			return base;
-		}else{
-			startX += spacing * 2;
-			if(startX > width){
-				odd = !odd;
-				startX = odd ? spacing * 2 : spacing;
-				startY += spacing * 1.5;
-				if(startY > height){
-					return false;
-				}
+	function HexFieldFactory () {
+		startX += spacing * 2;
+		if(startX > width){
+			odd = !odd;
+			startX = odd ? spacing * 2 : spacing;
+			startY += spacing * 1.5;
+			if(startY > height){
+				return false;
 			}
-			return Nodule(startX, startY);
 		}
+		return Nodule(startX, startY);
+	}
+
+	function getBase(x1, y1, x2, y2, nodes){
+		var potentialBases = nodes.filter((node) => {
+			return node.x > x1 && node.x < x2 && node.y > y1 && node.y < y2;
+		});
+		var base = potentialBases[Math.floor(Math.random() * potentialBases.length)];
+		base.maxHealth = 50;
+		base.health = 50;
+		base.size = 0.15;
+		return base;
 	}
 
 
-	if(options.fieldType === "random"){
-		return RandomFieldFactory;
-	}else if(options.fieldType === "hex"){
-		return HexFieldFactory;
+	var node = HexFieldFactory();
+	var nodes = [node];
+	while(node){
+		nodes.push(node);
+		node = HexFieldFactory();
 	}
-	
+	var widthPad = width / 6,
+		heightPad = height / 6,
+		base1 = getBase(widthPad, heightPad, widthPad * 2, height - heightPad),
+		base2 = getBase(width - widthPad * 2, heightPad, width - widthPad, height - heightPad);
+
+	return {nodes, base1, base2};	
 }
 
-return BuildFactory;
+return MakeNodes;
 
 });
 

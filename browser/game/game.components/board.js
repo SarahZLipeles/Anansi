@@ -1,28 +1,15 @@
-define(["js/game.components/node"], function (BuildFactory) {
+define(["js/game.components/node"], function (NodeFactory) {
 
 "use strict";
 
 var ids = [];
 
 function makeField (options) {
-	var NodeFactory = BuildFactory(options),
-		bases = {host: NodeFactory(true), client: NodeFactory(true)},
-		node = NodeFactory(),
-		nodes = [bases.host, bases.client];
-
-	ids.push(bases.host.id);
-	ids.push(bases.client.id);
-
-	while(node){
-		nodes.push(node);
-		ids.push(node.id);
-		node = NodeFactory();
-	}
-
+	var product = NodeFactory(options);
 	return {
-		bases: bases,
-		nodes: nodes,
-		numNodes: nodes.length,
+		bases: {host: product.base1, client: product.base2},
+		nodes: product.nodes,
+		numNodes: product.nodes.length,
 		width: options.width,
 		height: options.height
 	};
@@ -48,20 +35,20 @@ function withinRadius (node1, node2, radii) {
 // 	return Math.sqrt(Math.pow(node1.x - node2.x, 2) + Math.pow(node1.y - node2.y, 2)) > radii.inner;
 // }
 
-function clearBaseArea(field, radii) {
-	var {host, client} = field.bases,
-		proximity = {outer: radii.outer - 20};
-	field.nodes = field.nodes.map(function (node) {
-		if(node.id === host.id || node.id === client.id){
-			return node;
-		}else if(withinRadius(host, node, proximity) || withinRadius(client, node, proximity)){
-			return undefined;
-		}else{
-			return node;
-		}
-	});
-	return field;
-}
+// function clearBaseArea(field, radii) {
+// 	var {host, client} = field.bases,
+// 		proximity = {outer: radii.outer - 20};
+// 	field.nodes = field.nodes.map(function (node) {
+// 		if(node.id === host.id || node.id === client.id){
+// 			return node;
+// 		}else if(withinRadius(host, node, proximity) || withinRadius(client, node, proximity)){
+// 			return undefined;
+// 		}else{
+// 			return node;
+// 		}
+// 	});
+// 	return field;
+// }
 
 
 function connectField (field, radii) {
@@ -161,9 +148,7 @@ function makeGraph (fieldOptions, radii, maxConnections){
 var fieldOptions = {
 	width: 100,
 	height: 100,
-	numNodes: 500,
-	padding: 10,
-	fieldType: "hex"
+	padding: 10
 };
 
 //Board notes
