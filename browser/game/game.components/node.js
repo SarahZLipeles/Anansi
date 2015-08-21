@@ -52,15 +52,15 @@ function MakeNodes(options){
 
 
 	var node = HexFieldFactory();
-	var nodes = [node];
+	var nodes = [];
 	while(node){
 		nodes.push(node);
 		node = HexFieldFactory();
 	}
 	var widthPad = width / 6,
 		heightPad = height / 6,
-		base1 = getBase(widthPad, heightPad, widthPad * 2, height - heightPad),
-		base2 = getBase(width - widthPad * 2, heightPad, width - widthPad, height - heightPad);
+		base1 = getBase(widthPad, heightPad, widthPad * 2, height - heightPad, nodes),
+		base2 = getBase(width - widthPad * 2, heightPad, width - widthPad, height - heightPad, nodes);
 
 	return {nodes, base1, base2};	
 }

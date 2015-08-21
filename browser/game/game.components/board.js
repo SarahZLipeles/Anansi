@@ -4,6 +4,7 @@ define(["game/game.components/node"], function (NodeFactory) {
 
 function makeField (options) {
 	var product = NodeFactory(options);
+	console.log(product.base1, product.base2);
 	return {
 		bases: {host: product.base1.id, client: product.base2.id},
 		nodes: product.nodes,

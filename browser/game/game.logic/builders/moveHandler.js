@@ -1,4 +1,4 @@
-define(["js/game.logic/builders/moves"], function (BuildMoves) {
+define(["game/game.logic/builders/moves"], function (BuildMoves) {
 
 	function MoveHandler(options){
 		var threads = {},
