@@ -78,6 +78,7 @@ function Interface (game, playerData) {
 	view.bind("clickNode", (function(event) {
 		this.thread1.crawl(event.data.node.id, Crawlers.getCrawler("test"));
 	}).bind(this));
+	view.bind("overNode", (event) => {if(event.data.node) console.log(event.data.node.health);})
 	// view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
 	//need to fix ^^^
 	view.refresh();

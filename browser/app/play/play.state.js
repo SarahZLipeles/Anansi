@@ -1,10 +1,11 @@
+
 'use strict'
 
-var playState = function ($stateProvider){
+var playState = function ($stateProvider, playController){
 	$stateProvider.state('play', {
 		url: '/play',
 		templateUrl: '/app/play/play.html',
-		controller: '/app/play/play.controller.js'
+		controller: playController
 	});
 };
 playState.$inject = ["$stateProvider"];
