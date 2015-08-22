@@ -1,13 +1,13 @@
+(() => {
 "use strict";
 var expect = require("chai").expect;
 var before = require("mocha").before;
 var path = require("path");
-var NodesFactory = require(path.join(__dirname, "../../../browser/game/game.components/node"));
+var dir = require("../game.paths");
+var NodesFactory = require(path.join(dir.components, "node"));
 
 describe("Node Factory", () => {
-	var getUniqueIds
-	before(() => {
-		getUniqueIds = (arr) => {
+	var getUniqueIds = (arr) => {
 			var u = {}, a = [];
 			for(var i = 0, l = arr.length; i < l; ++i){
 				if(u.hasOwnProperty(arr[i].id)) {
@@ -18,7 +18,6 @@ describe("Node Factory", () => {
 			}
 			return a;
 		};
-	});
 	
 	
 	describe("Creates a field of nodes from accurate parameters", () => {
@@ -33,7 +32,7 @@ describe("Node Factory", () => {
 		});
 
 		it("Should produce the correct number of nodes", () => {
-			expect(result.nodes.length).to.be.at.least(50);
+			expect(result.nodes).to.have.length.of.at.least(50);
 		});
 		it("Should only produce nodes within the board's bounds", () => {
 			var outOfBounds = result.nodes.filter((node) => {
@@ -65,8 +64,6 @@ describe("Node Factory", () => {
 			expect(result.base2.maxHealth).to.be.above(notBases[3].maxHealth);
 		});
 	});
-
-
-	
-
 });
+
+})();

@@ -60,7 +60,7 @@ function MakeNodes(options){
 		base1 = getBase(widthPad, heightPad, widthPad * 2, height - heightPad, nodes),
 		base2 = getBase(width - widthPad * 2, heightPad, width - widthPad, height - heightPad, nodes);
 
-	return {nodes, base1, base2};	
+	return {nodes: nodes, base1: base1, base2: base2};	
 }
 
 module.exports = MakeNodes;
