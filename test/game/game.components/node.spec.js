@@ -1,4 +1,3 @@
-(() => {
 "use strict";
 var expect = require("chai").expect;
 var before = require("mocha").before;
@@ -66,4 +65,3 @@ describe("Node Factory", () => {
 	});
 });
 
-})();

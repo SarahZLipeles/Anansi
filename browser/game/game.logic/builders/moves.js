@@ -1,12 +1,12 @@
 var BuildMoves = (options) => {
-	var {queue, nodes, role} = options;
+	var {queue, nodes} = options;
 
 	var attack = (data) => {
 		var targetId = data.target;
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
-		if(source.owner === role && source.links.indexOf(targetId) !== -1){
+		if(source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= 5;
 				console.log(target.health);
@@ -24,7 +24,7 @@ var BuildMoves = (options) => {
 
 	var reinforce = (data) => {
 		var node = queue(data.target);
-		if(node.owner === role){
+		if(node.owner){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < 10 ? healthDiff : 10;
@@ -63,6 +63,7 @@ var BuildMoves = (options) => {
 			}
 		}
 		target.owner = owner;
+		target.health = target.maxHealth / 2;
 	};
 
 	//to fix
