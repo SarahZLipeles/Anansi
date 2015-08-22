@@ -1,12 +1,12 @@
 var BuildMoves = (options) => {
-	var {queue, nodes} = options;
+	var {queue, nodes, role} = options;
 
 	var attack = (data) => {
 		var targetId = data.target;
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
-		if(source.links.indexOf(targetId) !== -1){
+		if(source.owner === role && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= 5;
 				console.log(target.health);
@@ -24,7 +24,7 @@ var BuildMoves = (options) => {
 
 	var reinforce = (data) => {
 		var node = queue(data.target);
-		if(node.owner){
+		if(node.owner === role){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < 10 ? healthDiff : 10;
@@ -47,7 +47,6 @@ var BuildMoves = (options) => {
 
 	var claim = (target, source) => {
 		var {owner} = source;
-		// if(target.id !== view.graph.bases[this.role].id){
 		if(!target.from){
 			target.from = source.id;
 			source.to.push(target.id);
@@ -63,7 +62,6 @@ var BuildMoves = (options) => {
 				removeOwner(target.to.pop());
 			}
 		}
-		// } 
 		target.owner = owner;
 	};
 
