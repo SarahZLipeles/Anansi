@@ -4,8 +4,8 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "test": "nodemon server/index.js",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/_mocha test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
