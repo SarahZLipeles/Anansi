@@ -6,6 +6,9 @@ var editorController = function($scope) {
             receive: null
         };
     };
+    var fillThis = function(str) {
+        
+    };
     $scope.createFunction = function(){
         $scope.obj.start = eval("(function(nodeId, data){" + $scope.obj.startText + "})");
         $scope.obj.receive = eval("(function(node, data) {" + $scope.obj.receiveText + "})");
