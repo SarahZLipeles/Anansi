@@ -24,5 +24,9 @@
 }
 
 .sidebar {
+  @include prefix(display, flex);
+  @include prefix(flex-flow, "column wrap");
   width:20%;
+  overflow: auto;
+  max-height: 100%;
 }

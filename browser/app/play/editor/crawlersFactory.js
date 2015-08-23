@@ -10,7 +10,8 @@ function Crawlers() {
 			receive: function(node) {
 				console.log(this);
 				obj.receive.call(this, node, data);
-			}
+			},
+			description: obj.description
 		};
 	};
 

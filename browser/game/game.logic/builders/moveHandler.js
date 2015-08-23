@@ -7,7 +7,6 @@ function MoveHandler(options){
 		moves = BuildMoves(options);
 
 	var registerThread = (thread) => {
-		console.log(thread);
 		threads[thread.id] = {moveIndex: 0, thread: thread};
 	};
 
