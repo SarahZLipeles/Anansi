@@ -1,5 +1,38 @@
 var BuildMoves = (options) => {
 	var {queue, nodes} = options;
+	
+	var removeOwner = (nodeId) => {
+		var changeNode = queue(nodeId);
+		changeNode.owner = undefined;
+		//should flatten in the future, maybe
+		changeNode.to.forEach((id) => {
+			removeOwner(id);
+		});
+		changeNode.to.length = 0;
+		changeNode.from = undefined;
+	};
+
+	var claim = (target, source) => {
+		var {owner} = source;
+		// if(target.id !== view.graph.bases[this.role].id){
+		if(!target.from){
+			target.from = source.id;
+			source.to.push(target.id);
+		}else if(target.from && target.owner !== owner){
+			var oldFrom = nodes(target.from);
+			var toIndex = oldFrom.to.indexOf(target.id);
+			if(~toIndex){
+				oldFrom.to.splice(toIndex, 1);
+			}
+			target.from = source.id;
+			source.to.push(target.id);
+			for(var i = 0, l = target.to.length; i < l; i++){
+				removeOwner(target.to.pop());
+			}
+		}
+		// } 
+		target.owner = owner;
+	};
 
 	var attack = (data) => {
 		var targetId = data.target;
@@ -32,38 +65,6 @@ var BuildMoves = (options) => {
 			}
 		}
 		return {id: data.target, health: node.health};
-	};
-
-	var removeOwner = (nodeId) => {
-		var changeNode = queue(nodeId);
-		changeNode.owner = undefined;
-		//should flatten in the future, maybe
-		changeNode.to.forEach((id) => {
-			removeOwner(id);
-		});
-		changeNode.to.length = 0;
-		changeNode.from = undefined;
-	};
-
-	var claim = (target, source) => {
-		var {owner} = source;
-		if(!target.from){
-			target.from = source.id;
-			source.to.push(target.id);
-		}else if(target.from && target.owner !== owner){
-			var oldFrom = nodes(target.from);
-			var toIndex = oldFrom.to.indexOf(target.id);
-			if(~toIndex){
-				oldFrom.to.splice(toIndex, 1);
-			}
-			target.from = source.id;
-			source.to.push(target.id);
-			for(var i = 0, l = target.to.length; i < l; i++){
-				removeOwner(target.to.pop());
-			}
-		}
-		target.owner = owner;
-		target.health = target.maxHealth / 2;
 	};
 
 	//to fix

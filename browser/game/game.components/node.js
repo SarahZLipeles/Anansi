@@ -10,8 +10,8 @@ function MakeNodes(options){
 	function Nodule(x, y){
 		return {
 			id: Math.random().toString(32).slice(2),
-			maxHealth: 10,
-			health: 10,
+			maxHealth: 20,
+			health: 5,
 			links: [],
 			resources: undefined,
 			size: 0.03,

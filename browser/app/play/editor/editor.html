@@ -9,10 +9,10 @@
         <p>var data = {};</p>
         <p><label class="var-data">var {{obj.name}} = {</label></p>
         <p><label class="var-data">start: function(nodeId, data) { </label></p>
-        <p><textarea class="func-data" placeholder="write start function here" ng-model="obj.startText"></textarea></p>
+        <p><div ui-ace="{theme:'twilight', mode:'javascript'}" class="func-data" placeholder="write start function here" ng-model="obj.startText"></div></p>
         <p><label class="var-data">}, </label></p>
         <p><label class="var-data">receive: function(node, data) {</label></p>
-        <p><textarea class="func-data" placeholder="write receive function here" ng-model="obj.receiveText"></textarea></p>
+        <p><div ui-ace="{theme:'twilight', mode:'javascript'}" class="func-data" placeholder="write receive function here" ng-model="obj.receiveText"></div></p>
         <p class="var-data">},</p>
         <p><label class="var-data">description:</label></p>
         <p><textarea class="func-data" placeholder="write your description here" ng-model="obj.description"></textarea></p>

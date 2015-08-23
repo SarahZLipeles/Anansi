@@ -169,13 +169,22 @@
 
     // Display nodes
     //---------------
-    renderers = sigma.svg.nodes;
     subrenderers = sigma.svg.labels;
+    renderers = sigma.svg.nodes;
 
     //-- First we create the nodes which are not already created
     if (drawNodes)
       for (a = this.nodesOnScreen, i = 0, l = a.length; i < l; i++) {
         if (!a[i].hidden && !this.domElements.nodes[a[i].id]) {
+
+          // Label
+          e = (subrenderers[a[i].type] || subrenderers.def).create(
+            a[i],
+            embedSettings
+          );
+
+          this.domElements.labels[a[i].id] = e;
+          this.domElements.groups.labels.appendChild(e);
 
           // Node
           e = (renderers[a[i].type] || renderers.def).create(
@@ -186,14 +195,6 @@
           this.domElements.nodes[a[i].id] = e;
           this.domElements.groups.nodes.appendChild(e);
 
-          // Label
-          e = (subrenderers[a[i].type] || subrenderers.def).create(
-            a[i],
-            embedSettings
-          );
-
-          this.domElements.labels[a[i].id] = e;
-          this.domElements.groups.labels.appendChild(e);
         }
       }
 
@@ -204,17 +205,17 @@
         if (a[i].hidden)
           continue;
 
+        // // Label
+        // (subrenderers[a[i].type] || subrenderers.def).update(
+        //   a[i],
+        //   this.domElements.labels[a[i].id],
+        //   embedSettings
+        // );
+
         // Node
         (renderers[a[i].type] || renderers.def).update(
           a[i],
           this.domElements.nodes[a[i].id],
-          embedSettings
-        );
-
-        // Label
-        (subrenderers[a[i].type] || subrenderers.def).update(
-          a[i],
-          this.domElements.labels[a[i].id],
           embedSettings
         );
       }
@@ -329,19 +330,19 @@
     //-- We update the nodes
     if (drawNodes)
       for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+
+        // // Label
+        // (subrenderers[node.type] || subrenderers.def).update(
+        //   node,
+        //   this.domElements.labels[node.id],
+        //   embedSettings
+        // );
         // Node
         var node = a.pop();
 
         (renderers[node.type] || renderers.def).update(
           node,
           this.domElements.nodes[node.id],
-          embedSettings
-        );
-
-        // Label
-        (subrenderers[node.type] || subrenderers.def).update(
-          node,
-          this.domElements.labels[node.id],
           embedSettings
         );
       }
@@ -402,7 +403,7 @@
     this.domElements.graph = this.container.appendChild(dom);
 
     // Creating groups
-    var groups = ['edges', 'nodes', 'labels', 'hovers', "arrows"];
+    var groups = ['edges', 'labels', 'nodes', 'hovers', "arrows"];
     for (i = 0, l = groups.length; i < l; i++) {
       g = document.createElementNS(this.settings('xmlns'), 'g');
 
@@ -449,48 +450,52 @@
         hoveredNode;
 
     function overNode(e) {
-      var node = e.data.node,
-          embedSettings = self.settings.embedObjects({
-            prefix: prefix
-          });
+      if(e.data.node){
+        var node = e.data.node,
+            embedSettings = self.settings.embedObjects({
+              prefix: prefix
+            });
 
-      if (!embedSettings('enableHovering'))
-        return;
+        if (!embedSettings('enableHovering'))
+          return;
 
-      var hover = (renderers[node.type] || renderers.def).create(
-        node,
-        self.domElements.nodes[node.id],
-        self.measurementCanvas,
-        embedSettings
-      );
+        var hover = (renderers[node.type] || renderers.def).create(
+          node,
+          self.domElements.nodes[node.id],
+          self.measurementCanvas,
+          embedSettings
+        );
 
-      self.domElements.hovers[node.id] = hover;
+        self.domElements.hovers[node.id] = hover;
 
-      // Inserting the hover in the dom
-      self.domElements.groups.hovers.appendChild(hover);
-      hoveredNode = node;
+        // Inserting the hover in the dom
+        self.domElements.groups.hovers.appendChild(hover);
+        hoveredNode = node;
+      }
     }
 
     function outNode(e) {
-      var node = e.data.node,
-          embedSettings = self.settings.embedObjects({
-            prefix: prefix
-          });
+      if(e.data.node){
+        var node = e.data.node,
+            embedSettings = self.settings.embedObjects({
+              prefix: prefix
+            });
 
-      if (!embedSettings('enableHovering'))
-        return;
+        if (!embedSettings('enableHovering'))
+          return;
 
-      // Deleting element
-      self.domElements.groups.hovers.removeChild(
-        self.domElements.hovers[node.id]
-      );
-      hoveredNode = null;
-      delete self.domElements.hovers[node.id];
+        // Deleting element
+        self.domElements.groups.hovers.removeChild(
+          self.domElements.hovers[node.id]
+        );
+        hoveredNode = null;
+        delete self.domElements.hovers[node.id];
 
-      // Reinstate
-      self.domElements.groups.nodes.appendChild(
-        self.domElements.nodes[node.id]
-      );
+        // Reinstate
+        self.domElements.groups.nodes.appendChild(
+          self.domElements.nodes[node.id]
+        );
+      }
     }
 
     // OPTIMIZE: perform a real update rather than a deletion
