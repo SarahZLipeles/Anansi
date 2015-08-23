@@ -6,7 +6,7 @@ var playState = require("./play/play.state"),
 	homepageState = require("./homepage/homepage.state");
 
 "use strict";
-var app = angular.module('Anansi', ['ui.router']);
+var app = angular.module('Anansi', ['ui.router', 'ui.ace']);
 
 app.config(function($urlRouterProvider, $locationProvider){
 $locationProvider.html5Mode(true);
