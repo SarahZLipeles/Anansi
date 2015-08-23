@@ -5,8 +5,8 @@
   "main": "server/index.js",
   "scripts": {
     "start": "nodemon server/index.js",
-    "test": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/**/*.spec.js",
-    "quicktest": "mocha --compilers js:mocha-traceur test/**/*.spec.js"
+    "testAndMap": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/**/*.spec.js",
+    "test": "mocha --compilers js:mocha-traceur test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -40,10 +40,10 @@
     "gulp-concat": "^2.6.0",
     "gulp-eslint": "^1.0.0",
     "gulp-minify-css": "^1.2.0",
+    "gulp-mocha": "^2.1.3",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
-    "gulp-sourcemaps": "^1.5.2",
     "gulp-traceur": "^0.17.1",
     "gulp-uglify": "^1.2.0",
     "isparta": "^3.0.3",

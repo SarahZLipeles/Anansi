@@ -4,19 +4,22 @@
     rename = require('gulp-rename'),
     sass = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
-    babel = require('gulp-babel'),
     //wrap = require('gulp-wrap'),
-    sourcemaps = require('gulp-sourcemaps'),
     uglify = require("gulp-uglify"),
     runSeq = require('run-sequence'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
-    babelify = require('babelify');
+    babelify = require('babelify'),
+    mocha = require("gulp-mocha");
+//For mocha tests
+require("babel/register");
 
 var js_client_path = './browser/**/*.js';
 var js_out_file = "anansi.js"
 var js_client_start_path = './browser/main.js';
 var js_server_path = './server/**/*.js';
+var game_files = "./browser/game/**/*.js";
+var tests = "./test/**/*.spec.js";
 
 gulp.task('lintJS', function(){
     return gulp.src([js_client_path, js_server_path])
@@ -47,18 +50,17 @@ gulp.task('buildCSS', function () {
         .pipe(gulp.dest('./public'))
 });
 
-gulp.task('testBrowserJS', function (done) {
-    karma.start({
-        configFile: __dirname + '/tests/browser/karma.conf.js',
-        singleRun: true
-    }, done);
+gulp.task('testGame', function () {
+    return gulp.src(tests)
+            .pipe(mocha({reporter: "nyan"}));
 });
 
 
 gulp.task('default', function(){
 
-    gulp.start(['buildJS', 'buildCSS']);
+    gulp.start(["testGame", 'buildJS', 'buildCSS']);
     gulp.watch([js_client_start_path, js_client_path, js_server_path], ['lintJS']);
+    gulp.watch([game_files], ["testGame"]);
     gulp.watch([js_client_start_path,js_client_path], function(){
         runSeq('buildJS');
     });

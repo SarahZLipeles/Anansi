@@ -4,10 +4,7 @@ var BuildMoves = (options) => {
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
 		changeNode.owner = undefined;
-		//should flatten in the future, maybe
-		changeNode.to.forEach((id) => {
-			removeOwner(id);
-		});
+		changeNode.to.forEach((id) => removeOwner(id));
 		changeNode.to.length = 0;
 		changeNode.from = undefined;
 	};
@@ -29,6 +26,7 @@ var BuildMoves = (options) => {
 			}
 		}
 		target.owner = source.owner;
+		target.health = target.maxHealth / 4;
 	};
 
 	var attack = (data) => {
