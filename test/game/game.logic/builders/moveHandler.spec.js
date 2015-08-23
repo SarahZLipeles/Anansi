@@ -1,27 +1,55 @@
-// "use strict";
-// var requirejs = require("requirejs");
+"use strict";
+var expect = require("chai").expect;
+var path = require("path");
+var before = require("mocha").before;
+var dir = require("../../game.paths");
+var rewire = require("rewire")
+var makeHandler = rewire(path.join(dir.builders, "moveHandler"));
 
-// requirejs.config({
-// 	baseUrl: "../../../../",
-// 	nodeRequire: require
-// });
+describe("Move Handler", () => {
+	var handler, opponent, options, thread1, thread2,
+	makeThread = (id) => {
+		return {
+			id: id,
+			count: 0,
+			currentCrawler: {
+				receive: () => {
+					this.count++;
+				}
+			}
+		}
+	}
+	makeHandler.__set__("BuildMoves", () => {
+		return {
+			attack: () => {
+				return {type: "attack"};
+			},
+			reinforce: () => {
+				return {type: "reinforce"};
+			}
+		};
+	});
 
-// describe("Move Handler", function () {
-// 	var handler;
-
-// 	setup(function (done) {
-// 		requirejs(["../../../../browser/game/game.logic/builders/moveHandler"], function (modu) {
-// 			handler = modu;
-// 			done();
-// 		});
-// 	});
-
-// 	describe("Creating the Handler", function () {
-// 		it("Should properly expose the handler inputs", function () {
-
-// 		});
-// 	});
+	before(() => {
+		thread1 = makeThread(1);
+		thread2 = makeThread(2);
+		opponent = {
+			messages: [],
+			send: (move) => {
+				this.messages.push(move);
+			}
+		};
+		options = {opponent};
+		handler = makeHandler(options);
+	});
 
 	
 
-// });
+
+
+});
+
+
+
+
+
