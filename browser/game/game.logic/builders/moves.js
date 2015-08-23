@@ -13,12 +13,10 @@ var BuildMoves = (options) => {
 	};
 
 	var claim = (target, source) => {
-		var {owner} = source;
-		// if(target.id !== view.graph.bases[this.role].id){
 		if(!target.from){
 			target.from = source.id;
 			source.to.push(target.id);
-		}else if(target.from && target.owner !== owner){
+		}else if(target.from){
 			var oldFrom = nodes(target.from);
 			var toIndex = oldFrom.to.indexOf(target.id);
 			if(~toIndex){
@@ -30,8 +28,7 @@ var BuildMoves = (options) => {
 				removeOwner(target.to.pop());
 			}
 		}
-		// } 
-		target.owner = owner;
+		target.owner = source.owner;
 	};
 
 	var attack = (data) => {
@@ -39,7 +36,7 @@ var BuildMoves = (options) => {
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
-		if(source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
+		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= 5;
 				console.log(target.health);
@@ -47,9 +44,13 @@ var BuildMoves = (options) => {
 			if (target.health <= 0) {
 				claim(target, source);
 				returnVal.links = target.links;
+				returnVal.message = "claimed";
 			}else{
 				returnVal.health = target.health;
+				returnVal.message = "damaged";
 			}
+		}else{
+			returnVal.message = "invalid";
 		}
 		return returnVal;
 	};
@@ -57,14 +58,18 @@ var BuildMoves = (options) => {
 
 	var reinforce = (data) => {
 		var node = queue(data.target);
-		if(node.owner){
+		if(node.owner === data.role){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < 10 ? healthDiff : 10;
 				console.log(node.health);
 			}
 		}
-		return {id: data.target, health: node.health};
+		return {
+			id: data.target, 
+			health: node.health, 
+			message: "reinforced"
+		};
 	};
 
 	//to fix
