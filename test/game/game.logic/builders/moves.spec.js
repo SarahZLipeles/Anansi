@@ -172,16 +172,42 @@ describe("Moves", () => {
 
 	describe("Reinforce", () => {
 
-		xit("reinforces a node you own", () => {
-
+		it("reinforces a node you own, but not above maxHealth", () => {
+			var reinforce = {target: 9, role: "host"};
+			moves.reinforce(reinforce);
+			expect(node9.health).to.equal(20);
+			moves.reinforce(reinforce);
+			expect(node9.health).to.equal(20);
+			node9.health = 8;
+			var res = moves.reinforce(reinforce);
+			expect(node9.health).to.equal(18);
+			expect(res.message).to.equal("reinforced");
+			expect(res.health).to.equal(node9.health);
+			expect(res.id).to.equal(9);
+			res = moves.reinforce(reinforce);
+			expect(node9.health).to.equal(node9.maxHealth);
+			expect(res.message).to.equal("reinforced");
+			expect(res.health).to.equal(node9.health);
+			expect(res.id).to.equal(9);
 		});
 
-		xit("doesn't raise the health of a node you own over its maxHealth", () => {
-
-		});
-
-		xit("doesn't reinforce a node you don't own", () => {
-
+		it("doesn't reinforce a node you don't own", () => {
+			var reinforceNeutral = {target: 1, role: "host"};
+			var reinforceEnemy = {target: 4, role: "host"};
+			var res = moves.reinforce(reinforceNeutral);
+			//doesn't reinforce
+			expect(node1.health).to.equal(10);
+			//proper message
+			expect(res.message).to.equal("invalid");
+			expect(res.health).to.be.undefined;
+			expect(res.id).to.equal(1);
+			res = moves.reinforce(reinforceEnemy);
+			//doesn't reinforce
+			expect(node4.health).to.equal(10);
+			//proper message
+			expect(res.message).to.equal("invalid");
+			expect(res.health).to.be.undefined;
+			expect(res.id).to.equal(4);
 		});
 
 	})

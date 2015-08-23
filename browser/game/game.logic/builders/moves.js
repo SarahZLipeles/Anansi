@@ -10,10 +10,7 @@ var BuildMoves = (options) => {
 	};
 
 	var claim = (target, source) => {
-		if(!target.from){
-			target.from = source.id;
-			source.to.push(target.id);
-		}else if(target.from){
+		if(target.from){
 			var oldFrom = nodes(target.from);
 			var toIndex = oldFrom.to.indexOf(target.id);
 			if(~toIndex){
@@ -24,6 +21,9 @@ var BuildMoves = (options) => {
 			for(var i = 0, l = target.to.length; i < l; i++){
 				removeOwner(target.to.pop());
 			}
+		}else{
+			target.from = source.id;
+			source.to.push(target.id);
 		}
 		target.owner = source.owner;
 		target.health = target.maxHealth / 4;
@@ -56,18 +56,20 @@ var BuildMoves = (options) => {
 
 	var reinforce = (data) => {
 		var node = queue(data.target);
+		var returnVal = {id: data.target};
 		if(node.owner === data.role){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < 10 ? healthDiff : 10;
 				console.log(node.health);
 			}
+			returnVal.health = node.health;
+			returnVal.message = "reinforced";
+		}else{
+			returnVal.message = "invalid";
 		}
-		return {
-			id: data.target, 
-			health: node.health, 
-			message: "reinforced"
-		};
+		return returnVal;
+		
 	};
 
 	//to fix
