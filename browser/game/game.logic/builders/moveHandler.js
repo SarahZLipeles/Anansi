@@ -8,6 +8,7 @@ function MoveHandler(options){
 
 	var registerThread = (thread) => {
 		threads[thread.id] = {moveIndex: 0, thread: thread};
+		return threads;
 	};
 
 	var clearThread = (threadid) => {
@@ -17,6 +18,7 @@ function MoveHandler(options){
 			});
 		});
 		threads[threadid].moveIndex = 0;
+		return pendingMoves;
 	}
 
 	var update = (move) => {
@@ -28,6 +30,7 @@ function MoveHandler(options){
 			pendingMoves[threadEntry.moveIndex] = [move];
 		}
 		threadEntry.moveIndex++;
+		return pendingMoves;
 	}
 
 	var handleUserMove = (move) => {
