@@ -75,47 +75,62 @@ var style = require("../../game/game.components/style");
             return line;
         },
 
-    /**
-    * SVG Element update.
-    *
-    * @param  {object}                   edge       The edge object.
-    * @param  {DOMElement}               line       The line DOM Element.
-    * @param  {object}                   source     The source node object.
-    * @param  {object}                   target     The target node object.
-    * @param  {configurable}             settings   The settings function.
-    */
-    update: function(edge, line, source, target, settings) {
-        var sourceOwner = source.owner,
-            targetOwner = target.owner,
-            player = settings("player");
-        if(targetOwner && targetOwner === sourceOwner){// && !edge.arrow){
-            var ownerColor = settings(sourceOwner);
-            line.setAttributeNS(null, "stroke", ownerColor);
-            //Only show arrows if the line belongs to the player
-            if(sourceOwner === player){
-                //toSource
-                if(target.from === source.id){
-                    edge.arrows.toSource.setAttributeNS(null, "stroke", ownerColor);
-                    edge.arrows.toSource.setAttributeNS(null, "display", "block");
-                //toTarget
-                }else if(source.from === target.id){
-                    edge.arrows.toTarget.setAttributeNS(null, "stroke", ownerColor);
-                    edge.arrows.toTarget.setAttributeNS(null, "display", "block");
+        /**
+        * SVG Element update.
+        *
+        * @param  {object}                   edge       The edge object.
+        * @param  {DOMElement}               line       The line DOM Element.
+        * @param  {object}                   source     The source node object.
+        * @param  {object}                   target     The target node object.
+        * @param  {configurable}             settings   The settings function.
+        */
+        update: function(edge, line, source, sourceSVG, target, targetSVG, settings, claim) {
+            var sourceOwner = source.owner,
+                targetOwner = target.owner,
+                player = settings("player");
+            if(targetOwner && targetOwner === sourceOwner){// && !edge.arrow){
+                var ownerColor = settings(sourceOwner);
+                line.setAttributeNS(null, "stroke", ownerColor);
+                //Only show arrows if the line belongs to the player
+                if(sourceOwner === player){
+                    //toSource
+                    if(target.from === source.id){
+                        edge.arrows.toSource.setAttributeNS(null, "stroke", ownerColor);
+                        edge.arrows.toSource.setAttributeNS(null, "display", "block");
+                    //toTarget
+                    }else if(source.from === target.id){
+                        edge.arrows.toTarget.setAttributeNS(null, "stroke", ownerColor);
+                        edge.arrows.toTarget.setAttributeNS(null, "display", "block");
+                    }
                 }
+            }else{
+                line.setAttributeNS(null, "stroke", defaultColor);
+                edge.arrows.toSource.setAttributeNS(null, "display", "none");
+                edge.arrows.toTarget.setAttributeNS(null, "display", "none");
             }
-        }else{
-            line.setAttributeNS(null, "stroke", defaultColor);
-            edge.arrows.toSource.setAttributeNS(null, "display", "none");
-            edge.arrows.toTarget.setAttributeNS(null, "display", "none");
-        }
-        //If either node belongs to the player, show the line
-        if(targetOwner === player || sourceOwner === player){
-            line.setAttributeNS(null, "display", "block");
-        }else{
-            line.setAttributeNS(null, "display", "none");
+            //If either node belongs to the player, show the line
+            if(targetOwner === player || sourceOwner === player){
+                line.setAttributeNS(null, "display", "block");
+            }else{
+                if(claim){
+                    sourceSVG.setAttributeNS(null, "display", "none");
+                    targetSVG.setAttributeNS(null, "display", "none");
+                }
+                line.setAttributeNS(null, "display", "none");
+            }
+
+            return this;
+        }, 
+        //reveal nodes from the fog of war
+        reveal: function (source, sourceSVG, target, targetSVG, settings){
+            var sourceOwner = source.owner,
+                targetOwner = target.owner,
+                player = settings("player");
+            if(targetOwner === player || sourceOwner === player){
+                sourceSVG.setAttributeNS(null, "display", "block");
+                targetSVG.setAttributeNS(null, "display", "block");
+            }
         }
 
-        return this;
     }
-    };
 })();

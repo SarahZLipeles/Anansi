@@ -244,7 +244,7 @@
        }
 
     //-- Second we update the edges
-    if (drawEdges)
+    if (drawEdges){
       for (a = this.edgesOnScreen, i = 0, l = a.length; i < l; i++) {
         source = nodes(a[i].source);
         target = nodes(a[i].target);
@@ -253,10 +253,27 @@
           a[i],
           this.domElements.edges[a[i].id],
           source,
+          this.domElements.nodes[source.id],
           target,
+          this.domElements.nodes[target.id],
           embedSettings
         );
        }
+
+      //lift the fog of war ~~~~~
+      for (a = this.edgesOnScreen, i = 0, l = a.length; i < l; i++) {
+        source = nodes(a[i].source);
+        target = nodes(a[i].target);
+
+        (renderers[a[i].type] || renderers.def).reveal(
+          source,
+          this.domElements.nodes[source.id],
+          target,
+          this.domElements.nodes[target.id],
+          embedSettings
+          );
+      }
+    }
 
     this.dispatchEvent('render');
 
@@ -278,9 +295,10 @@
         o,
         source,
         target,
+        edge,
         renderers,
-        subrenderers,
         index = {},
+        claim = options.claim,
         graph = this.graph,
         nodes = this.graph.nodes,
         nodesToUpdate = graph.queueNodes(),
@@ -318,7 +336,6 @@
     // Display nodes
     //---------------
     renderers = sigma.svg.nodes;
-    subrenderers = sigma.svg.labels;
 
     //-- We update the nodes
     for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
@@ -338,7 +355,7 @@
 
     //-- We update the edges
     for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
-      var edge = a.pop();
+      edge = a[i];
       source = nodes(edge.source);
       target = nodes(edge.target);
 
@@ -346,11 +363,29 @@
         edge,
         this.domElements.edges[edge.id],
         source,
+        this.domElements.nodes[source.id],
         target,
-        embedSettings
-
+        this.domElements.nodes[target.id],
+        embedSettings,
+        claim
       );
      }
+     if(claim){
+       //lift the fog of war ~~~~~
+       for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
+        edge = a.pop();
+        source = nodes(edge.source);
+        target = nodes(edge.target);
+
+        (renderers[edge.type] || renderers.def).reveal(
+          source,
+          this.domElements.nodes[source.id],
+          target,
+          this.domElements.nodes[target.id],
+          embedSettings
+        );
+       }
+      }
 
     this.dispatchEvent('render');
 

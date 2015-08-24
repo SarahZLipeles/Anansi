@@ -34,6 +34,7 @@ var BuildMoves = (options) => {
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
+		var renderType = {partial: true};
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= 5;
@@ -43,11 +44,12 @@ var BuildMoves = (options) => {
 				claim(target, source);
 				returnVal.links = target.links;
 				returnVal.message = "claimed";
+				renderType.claim = true;
 			}else{
 				returnVal.health = target.health;
 				returnVal.message = "damaged";
 			}
-			view.refresh({partial: true});
+			view.refresh(renderType);
 		}else{
 			returnVal.message = "invalid";
 		}
