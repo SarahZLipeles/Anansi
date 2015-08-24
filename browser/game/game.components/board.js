@@ -120,8 +120,10 @@ function makeGraph (fieldOptions, radii){
 }
 
 var fieldOptions = {
-	width: 100,
-	height: 100,
+	width: 4000,
+	height: 3000,
+	spacing: 50,
+	nodeSize: 5,
 	padding: 10
 };
 
@@ -131,6 +133,6 @@ var fieldOptions = {
 
 
 module.exports = {
-	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 33}); }
+	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 100}); }
 };
 

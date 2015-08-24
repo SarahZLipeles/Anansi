@@ -8,11 +8,8 @@ navbar.func = function () {
                 label: 'Play Game',
                 state: 'play'
             }, {
-                label: 'Signup',
-                state: 'signup'
-            }, {
-                label: 'Login',
-                state: 'login'
+                label: 'Quit',
+                state: 'homepage'
             }];
         }
     };

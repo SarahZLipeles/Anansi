@@ -4,6 +4,8 @@
     rename = require('gulp-rename'),
     sass = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
+    //For mocha tests
+    babel = require("mocha-babel"),
     //wrap = require('gulp-wrap'),
     uglify = require("gulp-uglify"),
     runSeq = require('run-sequence'),
@@ -13,8 +15,6 @@
     mocha = require("gulp-mocha"),
     istanbul = require("gulp-istanbul"),
     isparta = require("isparta");
-//For mocha tests
-require("babel/register");
 
 var js_client_path = './browser/**/*.js';
 var js_out_file = "anansi.js"
@@ -66,9 +66,15 @@ gulp.task("gameCoverage:report", function (done) {
         .pipe(istanbul.writeReports());
 });
 
+
 gulp.task("testGame", function () {
-    return gulp.src(tests)
-            .pipe(mocha({reporter: "nyan"}));
+        // return gulp.src(tests)
+        //         .pipe(mocha({
+        //             reporter: "nyan",
+        //             compilers: {
+        //                 js: babel
+        //             }
+        //         }));
 });
 
 gulp.task("testGame:coverage", function (done) {

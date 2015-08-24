@@ -1,6 +1,7 @@
 var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
 	httpGet = require("../lib/httpUtil");
+	require("../lib/noBack");
 
 //Utility object to hold the client's Id, peer reference, and current connection reference
 var game = {myId: undefined, player: undefined, opponent: undefined, board: undefined};

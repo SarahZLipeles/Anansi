@@ -2943,22 +2943,22 @@ if (typeof exports !== 'undefined') {
     // {boolean}
     mouseEnabled: true,
     // {boolean}
-    mouseWheelEnabled: true,
+    mouseWheelEnabled: false,
     // {boolean}
-    doubleClickEnabled: true,
+    doubleClickEnabled: false,
     // {boolean} Defines whether the custom events such as "clickNode" can be
     //           used.
     eventsEnabled: true,
     // {number} Defines by how much multiplicating the zooming level when the
     //          user zooms with the mouse-wheel.
-    zoomingRatio: 1.7,
+    zoomingRatio: 1,
     // {number} Defines by how much multiplicating the zooming level when the
     //          user zooms by double clicking.
-    doubleClickZoomingRatio: 2.2,
+    doubleClickZoomingRatio: 1,
     // {number} The minimum zooming level.
-    zoomMin: 0.9,
+    zoomMin: 1,
     // {number} The maximum zooming level.
-    zoomMax: 0.9,
+    zoomMax: 1,
     // {number} The duration of animations following a mouse scrolling.
     mouseZoomDuration: 200,
     // {number} The duration of animations following a mouse double click.
