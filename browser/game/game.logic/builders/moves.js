@@ -30,7 +30,6 @@ var BuildMoves = (options) => {
 	};
 
 	var attack = (data) => {
-		console.log(data);
 		var targetId = data.target;
 		var source = nodes(data.source);
 		var target = queue(targetId);
@@ -48,10 +47,10 @@ var BuildMoves = (options) => {
 				returnVal.health = target.health;
 				returnVal.message = "damaged";
 			}
+			view.refresh({partial: true});
 		}else{
 			returnVal.message = "invalid";
 		}
-		view.refresh({partial: true});
 		return returnVal;
 	};
 
@@ -67,10 +66,10 @@ var BuildMoves = (options) => {
 			}
 			returnVal.health = node.health;
 			returnVal.message = "reinforced";
+			view.refresh({partial: true});
 		}else{
 			returnVal.message = "invalid";
 		}
-		view.refresh({partial: true});
 		return returnVal;
 	};
 

@@ -5,7 +5,7 @@ var dir = require("../../game.paths");
 var makeMoves = require(path.join(dir.builders, "moves"));
 
 describe("Moves", () => {
-	var queue, nodes, board, moves,
+	var queue, nodes, board, moves, view, refreshCount,
 		host, node1, node2, node3, nodeBranch, node4, client, node6, node7, node9;
 
 	beforeEach(() => {
@@ -26,7 +26,15 @@ describe("Moves", () => {
 		queue = nodes = (id) => {
 			return board.nodes.find((node) => id === node.id);
 		};
-		moves = makeMoves({queue: queue, nodes: nodes})
+		refreshCount = 0;
+		view = {
+			refresh: function (obj) {
+				if(obj.partial){
+					refreshCount++;
+				}
+			}
+		};
+		moves = makeMoves({queue, nodes, view});
 	});
 	
 
@@ -53,6 +61,7 @@ describe("Moves", () => {
 				expect(res.id).to.equal(1);
 				expect(res.health).to.be.undefined;
 				expect(res.links).to.be.an("array");
+				expect(refreshCount).to.equal(2);
 			});
 
 			it("prevents attacks from neutral", () => {
@@ -62,6 +71,7 @@ describe("Moves", () => {
 				expect(res.message).to.equal("invalid");
 				expect(res.links).to.be.undefined;
 				expect(res.health).to.be.undefined;
+				expect(refreshCount).to.equal(0);
 			});
 
 			it("prevents non-linked attacks", () => {
@@ -71,6 +81,7 @@ describe("Moves", () => {
 				expect(res.message).to.equal("invalid");
 				expect(res.links).to.be.undefined;
 				expect(res.health).to.be.undefined;
+				expect(refreshCount).to.equal(0);
 			});
 
 			it("prevents friendly attacks", () => {
@@ -80,6 +91,7 @@ describe("Moves", () => {
 				expect(res.message).to.equal("invalid");
 				expect(res.links).to.be.undefined;
 				expect(res.health).to.be.undefined;
+				expect(refreshCount).to.equal(0);
 			});
 
 			it("prevents attacks from an opponent held node", () => {
@@ -89,6 +101,7 @@ describe("Moves", () => {
 				expect(res.message).to.equal("invalid");
 				expect(res.links).to.be.undefined;
 				expect(res.health).to.be.undefined;
+				expect(refreshCount).to.equal(0);
 			});
 			
 		});
@@ -98,6 +111,7 @@ describe("Moves", () => {
 			moves.attack(attack);
 			expect(node1.health).to.equal(5);
 			expect(node1.owner).to.be.undefined;
+			expect(refreshCount).to.equal(1);
 		});
 
 		it("claims a neutral node when it knocks its health to or below 0", () => {
@@ -112,6 +126,7 @@ describe("Moves", () => {
 			moves.attack(attack2);
 			expect(node2.health).to.equal(5);
 			expect(node2.owner).to.equal("host");
+			expect(refreshCount).to.equal(3);
 		});
 
 		it("claims an occupied node and cuts the from chain", () => {
@@ -139,6 +154,8 @@ describe("Moves", () => {
 			expect(node3.from).to.be.undefined;
 			expect(node3.owner).to.be.undefined;
 			expect(node3.to).to.have.length(0);
+
+			expect(refreshCount).to.equal(2);
 		});
 
 		it("claims an opponents base and removes all connected nodes", () => {
@@ -189,6 +206,8 @@ describe("Moves", () => {
 			expect(res.message).to.equal("reinforced");
 			expect(res.health).to.equal(node9.health);
 			expect(res.id).to.equal(9);
+
+			expect(refreshCount).to.equal(4);
 		});
 
 		it("doesn't reinforce a node you don't own", () => {
@@ -208,6 +227,8 @@ describe("Moves", () => {
 			expect(res.message).to.equal("invalid");
 			expect(res.health).to.be.undefined;
 			expect(res.id).to.equal(4);
+
+			expect(refreshCount).to.equal(0);
 		});
 
 	})

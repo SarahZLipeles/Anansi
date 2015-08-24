@@ -5,7 +5,8 @@
     sass = require('gulp-sass'),
     minifyCSS = require('gulp-minify-css'),
     //For mocha tests
-    babel = require("mocha-babel"),
+    mochababel = require("mocha-babel"),
+    babel = require("gulp-babel"),
     //wrap = require('gulp-wrap'),
     uglify = require("gulp-uglify"),
     runSeq = require('run-sequence'),
@@ -14,6 +15,7 @@
     babelify = require('babelify'),
     mocha = require("gulp-mocha"),
     istanbul = require("gulp-istanbul"),
+    gutil = require("gutil");
     isparta = require("isparta");
 
 var js_client_path = './browser/**/*.js';
@@ -68,13 +70,13 @@ gulp.task("gameCoverage:report", function (done) {
 
 
 gulp.task("testGame", function () {
-        // return gulp.src(tests)
-        //         .pipe(mocha({
-        //             reporter: "nyan",
-        //             compilers: {
-        //                 js: babel
-        //             }
-        //         }));
+        return gulp.src(tests)
+                .pipe(mocha({
+                    reporter: "nyan",
+                    compilers: {
+                        js: mochababel
+                    }
+                }));
 });
 
 gulp.task("testGame:coverage", function (done) {

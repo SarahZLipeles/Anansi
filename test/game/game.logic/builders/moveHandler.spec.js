@@ -17,7 +17,6 @@ describe("Move Handler", () => {
 				},
 				currentCrawler: {
 					receive: () => {
-						console.log("hey")
 						count++;
 					}
 				},

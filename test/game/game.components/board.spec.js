@@ -29,7 +29,10 @@ describe("The board", () => {
 	describe("makeField", () => {
 		var field = makeField({
 			width: width,
-			height: height
+			height: height,
+			nodeSize: 4,
+			spacing: 15,
+			padding: 10
 		});
 		it("Should have field properties", () => {
 			expect(field.bases.host).to.be.a("string");
@@ -49,7 +52,10 @@ describe("The board", () => {
 	describe("connectField", () => {
 		var field = makeField({
 			width: width,
-			height: height
+			height: height,
+			nodeSize: 4,
+			spacing: 15,
+			padding: 10
 		});
 		connectField(field, {inner: 0, outer: 33});
 		it("Should produce an array of edges", () => {
@@ -98,7 +104,10 @@ describe("The board", () => {
 	describe("wiggleNodes", () => {
 		var field = makeField({
 			width: width,
-			height: height
+			height: height,
+			nodeSize: 4,
+			spacing: 15,
+			padding: 10
 		});
 		connectField(field, {inner: 0, outer: 33});
 		it("Should wiggle the nodes", () => {
