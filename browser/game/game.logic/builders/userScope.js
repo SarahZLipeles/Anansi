@@ -1,11 +1,13 @@
 function BuildUserScope (handler, thread){
-	var {nodes, role} = handler.options;
+    if (handler && thread) {
+    	var {nodes, role} = handler.options;
+    }
 	var userScope = {
         attack: (source, target) => {
-            handler.update({type: "attack", source, target, thread, role})
+            handler.update({type: "attack", source, target, thread, role});
         },
         reinforce: (target) => {
-            handler.update({type: "reinforce", target, thread, role})
+            handler.update({type: "reinforce", target, thread, role});
         },
         isEnemy: (id) => {
         	try{

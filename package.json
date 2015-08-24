@@ -28,7 +28,8 @@
     "morgan": "^1.6.1",
     "peer": "^0.2.8",
     "serve-favicon": "^2.3.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "webworkify": "^1.0.2"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",
