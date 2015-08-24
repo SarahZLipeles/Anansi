@@ -3,6 +3,33 @@
 
   sigma.utils.pkg('sigma.svg.nodes');
 
+    function setHealth(circle, node, r){
+      var c = Math.PI*(r*2);
+      var ratio = node.health / node.maxHealth
+      var strokeOffset = (1 - ratio) * c;  
+      if(ratio === 0){
+        circle.setAttributeNS(null, 'stroke','none');
+      } else{
+        if(ratio === 1){
+          circle.setAttributeNS(null, 'stroke-dasharray', 0);
+        }else{
+          circle.setAttributeNS(null, 'stroke-dasharray', c);
+        }
+
+        if(ratio > 0.5){
+          circle.setAttributeNS(null, 'stroke','green');
+        } else if(ratio > 0.25){
+          circle.setAttributeNS(null, 'stroke','yellow');
+        } else{
+          circle.setAttributeNS(null, 'stroke','red');
+        }
+
+        circle.setAttributeNS(null, 'stroke-width', 3.25);
+        circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
+        // circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
+      }
+    }
+
   /**
    * The default node renderer. It renders the node as a simple disc.
    */
@@ -19,18 +46,12 @@
           circle = document.createElementNS(settings('xmlns'), 'circle');
 
       var r = node[prefix + 'size'];
-      var c = Math.PI*(r*2);
-      var strokeOffset = node.health / node.maxHealth * c;
-
+      
       // Defining the node's circle
       circle.setAttributeNS(null, 'data-node-id', node.id);
       circle.setAttributeNS(null, 'class', settings('classPrefix') + '-node');
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
-      circle.setAttributeNS(null, 'stroke','#C0AFD9');
-      circle.setAttributeNS(null, 'stroke-dasharray', c);
-      circle.setAttributeNS(null, 'stroke-width', 3.25);
-      circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
-      circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
+      setHealth(circle, node, r)
 
       // Taken from below, part of disabling resize readjustment
       circle.setAttributeNS(null, 'cx', node[prefix + 'x']);
@@ -51,10 +72,9 @@
     update: function(node, circle, settings) {
       // var player = settings("player");
       // Updating only if not freestyle
-      var c = Math.PI*(parseInt(circle.getAttribute('r'))*2);
-      var strokeOffset = node.health / node.maxHealth * c;
+      var r = parseInt(circle.getAttribute('r'))
+      setHealth(circle, node, r)
 
-      circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
       
       circle.style.display = '';
