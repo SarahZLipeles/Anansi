@@ -2,46 +2,35 @@ var BuildMoves = require("./moves");
 
 function MoveHandler(options){
 	var threads = {},
-		pendingMoves = [],
+		threadids = [],
 		{opponent} = options,
 		moves = BuildMoves(options);
 
 	var registerThread = (thread) => {
-		threads[thread.id] = {moveIndex: 0, thread: thread};
+		threads[thread.id] = {thread: thread, pending: []};
+		threadids = Object.keys(threads);
 		return threads;
 	};
 
 	var clearThread = (threadid) => {
-		pendingMoves = pendingMoves.map((moveArr) => {
-			return moveArr.filter((move) => {
-				return move.thread !== threadid;
-			});
-		});
-		threads[threadid].moveIndex = 0;
-		return pendingMoves;
-	}
+		var thread = threads[threadid];
+		thread.pending.length = 0;
+		return threads;
+	};
 
 	var update = (move) => {
-		var threadEntry = threads[move.thread];
-		var moveSlot = pendingMoves[threadEntry.moveIndex]
-		if(moveSlot){
-			moveSlot.push(move);
-		}else{
-			pendingMoves[threadEntry.moveIndex] = [move];
-		}
-		threadEntry.moveIndex++;
-		return pendingMoves;
+		var thread = threads[move.thread];
+		thread.pending.push(move);
+		return threads;
 	}
 
 	var handleUserMove = (move) => {
-		var threadEntry = threads[move.thread];
-		var thread = threadEntry.thread;
+		var thread = threads[move.thread].thread;
 		if(move.type === "attack"){
 			thread.currentCrawler.receive.call(thread.userScope, moves.attack(move));
 		}else if(move.type === "reinforce"){
 			thread.currentCrawler.receive.call(thread.userScope, moves.reinforce(move));
 		}
-		threadEntry.moveIndex--;
 	};
 
 	var handleOpponentMove = (move) => {
@@ -52,32 +41,17 @@ function MoveHandler(options){
 		}
 	};
 
-	var makeMoves = () => {
-		var nextMoves = pendingMoves.shift();
-		nextMoves.forEach(handleUserMove);
-		opponent.send({type: "move", moves: nextMoves});
-	};
-
-	var tryToMove = () => {
-		if(pendingMoves.length > 0){
-			makeMoves();
-		}else{
-			opponent.send({type: "move", moves: []});
-		}
-	};
-
 	var execute = (data) => {
-		if(data.moves.length > 0){
-			data.moves.forEach(handleOpponentMove);
-		}
-		if(pendingMoves.length > 0){
-			makeMoves();
-		}else{
-			setTimeout(tryToMove, 20);
-		}
+		var nextMoves = [], pending;
+		data.moves.forEach(handleOpponentMove);
+		threadids.forEach((id) => {
+			if(pending = threads[id].pending.shift()){ 
+				nextMoves.push(pending);
+			}
+		});
+		opponent.send({type: "move", moves: nextMoves});
+		nextMoves.forEach(handleUserMove);
 	};
-
-
 
 	return {
 		execute,
@@ -87,4 +61,5 @@ function MoveHandler(options){
 		options
 	};
 }
+
 module.exports = MoveHandler;
