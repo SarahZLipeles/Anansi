@@ -285,17 +285,10 @@
         nodes = this.graph.nodes,
         nodesToUpdate = graph.queueNodes(),
         edgesToUpdate = [],
-        drawEdges = this.settings(options, 'drawEdges'),
-        drawNodes = this.settings(options, 'drawNodes'),
         embedSettings = this.settings.embedObjects(options, {
           prefix: this.options.prefix,
           forceLabels: this.options.forceLabels
         });
-
-        // Check the 'hideEdgesOnMove' setting:
-    if (this.settings(options, 'hideEdgesOnMove'))
-      if (this.camera.isAnimated || this.camera.isMoving)
-        drawEdges = false;
 
     // Apply the camera's view:
     this.camera.applyView(
@@ -328,44 +321,36 @@
     subrenderers = sigma.svg.labels;
 
     //-- We update the nodes
-    if (drawNodes)
-      for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+    for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+      // Node
+      var node = a.pop();
 
-        // // Label
-        // (subrenderers[node.type] || subrenderers.def).update(
-        //   node,
-        //   this.domElements.labels[node.id],
-        //   embedSettings
-        // );
-        // Node
-        var node = a.pop();
-
-        (renderers[node.type] || renderers.def).update(
-          node,
-          this.domElements.nodes[node.id],
-          embedSettings
-        );
-      }
+      (renderers[node.type] || renderers.def).update(
+        node,
+        this.domElements.nodes[node.id],
+        embedSettings
+      );
+    }
 
     // Display edges
     //---------------
     renderers = sigma.svg.edges;
 
     //-- We update the edges
-    if (drawEdges)
-      for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
-        var edge = a.pop();
-        source = nodes(edge.source);
-        target = nodes(edge.target);
+    for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
+      var edge = a.pop();
+      source = nodes(edge.source);
+      target = nodes(edge.target);
 
-        (renderers[edge.type] || renderers.def).update(
-          edge,
-          this.domElements.edges[edge.id],
-          source,
-          target,
-          embedSettings
-        );
-       }
+      (renderers[edge.type] || renderers.def).update(
+        edge,
+        this.domElements.edges[edge.id],
+        source,
+        target,
+        embedSettings
+
+      );
+     }
 
     this.dispatchEvent('render');
 
