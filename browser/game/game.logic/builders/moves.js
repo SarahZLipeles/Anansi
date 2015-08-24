@@ -38,7 +38,6 @@ var BuildMoves = (options) => {
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= 5;
-				console.log(target.health);
 			}
 			if (target.health <= 0) {
 				claim(target, source);
@@ -64,7 +63,6 @@ var BuildMoves = (options) => {
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < 10 ? healthDiff : 10;
-				console.log(node.health);
 			}
 			returnVal.health = node.health;
 			returnVal.message = "reinforced";

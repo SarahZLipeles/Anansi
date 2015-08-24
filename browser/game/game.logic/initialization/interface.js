@@ -74,7 +74,6 @@ function Interface (game, playerData) {
 	// 	}
 	// };
 	view.bind("clickNode", (function(event) {
-		console.log(game.board.bases, game.role);
 		this.thread1.crawl(event.data.node.id, Crawlers.getCrawler(), game.board.bases[game.role]);
 	}).bind(this));
 	view.bind("overNode", (event) => {if(event.data.node) console.log(event.data.node.health); })

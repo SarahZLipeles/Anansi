@@ -84,7 +84,7 @@ var style = require("../../game/game.components/style");
         * @param  {object}                   target     The target node object.
         * @param  {configurable}             settings   The settings function.
         */
-        update: function(edge, line, source, sourceSVG, target, targetSVG, settings, claim) {
+        update: function(edge, line, source, sourceSVG, target, targetSVG, settings) {
             var sourceOwner = source.owner,
                 targetOwner = target.owner,
                 player = settings("player");
@@ -112,25 +112,10 @@ var style = require("../../game/game.components/style");
             if(targetOwner === player || sourceOwner === player){
                 line.setAttributeNS(null, "display", "block");
             }else{
-                if(claim){
-                    sourceSVG.setAttributeNS(null, "display", "none");
-                    targetSVG.setAttributeNS(null, "display", "none");
-                }
                 line.setAttributeNS(null, "display", "none");
             }
 
             return this;
-        }, 
-        //reveal nodes from the fog of war
-        reveal: function (source, sourceSVG, target, targetSVG, settings){
-            var sourceOwner = source.owner,
-                targetOwner = target.owner,
-                player = settings("player");
-            if(targetOwner === player || sourceOwner === player){
-                sourceSVG.setAttributeNS(null, "display", "block");
-                targetSVG.setAttributeNS(null, "display", "block");
-            }
         }
-
     }
 })();
