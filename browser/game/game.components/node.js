@@ -1,8 +1,6 @@
 "use strict";
 function MakeNodes(options){
-	var width = options.width;
-	var height = options.height;
-	var spacing = 15;
+	var {width, height, spacing, nodeSize} = options;
 	var odd = true;
 	var startX = spacing;
 	var startY = spacing;
@@ -14,7 +12,7 @@ function MakeNodes(options){
 			health: 5,
 			links: [],
 			resources: undefined,
-			size: 0.03,
+			size: nodeSize,
 			x: x,
 			y: y,
 			from: undefined,
@@ -44,7 +42,7 @@ function MakeNodes(options){
 		var base = potentialBases[Math.floor(Math.random() * potentialBases.length)];
 		base.maxHealth = 50;
 		base.health = 50;
-		base.size = 0.15;
+		base.size = nodeSize;
 		return base;
 	}
 
@@ -60,7 +58,7 @@ function MakeNodes(options){
 		base1 = getBase(widthPad, heightPad, widthPad * 2, height - heightPad, nodes),
 		base2 = getBase(width - widthPad * 2, heightPad, width - widthPad, height - heightPad, nodes);
 
-	return {nodes, base1, base2};	
+	return {nodes: nodes, base1: base1, base2: base2};	
 }
 
 module.exports = MakeNodes;

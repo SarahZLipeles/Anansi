@@ -4,21 +4,13 @@ var BuildMoves = (options) => {
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
 		changeNode.owner = undefined;
-		//should flatten in the future, maybe
-		changeNode.to.forEach((id) => {
-			removeOwner(id);
-		});
+		changeNode.to.forEach((id) => removeOwner(id));
 		changeNode.to.length = 0;
 		changeNode.from = undefined;
 	};
 
 	var claim = (target, source) => {
-		var {owner} = source;
-		// if(target.id !== view.graph.bases[this.role].id){
-		if(!target.from){
-			target.from = source.id;
-			source.to.push(target.id);
-		}else if(target.from && target.owner !== owner){
+		if(target.from){
 			var oldFrom = nodes(target.from);
 			var toIndex = oldFrom.to.indexOf(target.id);
 			if(~toIndex){
@@ -29,9 +21,12 @@ var BuildMoves = (options) => {
 			for(var i = 0, l = target.to.length; i < l; i++){
 				removeOwner(target.to.pop());
 			}
+		}else{
+			target.from = source.id;
+			source.to.push(target.id);
 		}
-		// } 
-		target.owner = owner;
+		target.owner = source.owner;
+		target.health = target.maxHealth / 4;
 	};
 
 	var attack = (data) => {
@@ -39,7 +34,7 @@ var BuildMoves = (options) => {
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
-		if(source.links.indexOf(targetId) !== -1){
+		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= 5;
 				console.log(target.health);
@@ -47,9 +42,13 @@ var BuildMoves = (options) => {
 			if (target.health <= 0) {
 				claim(target, source);
 				returnVal.links = target.links;
+				returnVal.message = "claimed";
 			}else{
 				returnVal.health = target.health;
+				returnVal.message = "damaged";
 			}
+		}else{
+			returnVal.message = "invalid";
 		}
 		return returnVal;
 	};
@@ -57,16 +56,21 @@ var BuildMoves = (options) => {
 
 	var reinforce = (data) => {
 		var node = queue(data.target);
-		if(node.owner){
+		var returnVal = {id: data.target};
+		if(node.owner === data.role){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < 10 ? healthDiff : 10;
 				console.log(node.health);
 			}
+			returnVal.health = node.health;
+			returnVal.message = "reinforced";
+		}else{
+			returnVal.message = "invalid";
 		}
-		return {id: data.target, health: node.health};
+		return returnVal;
+		
 	};
-
 
 	//to fix
 	// this.moveBase = function(id){

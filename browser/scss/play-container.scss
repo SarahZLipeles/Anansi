@@ -4,16 +4,19 @@
   background-color: #555;
   width: 100%;
   margin: 0 auto;
-  opacity:0.60;
-  display:flex;
+  height: 95vh;
+  opacity: 0.60;
+  display: flex;
 
 }
 
 
 .game {
   background-color: white;
+  position: relative;
   //color: white;
-  width: 80%;
+  width: calc(80% - 1px);
+  height: calc(95vh - 1em - 2px);
   border-top: 1px white solid;
   border-bottom: 1px white solid;
   padding: 0.5em 2em 0.5em 2em;
@@ -21,6 +24,12 @@
   // @include prefix(flex-basis, 450px);
   // @include prefix(flex-grow, 3);
   border-left: 1px white solid;
+  overflow: scroll;
+}
+
+#container {
+  width: 100%;
+  overflow: scroll;
 }
 
 .sidebar {
@@ -28,5 +37,6 @@
   @include prefix(flex-flow, "column wrap");
   width:20%;
   overflow: auto;
-  max-height: 100%;
+  margin: 0 auto;
+  height: 95vh;
 }

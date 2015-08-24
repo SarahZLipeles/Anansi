@@ -9,8 +9,8 @@ var playState = require("./play/play.state"),
 var app = angular.module('Anansi', ['ui.router', 'ui.ace']);
 
 app.config(function($urlRouterProvider, $locationProvider){
-$locationProvider.html5Mode(true);
-$urlRouterProvider.otherwise('/');
+	$locationProvider.html5Mode(true);
+	$urlRouterProvider.otherwise('/');
 });
 
 app.config(homepageState);

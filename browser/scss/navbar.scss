@@ -11,6 +11,8 @@
   @include prefix(background-size, cover);
   opacity:0.8;
   z-index:-1;
+  margin: 0;
+  height: 100vh;
 }
 
 .container {
@@ -19,9 +21,14 @@
   background-color: #555;
   width: 100%;
   margin: 0 auto;
-  opacity:0.60;
-  display:flex;
+  opacity: 0.60;
+  display: flex;
+}
 
+.navbar {
+  position: fixed;
+  top: 0;
+  z-index: 1;
 }
 
 
@@ -36,7 +43,7 @@
   padding: 0.5em 2em 0.5em 2em;
   font-size: 110%;
   text-align:center;
-  height: 10vh;
+  height: calc(5vh - 1em);
   @include prefix(flex-basis,150px);
   @include prefix(flex-grow,1);
 

@@ -4,7 +4,6 @@ var NodeFactory = require("./node");
 
 function makeField (options) {
 	var product = NodeFactory(options);
-	console.log(product.base1, product.base2);
 	return {
 		bases: {host: product.base1.id, client: product.base2.id},
 		nodes: product.nodes,
@@ -70,7 +69,8 @@ function connectField (field, radii) {
 	field.edges = edges;
 }
 
-function wiggleNodes (field, factors = 20) {
+function wiggleNodes (field, factors) {
+	factors = factors || 20;
 	var nodes = field.nodes,
 		xfactor = typeof factors === "object" ? factors.x : factors,
 		yfactor = typeof factors === "object" ? factors.y : factors;
@@ -107,21 +107,23 @@ function checkField (field) {
 	field.nodes = field.nodes.filter((node) => connected.includes(node.id));
 	//Filter out the edges that attach isolated nodes
 	field.edges = field.edges.filter((edge) => connected.includes(edge.source) && connected.includes(edge.target));
-
+	field.numNodes = field.nodes.length;
 	//Check if the two bases are connected
 	return connected.includes(field.bases.client) ? field : false;
 }
 
-function makeGraph (fieldOptions, radii, maxConnections){
+function makeGraph (fieldOptions, radii){
 	var field = makeField(fieldOptions);
-	connectField(field, radii, maxConnections);
+	connectField(field, radii);
 	wiggleNodes(field);
-	return checkField(field) || makeGraph(fieldOptions, radii, maxConnections);
+	return checkField(field) || makeGraph(fieldOptions, radii);
 }
 
 var fieldOptions = {
-	width: 100,
-	height: 100,
+	width: 4000,
+	height: 3000,
+	spacing: 50,
+	nodeSize: 5,
 	padding: 10
 };
 
@@ -131,6 +133,6 @@ var fieldOptions = {
 
 
 module.exports = {
-	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 33}, 5); }
+	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 100}); }
 };
 
