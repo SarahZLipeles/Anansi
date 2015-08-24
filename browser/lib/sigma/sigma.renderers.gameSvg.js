@@ -553,6 +553,33 @@
     return this;
   };
 
+  sigma.renderers.svg.prototype.resize = function(w, h) {
+    var oldWidth = this.width,
+        oldHeight = this.height,
+        pixelRatio = 1;
+
+    if (w !== undefined && h !== undefined) {
+      this.width = w;
+      this.height = h;
+    } else {
+      this.width = this.container.offsetWidth;
+      this.height = this.container.offsetHeight;
+
+      w = this.width;
+      h = this.height;
+    }
+
+    if (oldWidth !== this.width || oldHeight !== this.height) {
+      this.domElements.graph.style.width = w + 'px';
+      this.domElements.graph.style.height = h + 'px';
+
+      if (this.domElements.graph.tagName.toLowerCase() === 'svg') {
+        this.domElements.graph.setAttribute('width', (w * pixelRatio));
+        this.domElements.graph.setAttribute('height', (h * pixelRatio));
+      }
+    }
+  }
+
 
   /**
    * The labels, nodes and edges renderers are stored in the three following

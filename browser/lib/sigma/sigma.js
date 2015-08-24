@@ -2928,8 +2928,8 @@ if (typeof exports !== 'undefined') {
     //          of the nodes will be their size.
     minEdgeSize: 0.5,
     maxEdgeSize: 1,
-    minNodeSize: 1,
-    maxNodeSize: 8,
+    minNodeSize: 5,
+    maxNodeSize: 12,
 
 
 
@@ -2956,9 +2956,9 @@ if (typeof exports !== 'undefined') {
     //          user zooms by double clicking.
     doubleClickZoomingRatio: 1,
     // {number} The minimum zooming level.
-    zoomMin: 1,
+    zoomMin: 5,
     // {number} The maximum zooming level.
-    zoomMax: 1,
+    zoomMax: 5,
     // {number} The duration of animations following a mouse scrolling.
     mouseZoomDuration: 200,
     // {number} The duration of animations following a mouse double click.
@@ -10468,7 +10468,6 @@ if (typeof exports !== 'undefined') {
      * @param  {DOMElement}               element   The DOM element to hide.
      */
     hide: function(element) {
-      console.log(arguments.callee)
       element.style.display = 'none';
       return this;
     }

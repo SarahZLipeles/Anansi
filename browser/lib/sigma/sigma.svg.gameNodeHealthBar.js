@@ -26,7 +26,7 @@
       health.setAttributeNS(null, 'class', settings('classPrefix') + '-nodeHealth');
       health.setAttributeNS(null, 'fill', '#fff333');
       health.setAttributeNS(null, 'stroke','#fff333');
-      health.setAttributeNS(null, 'stroke-width', 1.25);
+      health.setAttributeNS(null, 'stroke-width', 3.25);
       health.setAttributeNS(null, 'stroke-dasharray', 565.48);
       health.setAttributeNS(null, 'stroke-dashoffset', 0);
       // Taken from below, part of disabling resize readjustment

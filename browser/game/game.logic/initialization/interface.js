@@ -1,5 +1,4 @@
 var Thread = require("../../game.components/thread"), 
-	RenderLoop = require("./renderloop"),
 	style = require("../../game.components/style"),
 	setControls = require("./controls"),
 	setBases = require("./setBases"),
@@ -13,6 +12,7 @@ var view, handleMove;
 function initGlobals (s, game) {
 	view = s;
 	handleMove = MakeMoveHandler({
+		view,
 		queue: s.graph.queueNodes,
 		nodes: s.graph.nodes,
 		opponent: game.opponent,
@@ -46,8 +46,6 @@ function Interface (game, playerData) {
 		}
 	), game);
 	
-	//need to fix vvv
-	var loop = new RenderLoop(view); // fix this to only render when a node is inserted
 	view.graph.bases = game.board.bases;
 	view.graph.color = this.playerColor;
 	this.initThreads(game.board, handleMove);
@@ -76,9 +74,10 @@ function Interface (game, playerData) {
 	// 	}
 	// };
 	view.bind("clickNode", (function(event) {
-		this.thread1.crawl(event.data.node.id, Crawlers.getCrawler("test"));
+		console.log(game.board.bases, game.role);
+		this.thread1.crawl(event.data.node.id, Crawlers.getCrawler(), game.board.bases[game.role]);
 	}).bind(this));
-	view.bind("overNode", (event) => {if(event.data.node) console.log(event.data.node.health);})
+	view.bind("overNode", (event) => {if(event.data.node) console.log(event.data.node.health); })
 	// view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
 	//need to fix ^^^
 	view.refresh();

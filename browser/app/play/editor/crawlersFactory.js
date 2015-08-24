@@ -4,8 +4,8 @@ function Crawlers() {
 		var data = {};
 		return {
 			name: obj.name,
-			start: function(nodeId) {
-				obj.start.call(this, nodeId, data);
+			start: function(nodeId, base) {
+				obj.start.call(this, nodeId, base, data);
 			},
 			receive: function(node) {
 				console.log(this);
@@ -16,8 +16,8 @@ function Crawlers() {
 	};
 
 	var defaultCrawler = makeCrawler({
-		start: function(id) {
-			this.attack(0, id);
+		start: function(id, base) {
+			this.attack(base, id);
 		},
 		receive: function() {}
 	});

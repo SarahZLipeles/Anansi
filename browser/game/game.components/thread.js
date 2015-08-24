@@ -11,13 +11,14 @@ function Thread(handler) {
     handler.register(this);
 }
 
-Thread.prototype.crawl = function(startId, crawler) {
+Thread.prototype.crawl = function(startId, crawler, base) {
     if (this.crawling) {
         this.handler.clearThread(this.id);
     }
     this.crawling = true;
     this.currentCrawler = crawler;
-    crawler.start.call(this.userScope, startId);
+    console.log(base, crawler, this.userScope, startId);
+    crawler.start.call(this.userScope, startId, base);
 };
 
 Thread.prototype.stop = function () {

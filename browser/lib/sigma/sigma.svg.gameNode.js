@@ -28,7 +28,7 @@
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
       circle.setAttributeNS(null, 'stroke','#C0AFD9');
       circle.setAttributeNS(null, 'stroke-dasharray', c);
-      circle.setAttributeNS(null, 'stroke-width', 1.25);
+      circle.setAttributeNS(null, 'stroke-width', 3.25);
       circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
       circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
 

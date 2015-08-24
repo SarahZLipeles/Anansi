@@ -1,5 +1,5 @@
 var BuildMoves = (options) => {
-	var {queue, nodes} = options;
+	var {queue, nodes, view} = options;
 	
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
@@ -30,6 +30,7 @@ var BuildMoves = (options) => {
 	};
 
 	var attack = (data) => {
+		console.log(data);
 		var targetId = data.target;
 		var source = nodes(data.source);
 		var target = queue(targetId);
@@ -50,6 +51,7 @@ var BuildMoves = (options) => {
 		}else{
 			returnVal.message = "invalid";
 		}
+		view.refresh({partial: true});
 		return returnVal;
 	};
 
@@ -68,8 +70,8 @@ var BuildMoves = (options) => {
 		}else{
 			returnVal.message = "invalid";
 		}
+		view.refresh({partial: true});
 		return returnVal;
-		
 	};
 
 	//to fix

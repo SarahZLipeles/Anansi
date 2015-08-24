@@ -9,7 +9,7 @@ function MakeNodes(options){
 		return {
 			id: Math.random().toString(32).slice(2),
 			maxHealth: 20,
-			health: 5,
+			health: 20,
 			links: [],
 			resources: undefined,
 			size: nodeSize,
@@ -42,7 +42,7 @@ function MakeNodes(options){
 		var base = potentialBases[Math.floor(Math.random() * potentialBases.length)];
 		base.maxHealth = 50;
 		base.health = 50;
-		base.size = nodeSize;
+		base.size = nodeSize * 5;
 		return base;
 	}
 
