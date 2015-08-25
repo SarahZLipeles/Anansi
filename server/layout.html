@@ -6,16 +6,17 @@
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
-<body class="blackweb">
+<body>
 <navbar></navbar>
 <div class="appBody">
-	<ui-view></ui-view>
+	<ui-view id="view" class="slide-in"></ui-view>
 </div>
 
 <script type="text/javascript" src="/gulp-babel/node_modules/babel-core/browser-polyfill.min.js"></script>
 <script type="text/javascript" src="/lib/sigma/sigma.js"></script>
 <script type="text/javascript" src="/angular/angular.min.js"></script>
 <script type="text/javascript" src="/angular-ui-router/release/angular-ui-router.min.js"></script>
+<!--<script type="text/javascript" src="/axwx`ngular-animate/angular-animate.min.js"></script>-->
 <script type="text/javascript" src="/ace-builds/src-min-noconflict/ace.js"></script>
 <script type="text/javascript" src="/angular-ui-ace/src/ui-ace.js"></script>
 <script type="text/javascript" src="/lib/peer.js"></script>

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/TheoLipeles/Anansi",
   "dependencies": {
     "angular": "^1.4.4",
+    "angular-animate": "^1.4.4",
     "angular-ui-ace": "^0.2.3",
     "angular-ui-router": "^0.2.15",
     "babel": "^5.8.21",
@@ -28,7 +29,8 @@
     "morgan": "^1.6.1",
     "peer": "^0.2.8",
     "serve-favicon": "^2.3.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "webworkify": "^1.0.2"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",
@@ -50,7 +52,7 @@
     "mocha": "^2.2.5",
     "mocha-babel": "^3.0.0",
     "mocha-traceur": "^2.1.0",
-    "node-normalize-scss": "^1.0.3",
+    "normalize-css": "^2.3.1",
     "rewire": "^2.3.4",
     "run-sequence": "^1.1.2"
   }

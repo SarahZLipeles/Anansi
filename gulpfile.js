@@ -42,9 +42,9 @@ gulp.task('buildJS', ["lintJS"], function () {
 });
 
 gulp.task('buildCSS', function () {
-    return gulp.src(['./browser/scss/main.scss'])
+    return gulp.src('./browser/scss/main.scss')
         .pipe(sass({
-            includePaths:require('node-normalize-scss').includePaths,
+            //includePaths:require('node-normalize-scss').includePaths,
             errLogToConsole:true
         }))
         .pipe(rename('styles.css'))
