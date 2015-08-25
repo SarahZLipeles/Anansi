@@ -44,7 +44,7 @@ function MakeNodes(options){
 		var base = potentialBases[Math.floor(Math.random() * potentialBases.length)];
 		base.maxHealth = gameSettings.baseMaxHealth;
 		base.health = gameSettings.baseHealth;
-		base.size = gameSettings.size;
+		base.size = gameSettings.size * 5;
 		return base;
 	}
 

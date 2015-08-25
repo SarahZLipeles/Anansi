@@ -125,6 +125,6 @@ function makeGraph (fieldOptions, radii){
 
 
 module.exports = {
-	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 100}); }
+	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 55}); }
 };
 
