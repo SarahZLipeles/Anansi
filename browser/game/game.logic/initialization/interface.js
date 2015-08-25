@@ -1,6 +1,6 @@
 var Thread = require("../../game.components/thread"), 
 	RenderLoop = require("./renderloop"),
-	style = require("../../game.components/style"),
+	gameSettings = require("../../../settings"),
 	setControls = require("./controls"),
 	setBases = require("./setBases"),
 	MakeMoveHandler = require("../builders/moveHandler"),
@@ -40,8 +40,8 @@ function Interface (game, playerData) {
 				player: game.role,
 				width: game.board.width,
 				height: game.board.height,
-				defaultNodeColor: style.default,
-				defaultEdgeColor: style.default
+				defaultNodeColor: gameSettings.default,
+				defaultEdgeColor: gameSettings.default
 			}
 		}
 	), game);
@@ -89,9 +89,11 @@ Interface.prototype.initThreads = function (board, handler) {
 	this.currentThread = 'thread1';
 	this.state = 'attackNode';
 	this.source = board.bases[this.role].id;
-	this.thread1 = new Thread(handler);
-	this.thread2 = new Thread(handler);
-	this.threads = 2;
+	this.threads = gameSettings.numThreads;
+	for(var i = 1; i <= this.threads; i++){
+		var threadNumber = "thread" + i;
+		this[threadNumber] = new Thread(handler)
+	}
 };
 
 Interface.prototype.updateBoard = function (data) {

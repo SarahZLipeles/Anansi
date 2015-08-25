@@ -1,3 +1,5 @@
+var gameSettings = require('../../settings.js')
+
 (function() {
   'use strict';
 

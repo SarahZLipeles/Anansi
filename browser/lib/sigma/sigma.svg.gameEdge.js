@@ -1,7 +1,7 @@
-var style = require("../../game/game.components/style");
+var gameSettings = require("../../settings.js");
 (function () {
     "use strict";
-    var defaultColor = style.default;
+    var defaultColor = gameSettings.default;
     sigma.utils.pkg("sigma.svg.edges");
 
     /**

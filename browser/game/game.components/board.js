@@ -1,5 +1,5 @@
 var NodeFactory = require("./node");
-
+var fieldOptions = require('../../settings.js').fieldOptions
 "use strict";
 
 function makeField (options) {
@@ -118,14 +118,6 @@ function makeGraph (fieldOptions, radii){
 	wiggleNodes(field);
 	return checkField(field) || makeGraph(fieldOptions, radii);
 }
-
-var fieldOptions = {
-	width: 4000,
-	height: 3000,
-	spacing: 50,
-	nodeSize: 5,
-	padding: 10
-};
 
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
