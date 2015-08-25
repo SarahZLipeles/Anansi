@@ -1,4 +1,4 @@
-var gameSettings = require('../../../settings.js')
+var gameSettings = require('../../../settings.js');
 
 var BuildMoves = (options) => {
 	var {queue, nodes, view} = options;

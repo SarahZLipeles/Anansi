@@ -28,11 +28,18 @@ var settings = {
 	//moves
 	attackBy: 5,
 	reinforceBy: 10,
-	healthOnClaim: (maxHealth) => return maxHealth / 4,
+	healthOnClaim: (maxHealth) => {maxHealth / 4},
 
 	//number of threads
 	numThreads: 2,
 
+	//sigma health bars
+	healthBarSize: 3.25,
+	highHealth: 0.5,
+	highHealthColor: 'green',
+	mediumHealth: 0.25,
+	mediumHealthColor: 'yellow',
+	lowHealthColor: 'red'
 };
 
 module.exports = settings;

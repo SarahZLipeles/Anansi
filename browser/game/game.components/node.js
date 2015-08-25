@@ -2,7 +2,7 @@ var gameSettings = require('../../settings.js')
 
 "use strict";
 function MakeNodes(options){
-	var {width, height, spacing, nodeSize} = options;
+	var {width, height, spacing} = options;
 	var odd = true;
 	var startX = spacing;
 	var startY = spacing;

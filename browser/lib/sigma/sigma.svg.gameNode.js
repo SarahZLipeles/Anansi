@@ -1,4 +1,4 @@
-var gameSettings = require('../../settings.js')
+var gameSettings = require('../../settings.js');
 
 (function() {
   'use strict';
@@ -18,15 +18,15 @@ var gameSettings = require('../../settings.js')
           circle.setAttributeNS(null, 'stroke-dasharray', c);
         }
 
-        if(ratio > 0.5){
-          circle.setAttributeNS(null, 'stroke','green');
-        } else if(ratio > 0.25){
-          circle.setAttributeNS(null, 'stroke','yellow');
+        if(ratio > gameSettings.highHealth){
+          circle.setAttributeNS(null, 'stroke',gameSettings.highHealthColor);
+        } else if(ratio > gameSettings.mediumHealth){
+          circle.setAttributeNS(null, 'stroke',gameSettings.mediumHealthColor);
         } else{
-          circle.setAttributeNS(null, 'stroke','red');
+          circle.setAttributeNS(null, 'stroke',gameSettings.lowHealthColor);
         }
 
-        circle.setAttributeNS(null, 'stroke-width', 3.25);
+        circle.setAttributeNS(null, 'stroke-width', gameSettings.healthBarSize);
         circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
         // circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
       }

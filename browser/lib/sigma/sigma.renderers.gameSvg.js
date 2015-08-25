@@ -279,7 +279,6 @@
         source,
         target,
         renderers,
-        subrenderers,
         index = {},
         graph = this.graph,
         nodes = this.graph.nodes,
@@ -325,7 +324,6 @@
     // Display nodes
     //---------------
     renderers = sigma.svg.nodes;
-    subrenderers = sigma.svg.labels;
 
     //-- We update the nodes
     if (drawNodes)

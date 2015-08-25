@@ -112,11 +112,11 @@ function checkField (field) {
 	return connected.includes(field.bases.client) ? field : false;
 }
 
-function makeGraph (fieldOptions, radii){
-	var field = makeField(fieldOptions);
+function makeGraph (options, radii){
+	var field = makeField(options);
 	connectField(field, radii);
 	wiggleNodes(field);
-	return checkField(field) || makeGraph(fieldOptions, radii);
+	return checkField(field) || makeGraph(options, radii);
 }
 
 //Board notes
@@ -125,6 +125,6 @@ function makeGraph (fieldOptions, radii){
 
 
 module.exports = {
-	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 55}); }
+	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: (fieldOptions.spacing * 2 + 3)}); }
 };
 
