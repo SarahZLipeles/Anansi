@@ -1,6 +1,8 @@
+var gameSettings = require('../../settings.js')
+
 "use strict";
 function MakeNodes(options){
-	var {width, height, spacing, nodeSize} = options;
+	var {width, height, spacing} = options;
 	var odd = true;
 	var startX = spacing;
 	var startY = spacing;
@@ -8,11 +10,11 @@ function MakeNodes(options){
 	function Nodule(x, y){
 		return {
 			id: Math.random().toString(32).slice(2),
-			maxHealth: 20,
-			health: 5,
+			maxHealth: gameSettings.maxHealth,
+			health: gameSettings.health,
 			links: [],
 			resources: undefined,
-			size: nodeSize,
+			size: gameSettings.size,
 			x: x,
 			y: y,
 			from: undefined,
@@ -40,9 +42,9 @@ function MakeNodes(options){
 			return node.x > x1 && node.x < x2 && node.y > y1 && node.y < y2;
 		});
 		var base = potentialBases[Math.floor(Math.random() * potentialBases.length)];
-		base.maxHealth = 50;
-		base.health = 50;
-		base.size = nodeSize;
+		base.maxHealth = gameSettings.baseMaxHealth;
+		base.health = gameSettings.baseHealth;
+		base.size = gameSettings.size * 5;
 		return base;
 	}
 

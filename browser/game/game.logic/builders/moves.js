@@ -1,5 +1,7 @@
+var gameSettings = require('../../../settings.js');
+
 var BuildMoves = (options) => {
-	var {queue, nodes} = options;
+	var {queue, nodes, view} = options;
 	
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
@@ -26,17 +28,18 @@ var BuildMoves = (options) => {
 			source.to.push(target.id);
 		}
 		target.owner = source.owner;
-		target.health = target.maxHealth / 4;
+		target.health = gameSettings.healthOnClaim(target.maxHealth);
 	};
 
 	var attack = (data) => {
+		console.log(data);
 		var targetId = data.target;
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
-				target.health -= 5;
+				target.health -= gameSettings.attackBy;
 				console.log(target.health);
 			}
 			if (target.health <= 0) {
@@ -50,6 +53,7 @@ var BuildMoves = (options) => {
 		}else{
 			returnVal.message = "invalid";
 		}
+		view.refresh({partial: true});
 		return returnVal;
 	};
 
@@ -60,7 +64,7 @@ var BuildMoves = (options) => {
 		if(node.owner === data.role){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
-				node.health += healthDiff < 10 ? healthDiff : 10;
+				node.health += healthDiff < gameSettings.reinforceBy ? healthDiff : gameSettings.reinforceBy;
 				console.log(node.health);
 			}
 			returnVal.health = node.health;
@@ -68,8 +72,8 @@ var BuildMoves = (options) => {
 		}else{
 			returnVal.message = "invalid";
 		}
+		view.refresh({partial: true});
 		return returnVal;
-		
 	};
 
 	//to fix

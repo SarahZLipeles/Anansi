@@ -1,6 +1,5 @@
 var Thread = require("../../game.components/thread"), 
-	RenderLoop = require("./renderloop"),
-	style = require("../../game.components/style"),
+	gameSettings = require("../../../settings"),
 	setControls = require("./controls"),
 	setBases = require("./setBases"),
 	MakeMoveHandler = require("../builders/moveHandler"),
@@ -13,6 +12,7 @@ var view, handleMove;
 function initGlobals (s, game) {
 	view = s;
 	handleMove = MakeMoveHandler({
+		view,
 		queue: s.graph.queueNodes,
 		nodes: s.graph.nodes,
 		opponent: game.opponent,
@@ -40,14 +40,12 @@ function Interface (game, playerData) {
 				player: game.role,
 				width: game.board.width,
 				height: game.board.height,
-				defaultNodeColor: style.default,
-				defaultEdgeColor: style.default
+				defaultNodeColor: gameSettings.default,
+				defaultEdgeColor: gameSettings.default
 			}
 		}
 	), game);
 	
-	//need to fix vvv
-	var loop = new RenderLoop(view); // fix this to only render when a node is inserted
 	view.graph.bases = game.board.bases;
 	view.graph.color = this.playerColor;
 	this.initThreads(game.board, handleMove);
@@ -76,9 +74,10 @@ function Interface (game, playerData) {
 	// 	}
 	// };
 	view.bind("clickNode", (function(event) {
-		this.thread1.crawl(event.data.node.id, Crawlers.getCrawler("test"));
+		console.log(game.board.bases, game.role);
+		this.thread1.crawl(event.data.node.id, Crawlers.getCrawler(), game.board.bases[game.role]);
 	}).bind(this));
-	view.bind("overNode", (event) => {if(event.data.node) console.log(event.data.node.health);})
+	view.bind("overNode", (event) => {if(event.data.node) console.log(event.data.node.health); })
 	// view.bind("clickNode", clickANode.bind(this, this.claim.bind(this)));
 	//need to fix ^^^
 	view.refresh();
@@ -89,9 +88,11 @@ Interface.prototype.initThreads = function (board, handler) {
 	this.currentThread = 'thread1';
 	this.state = 'attackNode';
 	this.source = board.bases[this.role].id;
-	this.thread1 = new Thread(handler);
-	this.thread2 = new Thread(handler);
-	this.threads = 2;
+	this.threads = gameSettings.numThreads;
+	for(var i = 1; i <= this.threads; i++){
+		var threadNumber = "thread" + i;
+		this[threadNumber] = new Thread(handler)
+	}
 };
 
 Interface.prototype.updateBoard = function (data) {
