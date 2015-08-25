@@ -1,5 +1,5 @@
 var NodeFactory = require("./node");
-
+var fieldOptions = require('../../settings.js').fieldOptions
 "use strict";
 
 function makeField (options) {
@@ -112,20 +112,12 @@ function checkField (field) {
 	return connected.includes(field.bases.client) ? field : false;
 }
 
-function makeGraph (fieldOptions, radii){
-	var field = makeField(fieldOptions);
+function makeGraph (options, radii){
+	var field = makeField(options);
 	connectField(field, radii);
 	wiggleNodes(field);
-	return checkField(field) || makeGraph(fieldOptions, radii);
+	return checkField(field) || makeGraph(options, radii);
 }
-
-var fieldOptions = {
-	width: 2000,
-	height: 1000,
-	spacing: 27,
-	nodeSize: 5,
-	padding: 10
-};
 
 //Board notes
 //withinRange({inner: 15, outer:30-33}) decent setting, stringy, lots of dead ends
@@ -133,6 +125,6 @@ var fieldOptions = {
 
 
 module.exports = {
-	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: 55}); }
+	generate: function () { return makeGraph(fieldOptions, {inner: 0, outer: (fieldOptions.spacing * 2 + 3)}); }
 };
 

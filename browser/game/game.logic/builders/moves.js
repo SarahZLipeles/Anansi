@@ -1,3 +1,5 @@
+var gameSettings = require('../../../settings.js');
+
 var BuildMoves = (options) => {
 	var {queue, nodes, view} = options;
 	
@@ -26,7 +28,7 @@ var BuildMoves = (options) => {
 			source.to.push(target.id);
 		}
 		target.owner = source.owner;
-		target.health = target.maxHealth / 4;
+		target.health = gameSettings.healthOnClaim(target.maxHealth);
 	};
 
 	var attack = (data) => {
@@ -37,7 +39,7 @@ var BuildMoves = (options) => {
 		var renderType = {partial: true};
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
-				target.health -= 5;
+				target.health -= gameSettings.attackBy;
 			}
 			if (target.health <= 0) {
 				claim(target, source);
@@ -62,7 +64,7 @@ var BuildMoves = (options) => {
 		if(node.owner === data.role){
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
-				node.health += healthDiff < 10 ? healthDiff : 10;
+				node.health += healthDiff < gameSettings.reinforceBy ? healthDiff : gameSettings.reinforceBy;
 			}
 			returnVal.health = node.health;
 			returnVal.message = "reinforced";

@@ -1,0 +1,12 @@
+[
+	{"id": "0", "links": ["2","3","4","5"], "health": 50, "friendly": true, "enemy": false},
+	{"id": "2", "links": [], "health": 10, "friendly": false, "enemy": false},
+	{"id": "3", "links": ["0","6"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "4", "links": ["0","6","7"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "5", "links": ["0","8"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "6", "links": ["2","4","9","1"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "7", "links": ["4","1"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "8", "links": ["5","1"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "9", "links": ["6"], "health": 10, "friendly": false, "enemy": false},
+	{"id": "1", "links": ["6","7","8"], "health": 50, "friendly": false, "enemy": true}
+]

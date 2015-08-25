@@ -1,4 +1,6 @@
 var Crawlers = require("./crawlersFactory");
+var userTests = require("./user.tests/tests");
+
 var editorController = function($scope) {
     $scope.reset = function(){
         $scope.obj = {
@@ -10,12 +12,12 @@ var editorController = function($scope) {
         
     };
     $scope.createFunction = function(){
-        $scope.obj.start = eval("(function(nodeId, data){" + $scope.obj.startText + "})");
-        $scope.obj.receive = eval("(function(node, data) {" + $scope.obj.receiveText + "})");
-        console.log($scope.obj);
-        Crawlers.addCrawler($scope.obj);
-        $scope.crawlers.push($scope.obj);
+        var testedObj = userTests($scope.obj);
+        if (testedObj) {
+            Crawlers.addCrawler(testedObj);
+        $scope.crawlers.push(testedObj);
         $scope.reset();
+        }
     };
     $scope.editCrawler = function(crawler){
         $scope.obj = crawler;

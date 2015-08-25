@@ -24,6 +24,6 @@ Thread.prototype.stop = function () {
     this.currentCrawler = undefined;
     this.crawling = false;
     this.handler.clearThread(this.id);
-}
+};
 
 module.exports = Thread;

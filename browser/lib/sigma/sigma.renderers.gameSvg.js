@@ -356,7 +356,9 @@ require("../arrayMethods");
     // Display nodes
     //---------------
     renderers = sigma.svg.nodes;
+
     var node;
+
     //-- We update the nodes
     for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
       // Node

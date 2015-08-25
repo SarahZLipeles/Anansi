@@ -1,85 +1,50 @@
 
 @import 'vendor-prefixes.scss';
 
-//li {
-//  @include vendor-prefix-shorthand(linear-gradient, top, #2f2f2f, #4f4f4f);
-//}
-
-
-.blackweb {
-  background: url('asset/blackweb.jpg') no-repeat 50% 50% fixed;
-  @include prefix(background-size, cover);
-  opacity:0.8;
-  z-index:-1;
-  margin: 0;
-  height: 100vh;
-}
 
 .container {
-  font-family: 'Droid Sans', sans-serif;
-  @include prefix(justify-content, center);
-  background-color: #555;
-  width: 100%;
-  margin: 0 auto;
-  opacity: 0.60;
-  display: flex;
+
 }
 
 .navbar {
-  position: fixed;
-  top: 0;
+//  position: fixed;
+  //top: 0;
   z-index: 1;
-}
+  font-family: 'Droid Sans', sans-serif;
+  //background-color: #555;
+  width: 100%;
+  //margin: 0 auto;
+  opacity: 0.60;
+  @include prefix(display, flex);
+  @include prefix(flex-fow, 'row wrap');
+  @include prefix(justify-content, center);
+  @include prefix(align-items, flex-start);
+  @include prefix(align-contents, flex-start);
 
+  .item {
+    background-color:black;
+    color:white;
+    list-style-type: none;
+    //margin: 0 auto;
+    border-top: 1px white solid;
+    border-bottom: 1px white solid;
+    padding: 0.5em 2em 0.5em 2em;
+    font-size: 110%;
+    text-align:center;
+    height: calc(5vh - 1em);
+    @include prefix(align-self, stretch);
+    @include prefix(flex, '1 1 150px');
 
-.item {
-  background-color:black;
-  color:white;
-  list-style-type: none;
-
-  margin: 0 auto;
-  border-top: 1px white solid;
-  border-bottom: 1px white solid;
-  padding: 0.5em 2em 0.5em 2em;
-  font-size: 110%;
-  text-align:center;
-  height: calc(5vh - 1em);
-  @include prefix(flex-basis,150px);
-  @include prefix(flex-grow,1);
+  }
 
 }
 
 
 .title{
   font-size: 110%;
-  @include prefix(flex-grow,4);
-}
-
-.search{
-
+  @include prefix(flex, '0 1 auto');
 }
 
 
-//
-//.title {
-//  font-family: 'Droid Sans', sans-serif;
-//  color: white;
-//  width: 100%;
-//  margin: 0px auto;
-//  float:left;
-//}
-//
-//.title:hover{
-//  @include vendor-prefix-shorthand(linear-gradient, top, red, white);
-//  opacity:0.60;
-//}
-//
-//.spider {
-//  height:350px;
-//  background: url('asset/spider.png') no-repeat center center fixed;
-//  opacity:0.0;
-//}
-//
-//.spider:hover {
-//  opacity:0.5;
-//}
+
+

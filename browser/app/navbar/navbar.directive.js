@@ -5,6 +5,9 @@ navbar.func = function () {
         templateUrl: '/app/navbar/navbar.html',
         link: function(scope) {
             scope.categories = [{
+                label: 'Editor',
+                state: 'editor'
+            }, {
                 label: 'Play Game',
                 state: 'play'
             }, {
