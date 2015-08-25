@@ -1,0 +1,12 @@
+@import 'vendor-prefixes.scss';
+
+.animate-enter{
+  @include prefix(transition, '1s linear all');
+  opacity:0;
+  background:black;
+}
+
+.animate-enter.animate-enter-active{
+  opacity:1;
+  background:yellow;
+}

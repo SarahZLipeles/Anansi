@@ -19,6 +19,7 @@
   "homepage": "https://github.com/TheoLipeles/Anansi",
   "dependencies": {
     "angular": "^1.4.4",
+    "angular-animate": "^1.4.4",
     "angular-ui-ace": "^0.2.3",
     "angular-ui-router": "^0.2.15",
     "babel": "^5.8.21",
