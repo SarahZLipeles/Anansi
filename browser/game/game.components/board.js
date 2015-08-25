@@ -120,8 +120,8 @@ function makeGraph (fieldOptions, radii){
 }
 
 var fieldOptions = {
-	width: 200,
-	height: 150,
+	width: 2000,
+	height: 1000,
 	spacing: 27,
 	nodeSize: 5,
 	padding: 10
