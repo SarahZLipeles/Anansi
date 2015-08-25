@@ -5,27 +5,6 @@ var gameSettings = require('../../settings.js');
 
   sigma.utils.pkg('sigma.svg.nodes');
 
-<<<<<<< HEAD
-  function setHealth(circle, node, r){
-    var c = Math.PI*(r*2);
-    var ratio = node.health / node.maxHealth
-    var strokeOffset = (1 - ratio) * c;  
-    if(ratio === 0){
-      circle.setAttributeNS(null, 'stroke','none');
-    } else{
-      if(ratio === 1){
-        circle.setAttributeNS(null, 'stroke-dasharray', 0);
-      }else{
-        circle.setAttributeNS(null, 'stroke-dasharray', c);
-      }
-
-      if(ratio > 0.5){
-        circle.setAttributeNS(null, 'stroke','green');
-      } else if(ratio > 0.25){
-        circle.setAttributeNS(null, 'stroke','yellow');
-      } else{
-        circle.setAttributeNS(null, 'stroke','red');
-=======
     function setHealth(circle, node, r){
       var c = Math.PI*(r*2);
       var ratio = node.health / node.maxHealth
@@ -50,7 +29,6 @@ var gameSettings = require('../../settings.js');
         circle.setAttributeNS(null, 'stroke-width', gameSettings.healthBarSize);
         circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
         // circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
->>>>>>> master
       }
 
       circle.setAttributeNS(null, 'stroke-width', 3.25);
