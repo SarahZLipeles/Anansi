@@ -1,12 +1,60 @@
-@import 'vendor-prefixes.scss';
-
-.animate-enter{
-  @include prefix(transition, '1s linear all');
-  opacity:0;
-  background:black;
+button {
+  padding: 10px;
+  margin: 5px;
 }
 
-.animate-enter.animate-enter-active{
-  opacity:1;
-  background:yellow;
+#view {
+  width:auto;
+}
+
+// Slide-in
+#view.slide-in.ng-enter,
+#view.slide-in.ng-leave {
+  position:absolute; left:30px; right:30px;
+  transition:0.5s all ease;
+  -moz-transition:0.5s all ease;
+  -webkit-transition:0.5s all ease;
+}
+
+#view.slide-in.ng-enter            {
+  -webkit-animation:slideInRight 0.5s both ease;
+  -moz-animation:slideInRight 0.5s both ease;
+  animation:slideInRight 0.5s both ease;
+}
+
+#view.slide-in.ng-leave            {
+  -webkit-animation:slideOutLeft 0.5s both ease;
+  -moz-animation:slideOutLeft 0.5s both ease;
+  animation:slideOutLeft 0.5s both ease;
+}
+
+@keyframes slideOutLeft {
+  to 		{ transform: translateX(-200%); }
+}
+@-moz-keyframes slideOutLeft {
+  to 		{ -moz-transform: translateX(-200%); }
+}
+@-webkit-keyframes slideOutLeft {
+  to 		{ -webkit-transform: translateX(-200%); }
+}
+
+@keyframes slideInRight {
+  from 	{ transform:translateX(200%); }
+  to 		{ transform: translateX(0); }
+}
+@-moz-keyframes slideInRight {
+  from 	{ -moz-transform:translateX(200%); }
+  to 		{ -moz-transform: translateX(0); }
+}
+@-webkit-keyframes slideInRight {
+  from 	{ -webkit-transform:translateX(200%); }
+  to 		{ -webkit-transform: translateX(0); }
+}
+
+
+
+
+h4 {
+  position: absolute;
+  bottom: 0;
 }

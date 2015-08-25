@@ -52,7 +52,7 @@
     "mocha": "^2.2.5",
     "mocha-babel": "^3.0.0",
     "mocha-traceur": "^2.1.0",
-    "node-normalize-scss": "^1.0.3",
+    "normalize-css": "^2.3.1",
     "rewire": "^2.3.4",
     "run-sequence": "^1.1.2"
   }

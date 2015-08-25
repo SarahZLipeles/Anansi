@@ -1,7 +1,7 @@
 <div class="container navbar ui-view-container">
     <li class="item title"><a ui-sref="homepage">Anansi Welcomes You</a></li>
     <!--<li class="item search"><a ui-sref="homepage">Home</a></li>-->
-    <li class="item " ng-repeat="category in categories" ng-animate="'animate'">
+    <li class="item " ng-repeat="category in categories">
         <a ui-sref-active="active" ui-sref="{{category.state}}">{{category.label}}</a>
     </li>
 </div>

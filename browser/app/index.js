@@ -4,7 +4,8 @@ var playState = require("./play/play.state"),
 	editor = require("./play/editor/editor.directive"),
 	crawler = require("./play/crawler.function/crawler.function.directive"),
 	homepageState = require("./homepage/homepage.state"),
-	editorState = require("./play/editor/editor.state");
+	editorState = require("./play/editor/editor.state"),
+	normalize = require('normalize-css');
 
 "use strict";
 var app = angular.module('Anansi', ['ui.router', 'ui.ace', require('angular-animate')]);
