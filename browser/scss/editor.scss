@@ -1,13 +1,14 @@
 
 @import 'vendor-prefixes.scss';
+@import "colors";
 
 $font-stack: Droid Sans, sans-serif;
-$background-color: #000; //black
+ //black
 
 .editor-container {
-  background-color: $background-color;
-  border: 1px white solid;
-  color: white;
+  background-color: $editor-background-color;
+  border: 1px invert($editor-background-color) solid;
+  color: invert($editor-background-color);
   font-family: $font-stack;
   height: 100%;
   width: 100%;
@@ -30,7 +31,7 @@ $background-color: #000; //black
 
   //@include prefix(align-items, center);
   margin: 2%;
-  border: 1px yellow solid;
+  border: 1px $editor-input-container solid;
   width: 60%; //border-bottom: 1px white solid;
   @include prefix(align-self, self);
   //@include prefix(align-items, stretch);
@@ -50,7 +51,7 @@ $background-color: #000; //black
 .editor-rules-container {
   margin: 2%;
   width: 30%;
-  border: 1px blue solid;
+  border: 1px $editor-rules-container solid;
   display: flex;
   @include prefix(flex, "0 1 auto");
   @include prefix(align-self, stretch);
@@ -67,7 +68,7 @@ $background-color: #000; //black
   display: flex;
   @include prefix(flex-flow, "row wrap");
   margin: 2%;
-  border: 1px red solid;
+  border: 1px $editor-saved-container solid;
   @include prefix(flex, "0 1 auto");
   //@include prefix(align-self, stretch);
   @include prefix(justify-content, flex-start);
@@ -80,30 +81,30 @@ $background-color: #000; //black
   @include prefix(flex, "1 0 auto");
 }
 .var-data {
-  margin-left:5%;
+  margin-left: 5%;
 }
 
 .func-data {
-  margin-left:10%;
+  margin-left: 10%;
   //@include prefix(align-self, center);
   @include prefix(flex, "3 3 60%");
-  width:85%;
-  height:20%;
-  rows:30;
-  cols:50;
-  min-height:50px;
-  font-size:1em;
+  width: 85%;
+  height: 20%;
+  rows: 30;
+  cols: 50;
+  min-height: 50px;
+  font-size: 1em;
 
 }
 
 .func-name {
-  margin-left:10%;
+  margin-left: 10%;
   //@include prefix(align-self, center);
   @include prefix(flex, "3 3 60%");
-  width:85%;
-  rows:30;
-  cols:50;
-  font-size:1em;
+  width: 85%;
+  rows: 30;
+  cols: 50;
+  font-size: 1em;
 }
 
 

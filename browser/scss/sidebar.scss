@@ -1,0 +1,37 @@
+@import "colors";
+@import 'vendor-prefixes.scss';
+
+.sidebar {
+  @include prefix(display, flex);
+  @include prefix(flex-flow, "column wrap");
+  width:20%;
+  overflow: auto;
+  margin: 0 auto;
+  height: 95vh;
+  background-color: $sidebar-bg;
+}
+
+.side-container{
+	width: 100%;
+	margin: 1em 0em;
+	text-align: center;
+}
+
+.side-title{
+	color: $side-title;
+}
+
+.game-control{
+	&.active{
+		background-color: $active-button;
+		color: invert($active-button);
+	}
+	background-color: $button;
+	color: invert($button);
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+	&:focus{
+		outline: 0;
+	}
+}

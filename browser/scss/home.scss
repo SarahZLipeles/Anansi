@@ -1,3 +1,5 @@
+@import "colors";
+
 .blackweb {
   //background: url('asset/blackweb.jpg') no-repeat 50% 50% fixed;
   //background: url('asset/anansi-custom.png') no-repeat 50% 50% fixed;
@@ -5,8 +7,8 @@
   //background-position: 0px 0px;
   //backaground-repeat: repeat-x;
   //@include prefix(background-size, cover);
-  opacity:0.6;
-  z-index:-1;
+  opacity: $home-opac;
+  z-index: -1;
   margin: 0;
   height: 100vh;
   //@include prefix(transition, 'all linear');

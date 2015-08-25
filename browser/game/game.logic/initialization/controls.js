@@ -1,81 +1,95 @@
-var setControls = function (intface){
-	var controls = {
-		//select source node
-		102: function(){
-			intface.state = 'selectSrc'
-			console.log('selecting')
-		},
-		//cycle functions
-		//a
-		97: function(){
-			intface.state = 'attackNode'
-			console.log('attacking')
-		},
-		//d
-		100: function(){
-			intface.state = 'reinforceNode'
-			console.log('reinforcing')
-		},
+var Crawlers = require("../../../app/play/editor/crawlersFactory");
+var gameSettings = require("../../../settings.js");
+var Thread = require("../../game.components/thread");
 
-		//cycle threads
-		//w
-		119: function(){
-			var thread = intface.currentThread
-			var length = thread.length
-			var num = parseInt(thread[length-1])
-			if(++num > intface.threads){
-				num = 1
-			}
-			intface.currentThread = "thread" + num
-			console.log('switch to ' + intface.currentThread)
-		},
-		//s
-		115: function(){
-			var thread = intface.currentThread
-			var length = thread.length
-			var num = parseInt(thread[length-1])
-			if(--num < 1){
-				num = intface.threads
-			}
-			intface.currentThread = "thread" + num
-			console.log('switch to ' + intface.currentThread)
-		},
+var getCharCode = function (val) {
+	return val.toString().charCodeAt();
+};
 
-		//num switch threads
-		//1
-		49: function(){
-			intface.currentThread = "thread1"
-			console.log('switch to ' + intface.currentThread)
-		},
+var controls = {}, 
+	crawlers = Crawlers.crawlers,
+	currentConfig = {
+		crawler: undefined,
+		crawlerButton: undefined,
+		thread: 0,
+		threadButton: undefined
+	},
+	buttons = {};
 
-		//2
-		50: function(){
-			intface.currentThread = "thread2"
-			console.log('switch to ' + intface.currentThread)
-		},
 
-		//3
-		// 51:,
-
-		//center to home
-		//space
-		// 32:,
-
-		//toggle move base
-		//t
-		116: function(){
-			intface.state = 'moveBase'
-			console.log('moving')
-		},
-
-		//default
-		'default': function(){
-			console.log('Not a valid control')
-		}
+var setControls = function (options){
+	var {handler, view, basePos} = options,
+		threads = [], 
+		numThreads = gameSettings.numThreads,
+		i, j;
+	var board = document.getElementsByTagName("game")[0];
+	var threadButtons = document.getElementById("threads").getElementsByTagName("button");
+	currentConfig.threadButton = threadButtons[0];
+	var crawlerButtons = document.getElementById("crawlers").getElementsByTagName("button");
+	currentConfig.crawlerButton = crawlerButtons[0];
+	buttons.threads = threadButtons;
+	buttons.crawlers = crawlerButtons;
+	
+	var setThreadControl = function (num) {
+		return function () {
+			currentConfig.threadButton.className = "game-control";
+			threadButtons[num].className = "game-control active";
+			currentConfig.threadButton = threadButtons[num];
+			currentConfig.thread = num;
+		};
+	};
+	//Setting up the thread switching controls
+	for(i = 0; i < numThreads; i++){
+		threads[i] = new Thread(handler);
+		controls[getCharCode(i + 1)] = setThreadControl(i);
 	}
+	//Setting up the focus on home control
+	controls[getCharCode(" ")] = function () {
+		board.scrollLeft = basePos.x;
+		board.scrollTop = basePos.y;
+	}
+
+	var setCrawlerControl = function (num) {
+		return function () {
+			currentConfig.crawlerButton.className = "game-control";
+			crawlerButtons[num].className = "game-control active";
+			currentConfig.crawlerButton = crawlerButtons[num];
+			currentConfig.crawler = crawlers[num];
+		};
+	};
+	currentConfig.crawler = crawlers[0];
+	var keys = ["q", "w", "e", "r", "a", "s", "d", "f"];
+	var l = crawlers.length < keys.length ? crawlers.length : keys.length;
+	for(j = 0; j < l; j++){
+		controls[getCharCode(keys[j])] = setCrawlerControl(j);
+	}
+
+	view.bind("clickNode", function(event) {
+		threads[currentConfig.thread].crawl(event.data.node.id, currentConfig.crawler);
+	});
+
 	document.addEventListener("keypress", function(e) {
-		controls[e.keyCode]()
+		var command = controls[e.keyCode];
+		if(command){ command(); }
 	});
 }
 
-module.exports = setControls;
+var setCrawler = function (num) {
+	currentConfig.crawlerButton.className = "game-control";
+	buttons.crawlers[num].className = "game-control active";
+	currentConfig.crawlerButton = buttons.crawlers[num];
+	currentConfig.crawler = crawlers[num];
+};
+
+var setThread = function (num) {
+	currentConfig.threadButton.className = "game-control";
+	buttons.threads[num].className = "game-control active";
+	currentConfig.threadButton = buttons.threads[num];
+	currentConfig.thread = num;
+};
+
+module.exports = {
+	setControls,
+	setCrawler,
+	setThread
+};

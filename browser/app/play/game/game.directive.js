@@ -4,7 +4,7 @@ var game = {name: "game"};
 game.func = function(){
 	return {
 		restrict: 'E',
-		template: '<div id="container"></div>',
+		templateUrl: '/app/play/game/game.html',
 		controller: function () {
 			connect();
 		}

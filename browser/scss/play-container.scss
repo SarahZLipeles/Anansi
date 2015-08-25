@@ -1,42 +1,43 @@
+@import "colors";
+
 .play-container {
   font-family: 'Droid Sans', sans-serif;
   @include prefix(justify-content, center);
-  background-color: #555;
+  // background-color: #555;
   width: 100%;
   margin: 0 auto;
   height: 95vh;
-  opacity: 0.60;
+  // opacity: 0.60;
   display: flex;
 
 }
 
 
 .game {
-  background-color: white;
   position: relative;
-  //color: white;
+  //color: $game-border;
   width: calc(80% - 1px);
-  height: calc(95vh - 1em - 2px);
-  border-top: 1px white solid;
-  border-bottom: 1px white solid;
-  padding: 0.5em 2em 0.5em 2em;
+  height: 95vh;
+  border-top: 1px $game-border solid;
+  border-bottom: 1px $game-border solid;
   text-align: left;
   // @include prefix(flex-basis, 450px);
   // @include prefix(flex-grow, 3);
-  border-left: 1px white solid;
+  border-left: 1px $game-border solid;
   overflow: scroll;
+}
+
+.background{
+  background-color: $game-bg;
+  z-index: -2;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 4000px;
+  height: 3000px;
 }
 
 #container {
   width: 100%;
   overflow: scroll;
-}
-
-.sidebar {
-  @include prefix(display, flex);
-  @include prefix(flex-flow, "column wrap");
-  width:20%;
-  overflow: auto;
-  margin: 0 auto;
-  height: 95vh;
 }

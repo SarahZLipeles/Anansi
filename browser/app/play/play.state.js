@@ -1,7 +1,7 @@
-
+var playController = require("./play.controller");
 'use strict'
 
-var playState = function ($stateProvider, playController){
+var playState = function ($stateProvider){
 	$stateProvider.state('play', {
 		url: '/play',
 		templateUrl: '/app/play/play.html',

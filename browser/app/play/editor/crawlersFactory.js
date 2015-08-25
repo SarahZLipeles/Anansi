@@ -1,5 +1,17 @@
+var defaultCrawler = {
+	start: function(id, data) {
+		if(this.isFriend(id)){
+			data.source = id;
+			this.reinforce(data.source);
+		}else if(data.source){
+			this.attack(data.source, id);
+		}
+	},
+	receive: function() {}
+};
+
 function Crawlers() {
-	this.crawlers = [];
+	this.crawlers= [];
 	var makeCrawler = function(obj) {
 		var data = {source: undefined};
 		return {
@@ -14,24 +26,11 @@ function Crawlers() {
 		};
 	};
 
-	var defaultCrawler = makeCrawler({
-		start: function(id, data) {
-			if(this.isFriend(id)){
-				data.source = id;
-			}else if(data.source){
-				this.attack(data.source, id);
-			}
-		},
-		receive: function() {}
-	});
-
 	this.addCrawler = function(obj) {
 		this.crawlers.push(makeCrawler(obj));
 	};
-	this.getCrawler = function(name) {
-		var found = this.crawlers.find((crawler) => {return crawler.name === name; });
-		return found || defaultCrawler;
-	};
+
+	this.addCrawler(defaultCrawler);
 }
 var C = new Crawlers();
 
