@@ -1,3 +1,5 @@
+require("../arrayMethods");
+
 ;(function () {
   'use strict';
 
@@ -199,7 +201,7 @@
       }
 
     //-- Second we update the nodes
-    if (drawNodes)
+    if (drawNodes){
       for (a = this.nodesOnScreen, i = 0, l = a.length; i < l; i++) {
 
         if (a[i].hidden)
@@ -219,13 +221,34 @@
           embedSettings
         );
       }
+      var linkedNodesToUpdate = this.nodesOnScreen.filter(function(node){
+        return node.owner;
+      }).map(function (node) {
+        return nodes(node.links);
+      }).reduce(function (output, entry){
+        return output.concat(entry);
+      }, []).getUniqueNodes();
+      //lift the fog of war ~~~~~
+      var linked, links;
+       //lift the fog of war ~~~~~
+       for (a = linkedNodesToUpdate, i = 0, l = a.length; i < l; i++) {
+        linked = a.pop();
+        links = nodes(linked.links);
+        renderers.gameLinked.update(
+          linked,
+          this.domElements.nodes[linked.id],
+          links,
+          embedSettings
+          );
+      }
+    }
 
     // Display edges
     //---------------
     renderers = sigma.svg.edges;
 
     //-- First we create the edges which are not already created
-    if (drawEdges)
+    if (drawEdges){
       for (a = this.edgesOnScreen, i = 0, l = a.length; i < l; i++) {
         if (!this.domElements.edges[a[i].id]) {
           source = nodes(a[i].source);
@@ -236,15 +259,16 @@
             source,
             target,
             embedSettings
-          );
+            );
 
           this.domElements.edges[a[i].id] = e;
           this.domElements.groups.edges.appendChild(e);
         }
-       }
+      }
+    }
 
     //-- Second we update the edges
-    if (drawEdges)
+    if (drawEdges){
       for (a = this.edgesOnScreen, i = 0, l = a.length; i < l; i++) {
         source = nodes(a[i].source);
         target = nodes(a[i].target);
@@ -253,10 +277,16 @@
           a[i],
           this.domElements.edges[a[i].id],
           source,
+          this.domElements.nodes[source.id],
           target,
+          this.domElements.nodes[target.id],
           embedSettings
         );
        }
+
+
+      
+    }
 
     this.dispatchEvent('render');
 
@@ -280,21 +310,16 @@
         target,
         renderers,
         index = {},
+        claim = options.claim,
         graph = this.graph,
         nodes = this.graph.nodes,
         nodesToUpdate = graph.queueNodes(),
         edgesToUpdate = [],
-        drawEdges = this.settings(options, 'drawEdges'),
-        drawNodes = this.settings(options, 'drawNodes'),
+        linkedNodesToUpdate = [],
         embedSettings = this.settings.embedObjects(options, {
           prefix: this.options.prefix,
           forceLabels: this.options.forceLabels
         });
-
-        // Check the 'hideEdgesOnMove' setting:
-    if (this.settings(options, 'hideEdgesOnMove'))
-      if (this.camera.isAnimated || this.camera.isMoving)
-        drawEdges = false;
 
     // Apply the camera's view:
     this.camera.applyView(
@@ -305,6 +330,13 @@
         height: this.height
       }
     );
+    if(claim){
+      linkedNodesToUpdate = nodesToUpdate.map(function (node) {
+            return nodes(node.links);
+          }).reduce(function (output, entry){
+            return output.concat(entry);
+          }, []).getUniqueNodes();
+    }
 
     // Node index
     for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++){
@@ -325,45 +357,56 @@
     //---------------
     renderers = sigma.svg.nodes;
 
+    var node;
+
     //-- We update the nodes
-    if (drawNodes)
-      for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+    for (a = nodesToUpdate, i = 0, l = a.length; i < l; i++) {
+      // Node
+      node = a.pop();
 
-        // // Label
-        // (subrenderers[node.type] || subrenderers.def).update(
-        //   node,
-        //   this.domElements.labels[node.id],
-        //   embedSettings
-        // );
-        // Node
-        var node = a.pop();
+      renderers.gameNode.update(
+        node,
+        this.domElements.nodes[node.id],
+        embedSettings
+      );
+    }
 
-        (renderers[node.type] || renderers.def).update(
-          node,
-          this.domElements.nodes[node.id],
+    if(claim){
+      var linked, links;
+       //lift the fog of war ~~~~~
+       for (a = linkedNodesToUpdate, i = 0, l = a.length; i < l; i++) {
+        linked = a.pop();
+        links = nodes(linked.links);
+        renderers.gameLinked.update(
+          linked,
+          this.domElements.nodes[linked.id],
+          links,
           embedSettings
         );
+       }
       }
+
 
     // Display edges
     //---------------
     renderers = sigma.svg.edges;
-
+    var edge;
     //-- We update the edges
-    if (drawEdges)
-      for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
-        var edge = a.pop();
-        source = nodes(edge.source);
-        target = nodes(edge.target);
+    for (a = edgesToUpdate, i = 0, l = a.length; i < l; i++) {
+      edge = a.pop();
+      source = nodes(edge.source);
+      target = nodes(edge.target);
 
-        (renderers[edge.type] || renderers.def).update(
-          edge,
-          this.domElements.edges[edge.id],
-          source,
-          target,
-          embedSettings
-        );
-       }
+      renderers.gameEdge.update(
+        edge,
+        this.domElements.edges[edge.id],
+        source,
+        this.domElements.nodes[source.id],
+        target,
+        this.domElements.nodes[target.id],
+        embedSettings
+      );
+     }     
 
     this.dispatchEvent('render');
 

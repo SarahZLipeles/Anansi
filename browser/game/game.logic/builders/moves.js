@@ -32,28 +32,28 @@ var BuildMoves = (options) => {
 	};
 
 	var attack = (data) => {
-		console.log(data);
 		var targetId = data.target;
 		var source = nodes(data.source);
 		var target = queue(targetId);
 		var returnVal = {id: targetId};
+		var renderType = {partial: true};
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if (target.health > 0) {
 				target.health -= gameSettings.attackBy;
-				console.log(target.health);
 			}
 			if (target.health <= 0) {
 				claim(target, source);
 				returnVal.links = target.links;
 				returnVal.message = "claimed";
+				renderType.claim = true;
 			}else{
 				returnVal.health = target.health;
 				returnVal.message = "damaged";
 			}
+			view.refresh(renderType);
 		}else{
 			returnVal.message = "invalid";
 		}
-		view.refresh({partial: true});
 		return returnVal;
 	};
 
@@ -65,14 +65,13 @@ var BuildMoves = (options) => {
 			var healthDiff = node.maxHealth - node.health;
 			if (healthDiff > 0) {
 				node.health += healthDiff < gameSettings.reinforceBy ? healthDiff : gameSettings.reinforceBy;
-				console.log(node.health);
 			}
 			returnVal.health = node.health;
 			returnVal.message = "reinforced";
+			view.refresh({partial: true});
 		}else{
 			returnVal.message = "invalid";
 		}
-		view.refresh({partial: true});
 		return returnVal;
 	};
 

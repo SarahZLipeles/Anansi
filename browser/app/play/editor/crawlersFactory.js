@@ -1,14 +1,13 @@
 function Crawlers() {
 	this.crawlers = [];
 	var makeCrawler = function(obj) {
-		var data = {};
+		var data = {source: undefined};
 		return {
 			name: obj.name,
-			start: function(nodeId, base) {
-				obj.start.call(this, nodeId, base, data);
+			start: function(nodeId) {
+				obj.start.call(this, nodeId, data);
 			},
 			receive: function(node) {
-				console.log(this);
 				obj.receive.call(this, node, data);
 			},
 			description: obj.description
@@ -16,8 +15,12 @@ function Crawlers() {
 	};
 
 	var defaultCrawler = makeCrawler({
-		start: function(id, base) {
-			this.attack(base, id);
+		start: function(id, data) {
+			if(this.isFriend(id)){
+				data.source = id;
+			}else if(data.source){
+				this.attack(data.source, id);
+			}
 		},
 		receive: function() {}
 	});

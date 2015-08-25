@@ -17,7 +17,6 @@ Thread.prototype.crawl = function(startId, crawler, base) {
     }
     this.crawling = true;
     this.currentCrawler = crawler;
-    console.log(base, crawler, this.userScope, startId);
     crawler.start.call(this.userScope, startId, base);
 };
 

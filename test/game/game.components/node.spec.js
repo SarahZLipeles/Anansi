@@ -26,7 +26,9 @@ describe("Node Factory", () => {
 		before(() => {
 			result = NodesFactory({
 				width: width,
-				height: height
+				height: height,
+				nodeSize: 5,
+				spacing: 10
 			});
 		});
 

@@ -599,7 +599,7 @@
       if (this.settings('skipErrors'))
         try {
           if(options.partial){
-            this.renderers[a[i]].renderUpdate();
+            this.renderers[a[i]].renderUpdate(options);
           }else{
             this.renderers[a[i]].render();
           }
@@ -611,7 +611,7 @@
         }
       else{
         if(options.partial){
-          this.renderers[a[i]].renderUpdate();
+          this.renderers[a[i]].renderUpdate(options);
         }else{
           this.renderers[a[i]].render();
         }

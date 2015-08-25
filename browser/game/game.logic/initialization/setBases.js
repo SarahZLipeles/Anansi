@@ -10,6 +10,8 @@ var setBases = (game) => {
 
 	their.owner = game.opponentRole;
 	their.from = their.id;
+	var board = document.getElementById("container");
+	board.scrollTop = board.scrollTop + yourBase.y; 
 
 };
 
