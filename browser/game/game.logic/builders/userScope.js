@@ -1,5 +1,5 @@
 function BuildUserScope (handler, thread){
-    if (handler && thread) {
+    if (handler && thread !== undefined) {
     	var {nodes, role} = handler.options;
     }
 	var userScope = {

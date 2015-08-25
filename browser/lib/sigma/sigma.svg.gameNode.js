@@ -35,7 +35,6 @@ var gameSettings = require('../../settings.js');
       circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
       // circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
     }
-  }
 
   /**
    * The default node renderer. It renders the node as a simple disc.

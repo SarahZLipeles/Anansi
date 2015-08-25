@@ -5,6 +5,7 @@
 @import "crawler";
 @import "home";
 @import "animate";
+@import "sidebar";
 
 .clearfix {
   overflow: auto;
@@ -13,5 +14,4 @@
 
 .appBody {
 	position: relative;
-	top: 5vh;
 }

@@ -1,5 +1,6 @@
 var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
+	gameSettings = require("../settings"),
 	httpGet = require("../lib/httpUtil");
 	require("../lib/noBack");
 
@@ -8,7 +9,7 @@ var game = {myId: undefined, player: undefined, opponent: undefined, board: unde
 var gameInterface;
 
 function PeerConnect (playerData) {
-	playerData = playerData || {playerColor: "#ff0000", opponentColor: "#00ff00"};
+	playerData = playerData || {playerColor: gameSettings.player, opponentColor: gameSettings.opponent};
 	httpGet("/env", connectToServer);
 
 	//When a peer DataConnection is established

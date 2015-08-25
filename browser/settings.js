@@ -1,15 +1,15 @@
 var settings = {
 	//colors
-	default: "#000000",
-	host: "#119900",
-	client: "#aa1122",
+	default: "#888888",
+	player: "#1e88a8",
+	opponent: "#a1162e",
 	
 	//node settings
 	//starting health
-	health: 20,
-	maxHealth: 20,
-	baseHealth: 50,
-	baseMaxHealth: 50,
+	health: 10,
+	maxHealth: 10,
+	baseHealth: 25,
+	baseMaxHealth: 25,
 
 	//size
 	size: 5,
@@ -26,9 +26,10 @@ var settings = {
 
 	//gameplay
 	//moves
-	attackBy: 5,
-	reinforceBy: 10,
-	healthOnClaim: (maxHealth) => {maxHealth / 4},
+	attackBy: 10,
+	reinforceBy: 1.25,
+	healthOnClaim: (maxHealth) => Math.floor(maxHealth / 2),
+	
 
 	//number of threads
 	numThreads: 2,
@@ -36,10 +37,10 @@ var settings = {
 	//sigma health bars
 	healthBarSize: 3.25,
 	highHealth: 0.5,
-	highHealthColor: 'green',
+	highHealthColor: '#398c1b',
 	mediumHealth: 0.25,
-	mediumHealthColor: 'yellow',
-	lowHealthColor: 'red'
+	mediumHealthColor: '#adb835',
+	lowHealthColor: "#fc002a"
 };
 
 module.exports = settings;

@@ -10,9 +10,16 @@ var setBases = (game) => {
 
 	their.owner = game.opponentRole;
 	their.from = their.id;
-	var board = document.getElementById("container");
-	board.scrollTop = board.scrollTop + yourBase.y; 
-
+	//Calculate base center
+	var board = document.getElementsByTagName("game")[0];
+	var boardRect = board.getBoundingClientRect();
+	var homePos = {
+		x: yourBase.x - boardRect.width / 2,
+		y: yourBase.y - boardRect.height / 2
+	}
+	board.scrollLeft = homePos.x;
+	board.scrollTop = homePos.y;
+	return homePos;
 };
 
 module.exports = setBases;

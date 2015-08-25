@@ -11,7 +11,7 @@ function MakeNodes(options){
 		return {
 			id: Math.random().toString(32).slice(2),
 			maxHealth: gameSettings.maxHealth,
-			health: gameSettings.health,
+			health: Math.floor(Math.random() * gameSettings.health) + 1,
 			links: [],
 			resources: undefined,
 			size: gameSettings.size,
