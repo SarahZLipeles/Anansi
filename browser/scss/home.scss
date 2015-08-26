@@ -2,41 +2,48 @@
 
 .blackweb {
   background-image: url('asset/congruent_lightblue.png');
-  opacity: $home-opac;
   z-index: -1;
   margin: 0;
   height: 93vh;
 }
 
 .title-box{
-  position: relative;
+  position: absolute;
+  display: flex;
   top: 13vh;
+  left: 5vw;
   height: 60vh;
   width: 90vw;
   margin: 0 4vw 0 6vw;
+  color: $home-gray;
 }
 
 .logo{
   display: inline-block;
-  width: 30vw;
+  width: 60vh;
   height: 60vh;
-  background-size: 60vh;
 }
 
 .game-title{
   position: relative;
   display: inline-block;
   width: 50vw;
-  height: 30vh;
-  font-size: 28vh;
+  height: auto;
+  font-size: 15vw;
   font-style: italic;
-  top: -20vh;
-  padding: 0 5vw;
+  top: 4vh;
+  padding: 0 3vw;
   span{
     height: 30vh;
-    vertical-align: middle;
-
+    text-shadow: 1px 1px #fff;
   }
+}
+
+.shadowed {
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(255,255,255,1));
+    filter: url(#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#fff')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#fff')";
 }
 
 //
