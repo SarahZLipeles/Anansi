@@ -6,8 +6,8 @@ var settings = {
 	
 	//node settings
 	//starting health
-	health: 10,
-	maxHealth: 10,
+	health: 12,
+	maxHealth: 12,
 	baseHealth: 25,
 	baseMaxHealth: 25,
 
@@ -26,8 +26,8 @@ var settings = {
 
 	//gameplay
 	//moves
-	attackBy: 10,
-	reinforceBy: 1.25,
+	attackBy: 3,
+	reinforceBy: 4.5,
 	healthOnClaim: (maxHealth) => Math.floor(maxHealth / 2),
 	
 
@@ -35,7 +35,7 @@ var settings = {
 	numThreads: 2,
 
 	//sigma health bars
-	healthBarSize: 3.25,
+	healthBarSize: 4.25,
 	highHealth: 0.5,
 	highHealthColor: '#66c259',
 	mediumHealth: 0.25,
