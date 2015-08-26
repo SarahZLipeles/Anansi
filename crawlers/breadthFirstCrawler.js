@@ -7,9 +7,9 @@ if(isFriend(nodeId)){
 
 if (node.links) {
     for (var i = 0; i < node.links.length; i++) {
-        data.currentNode = node.id;
+        data.source = node.id;
         if (!isFriend(node.links[i])) attack(node.id, node.links[i]);
     }
 } else {
-    if (!isFriend(node.links[i])) attack(data.currentNode, node.id);
+    if (!isFriend(node.id)) attack(data.source, node.id);
 }
