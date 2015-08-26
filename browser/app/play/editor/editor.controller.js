@@ -2,6 +2,7 @@ var Crawlers = require("./crawlersFactory");
 var userTests = require("./user.tests/tests");
 
 var editorController = function($scope) {
+    $('.mgNavigator').remove();
     $scope.reset = function(){
         $scope.obj = {
             start: null,
