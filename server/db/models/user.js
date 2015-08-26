@@ -47,6 +47,10 @@ schema.pre('save', function(next) {
     next();
 });
 
+schema.method('correctPassword', function(candidatePassword) {
+    return encryptPassword(candidatePassword, this.salt) === this.password;
+});
+
 schema.statics.generateSalt = generateSalt;
 schema.statics.encryptPassword = encryptPassword;
 

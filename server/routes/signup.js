@@ -2,14 +2,6 @@ var router = require("express").Router();
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var UserFunction = mongoose.model('UserFunction');
-router.get('/', function(req, res, next){
-    User.find({})
-        .exec()
-        .then(function(user){
-            res.status(200).json(user)
-        })
-        .then(null, next)
-});
 
 router.post('/', function(req, res, next){
     User.create(req.body)

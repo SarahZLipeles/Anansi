@@ -5,7 +5,6 @@ var server = require("http").createServer(app);
 var logger = require("morgan");
 var startDb = require('./db');
 
-
 var options = {
     debug: process.env.NODE_ENV !== "production"
 };
