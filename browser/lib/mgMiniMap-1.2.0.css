@@ -1,12 +1,12 @@
 .mgNavigator{
     position: fixed;
-    right: 10px;
-    top: 30px;
+    left: 0px;
+    bottom: 0px;
     z-index: 30;
     border: 2px solid #AAA;
-    width: 200px;
-    height: 200px;
-    background-color: #000;
+    width: 300px;
+    height: 300px;
+    background-image: url("../../asset/congruent_lightblue.png");
     box-shadow: 2px 2px 19px #aaa;
     -o-box-shadow: 2px 2px 19px #aaa;
     -webkit-box-shadow: 2px 2px 19px #aaa;

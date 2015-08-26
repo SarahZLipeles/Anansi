@@ -206,12 +206,17 @@
             }, 200)
         })
     };
+
+    //get elements to draw
     f.prototype.drawElements = function() {
         this.debug("drawing elements");
         if (this.config.elements) {
             this.elements = this.$relElem.find(this.config.elements)
         } else {
-            this.elements = $('#sigma-group-nodes').children()
+            this.elements = $('#sigma-group-nodes').children().filter(function(){
+                return this.getAttributeNS(null, 'display') === 'block'
+            })
+            // this.hovers = $('#sigma-group-hovers').children()
         }
         if (this.canvasSupported) {
             if (this.config.realistic) {
@@ -238,6 +243,8 @@
         };
         b.html2canvas(h, this.config.html2canvas)
     };
+
+    //gets and makes the element properties to render
     f.prototype.getElementProps = function(g) {
         var i = c(g).offset();
         var h = g.getAttributeNS(null, 'fill') ? g.getAttributeNS(null, 'fill') : this.config.defaultBgColor;
@@ -251,19 +258,26 @@
             height: diameter
         }
     };
+
+    //draws onto the canvas
     f.prototype._drawElementsCanvas = function() {
         this.debug("canvas drawing");
         var g = this;
         this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
-        c(this.elements).filter(function(){
-        	return this.getAttributeNS(null, 'display') === 'block'
-        }).each(function() {
+        c(this.elements).each(function() {
             var h = g.getElementProps(this);
             g.ctx.fillStyle = h.color;
             // g.ctx.arc = (h.left, h.top , h.r , 0 , 2 * Math.PI);
             // g.ctx.fill();
             g.ctx.fillRect(h.left, h.top, h.width, h.height)
         })
+        // if(c(this.hovers)[0].hasOwnProperty('children')){
+        //     var hover = c(this.hovers)[0].children()[0]
+        //     var props = g.getElementProps(hover)
+        //     g.ctx.fillStyle = '#66c259'
+        //     g.ctx.fillRect(props.left, props.top, props.width * 1.25, props.height * 1.25)
+        // }
+    
     };
     f.prototype._drawElementsDom = function() {
         this.debug("dom drawing");
