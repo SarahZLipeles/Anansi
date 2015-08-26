@@ -26,6 +26,7 @@
   margin: 2%;
   padding: 1em 1%;
   border: 1px $editor-input-container solid;
+  background-color: rgba(38, 38, 38, 0.1);
   border-radius: 10px;
   width: 56vw; 
   @include prefix(align-self, self);
@@ -34,6 +35,7 @@
 
 .editor-container .title{
   font-size:1.5em;
+  text-shadow: 1px 1px #333;
 
 }
 
@@ -45,6 +47,7 @@
   margin: 2%;
   width: 30%;
   border: 1px $editor-rules-container solid;
+  background-color: rgba(38, 38, 38, 0.1);
   border-radius: 10px;
   display: flex;
   @include prefix(flex, "0 1 auto");
@@ -73,11 +76,11 @@
 }
 
 .var{
-  color: $editor-var;
+  color: desaturate($editor-var, 20%);
 }
 
 .param{
-  color: $editor-param;
+  color: desaturate($editor-param, 20%);
 }
 
 .func-text {

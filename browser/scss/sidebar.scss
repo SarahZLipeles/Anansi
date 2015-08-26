@@ -16,6 +16,8 @@
 	margin: 1em 0em;
 	text-align: center;
 	h3{
+		color: lighten($item-color, 10%);
+		text-shadow: 1px 1px #000;
 		margin: 0px;
 		padding: 2px;
 		font-style: italic;
