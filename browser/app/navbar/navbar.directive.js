@@ -24,7 +24,7 @@ navbar.func = function ($rootScope, AuthService, AUTH_EVENTS, $state) {
             }, {
                 label: 'Login/Signup',
                 state: 'user',
-                auth: !scope.user
+                auth: true
             }];
 
 

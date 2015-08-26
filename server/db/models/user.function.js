@@ -5,17 +5,12 @@ var schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    start: {
+    startText: {
         type: String,
         require: true
     },
-    receive: {
+    receiveText: {
         type: String,
-        require: true
-    },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
         require: true
     }
 });
