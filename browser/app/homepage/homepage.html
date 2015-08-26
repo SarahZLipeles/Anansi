@@ -1,6 +1,19 @@
 <div class="blackweb">
 	<div class="title-box">
-		<img class="logo" src="asset/anansi-gray.png" /><!-- 
+		<img class="logo shadowed" src="asset/anansi-gray.png" /><!-- 
 		 --><div class="game-title"><span class="title-font">Anansi</span></div>
 	</div>
+
+	<svg height="0" xmlns="http://www.w3.org/2000/svg">
+	    <filter id="drop-shadow">
+	        <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
+	        <feOffset dx="1" dy="1" result="offsetblur"/>
+	        <feFlood flood-color="rgba(255,255,255,1)"/>
+	        <feComposite in2="offsetblur" operator="in"/>
+	        <feMerge>
+	            <feMergeNode/>
+	            <feMergeNode in="SourceGraphic"/>
+	        </feMerge>
+	    </filter>
+	</svg>
 </div>

@@ -20,11 +20,13 @@ navbar.func = function ($rootScope, AuthService, AUTH_EVENTS, $state) {
             }, {
                 label: 'Quit',
                 state: 'homepage',
-                auth: true
+                auth: true,
+                pos: "nav-right"
             }, {
                 label: 'Login/Signup',
                 state: 'user',
-                auth: !scope.user
+                auth: !scope.user,
+                pos: "nav-right"
             }];
 
 

@@ -7,7 +7,9 @@
 .editor-container {
   background-image: $sidebar-bg;
   color: invert($editor-background-color);
-  height: 100%;
+  text-shadow: 1px 1px #333;
+  min-height: 93vh;
+  height: auto;
   width: 100%;
   @include prefix(flex-flow, "row wrap");
   @include prefix(display, flex);
