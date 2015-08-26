@@ -410,6 +410,8 @@ require("../arrayMethods");
 
     this.dispatchEvent('render');
 
+    $('.game').mgMiniMap('update');
+
     return this;
   };
 
