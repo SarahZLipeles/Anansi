@@ -1,8 +1,8 @@
 
 (function(c, b, a, e) {
     var d = {
-        navigatorClass: "mgNavigator",
-        viewportClass: "mgViewport",
+        navigatorClass: "boardNav",
+        viewportClass: "boardNavView",
         elements: false,
         liveScroll: false,
         scrollbarWidth: 20,
@@ -23,10 +23,10 @@
         //     this.$relElem = this.$elem
         // }
         this.options = g;
-        this.metadata = this.$elem.data("mgMiniMap-options");
+        this.metadata = this.$elem.data("boardNav-options");
         this.config = c.extend({}, d, this.options, this.metadata);
         this.init();
-        this.$elem.data("mgMiniMap-instance", this);
+        this.$elem.data("boardNav-instance", this);
         this.updating = false
     };
     f.prototype.init = function() {
@@ -40,7 +40,7 @@
             this.ctx = this.$canvas.get(0).getContext("2d")
         } else {
             this.$canvas.remove();
-            this.$canvasDom = c('<div class="mgCanvasDom">').appendTo(this.$navigator)
+            this.$canvasDom = c('<div class="boardCanvasDOM">').appendTo(this.$navigator)
         }
         this.$viewport = this.$navigator.find("." + this.config.viewportClass);
         this.attachEvents();
@@ -128,8 +128,8 @@
         this.scrolling = false;
         this.resizing = false;
         if (this.config.draggable) {
-            this.$navigator.append('<div class="mgHandle"></div>').draggable({
-                handle: "div.mgHandle",
+            this.$navigator.append('<div class="boardNavHandle"></div>').draggable({
+                handle: "div.boardNavHandle",
                 stop: function(h, i) {
                     g.$navigator.css("position", g.navigatorPosition)
                 }
@@ -138,7 +138,7 @@
         if (this.config.resizable) {
             this.$navigator.resizable({
                 aspectRatio: true,
-                helper: "mgResizing",
+                helper: "boardNavResize",
                 start: function(h, i) {
                     g.resizing = true
                 },
@@ -294,10 +294,10 @@
             console.log(g)
         }
     };
-    c.fn.mgMiniMap = function(g) {
+    c.fn.boardNav = function(g) {
         return this.each(function() {
             if (g === "update") {
-                var h = c(this).data("mgMiniMap-instance");
+                var h = c(this).data("boardNav-instance");
                 if (h) {
                     h.update()
                 }
