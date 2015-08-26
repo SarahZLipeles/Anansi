@@ -5,7 +5,7 @@ var webworkify = require("webworkify");
 // eval("(function(node, data) {" + obj.receiveText + "})")
 
 function userTests(obj) {
-	// obj {start: func, recieve: func, startText: str, receiveText: str}
+	// obj = {start: func, receive: func, startText: str, receiveText: str}
 	// var restrictedKeyword = hasRestricted(obj.startText) || hasRestricted(obj.receiveText);
 	// if (restrictedKeyword) {
 	// 	alert("The '" + restrictedKeyword[0] + "' keyword is not allowed");
@@ -18,10 +18,10 @@ function userTests(obj) {
 	
 	try {
 		var worker = webworkify(require("./boardTest.js"));
-		worker.addEventListener("message", recieveNotifications);
+		worker.addEventListener("message", receiveNotifications);
 		worker.postMessage(["(function(nodeId, data){" + addThis(obj.startText) + "})", "(function(node, data) {" + addThis(obj.receiveText) + "})"]);
 		obj.start = eval("(function(nodeId, data){" + addThis(obj.startText) + "})");
-		obj.recieve = eval("(function(node, data) {" + addThis(obj.receiveText) + "})");
+		obj.receive = eval("(function(node, data) {" + addThis(obj.receiveText) + "})");
 
 	} catch(e) {
 		alert("Your crawler errored out with the following error:\n" + e);
@@ -31,7 +31,7 @@ function userTests(obj) {
 	return obj;
 }
 
-function recieveNotifications(str) {
+function receiveNotifications(str) {
 	console.log(str);
 	if (str === "claimed all nodes") {
 		worker.terminate();
