@@ -2,26 +2,20 @@
 @import 'vendor-prefixes.scss';
 @import "colors";
 
-$font-stack: Droid Sans, sans-serif;
  //black
 
 .editor-container {
-  background-color: $editor-background-color;
-  border: 1px invert($editor-background-color) solid;
+  background-image: $sidebar-bg;
   color: invert($editor-background-color);
-  font-family: $font-stack;
   height: 100%;
   width: 100%;
   @include prefix(flex-flow, "row wrap");
   @include prefix(display, flex);
   @include prefix(align-self, stretch);
-}
 
-.editor-title-container {
-  @include prefix(display, flex);
-  @include prefix(flex-flow, "row wrap");
-  margin: 2%;
-  width:60%;
+  p{
+    margin: 0px;
+  }
 }
 
 .editor-input-container {
@@ -29,13 +23,12 @@ $font-stack: Droid Sans, sans-serif;
   @include prefix(display, flex);
   @include prefix(flex-flow, "column wrap");
 
-  //@include prefix(align-items, center);
   margin: 2%;
+  padding: 1em 1%;
   border: 1px $editor-input-container solid;
-  width: 60%; //border-bottom: 1px white solid;
+  border-radius: 10px;
+  width: 56vw; 
   @include prefix(align-self, self);
-  //@include prefix(align-items, stretch);
-  //@include prefix(flex, "1 1 30%");
 
 }
 
@@ -52,98 +45,46 @@ $font-stack: Droid Sans, sans-serif;
   margin: 2%;
   width: 30%;
   border: 1px $editor-rules-container solid;
+  border-radius: 10px;
   display: flex;
   @include prefix(flex, "0 1 auto");
   @include prefix(align-self, stretch);
   //width:30%;
 
 }
-.editor-rules-container input{
-  @include prefix(flex, "0 1 auto");
-  @include prefix(align-self, auto);
-  width:50%;
-}
 
 .editor-saved-container {
   display: flex;
   @include prefix(flex-flow, "row wrap");
   margin: 2%;
-  border: 1px $editor-saved-container solid;
   @include prefix(flex, "0 1 auto");
-  //@include prefix(align-self, stretch);
   @include prefix(justify-content, flex-start);
   width: 100%;
-  //min-width: 480px;
-
-}
-
-.pre{
-  @include prefix(flex, "1 0 auto");
-}
-.var-data {
-  margin-left: 5%;
 }
 
 .func-data {
-  margin-left: 10%;
-  //@include prefix(align-self, center);
-  @include prefix(flex, "3 3 60%");
-  width: 85%;
-  height: 20%;
-  rows: 30;
+  margin-left: 5%;
+  width: 89%;
+  height: 40px;
+  rows: 60;
   cols: 50;
-  min-height: 50px;
-  font-size: 1em;
-
-}
-
-.func-name {
-  margin-left: 10%;
-  //@include prefix(align-self, center);
-  @include prefix(flex, "3 3 60%");
-  width: 85%;
-  rows: 30;
-  cols: 50;
+  min-height: 150px;
   font-size: 1em;
 }
 
+.var{
+  color: $editor-var;
+}
 
-.editor-input-group {
-  @include prefix(flex-flow, "row wrap");
-  //@include prefix(justify-content, "flex-end");
+.param{
+  color: $editor-param;
+}
+
+.func-text {
+  margin: 0 5%;
+  display: block;
+  font-size: 1em;
+  width: 89%
 }
 
 
-.editor-input-group input{
-  font-size: 3em;
-  @include prefix(flex, "0 1 auto");
-  //@include prefix(align-self, flex-end);
-  margin-left:10%;
-
-  width:20%;
-  height:10%;
-}
-
-.editor-input-container input[type="text"]{
-  margin-left:10%;
-  //@include prefix(align-self, center);
-  @include prefix(flex, "1 1 20%");
-  width:85%;
-
-  rows:30;
-
-}
-
-//.editor-input-group input{
-//
-//}
-
-//
-//.editor-input-group input[type="button"]{
-//
-//  //@include prefix(justify-content, center);
-//}
-//
-//.editor-input-group input[type="submit"]{
-//  //@include prefix(align-self, flex-end);
-//}

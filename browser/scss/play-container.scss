@@ -1,34 +1,24 @@
 @import "colors";
 
 .play-container {
-  font-family: 'Droid Sans', sans-serif;
   @include prefix(justify-content, center);
-  // background-color: #555;
   width: 100%;
   margin: 0 auto;
-  height: 95vh;
-  // opacity: 0.60;
+  height: 93vh;
   display: flex;
-
 }
 
 
 .game {
   position: relative;
-  //color: $game-border;
-  width: calc(80% - 1px);
-  height: 95vh;
-  border-top: 1px $game-border solid;
-  border-bottom: 1px $game-border solid;
+  width: 80%;
+  height: 93vh;
   text-align: left;
-  // @include prefix(flex-basis, 450px);
-  // @include prefix(flex-grow, 3);
-  border-left: 1px $game-border solid;
   overflow: scroll;
 }
 
 .background{
-  background-color: $game-bg;
+  background-image: $game-bg;
   z-index: -2;
   position: absolute;
   left: 0px;

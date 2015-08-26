@@ -7,14 +7,23 @@
   width:20%;
   overflow: auto;
   margin: 0 auto;
-  height: 95vh;
-  background-color: $sidebar-bg;
+  height: 93vh;
+  background-image: $sidebar-bg;
 }
 
 .side-container{
 	width: 100%;
 	margin: 1em 0em;
 	text-align: center;
+	h3{
+		margin: 0px;
+		padding: 2px;
+		font-style: italic;
+	}
+	hr{
+		width: 90%;
+		margin: 0px auto 6px;
+	}
 }
 
 .side-title{

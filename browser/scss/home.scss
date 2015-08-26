@@ -1,55 +1,43 @@
 @import "colors";
 
 .blackweb {
-  //background: url('asset/blackweb.jpg') no-repeat 50% 50% fixed;
-  //background: url('asset/anansi-custom.png') no-repeat 50% 50% fixed;
-  //background-image: url('asset/anansi-custom.png');
-  //background-position: 0px 0px;
-  //backaground-repeat: repeat-x;
-  //@include prefix(background-size, cover);
+  background-image: url('asset/congruent_lightblue.png');
   opacity: $home-opac;
   z-index: -1;
   margin: 0;
-  height: 100vh;
-  //@include prefix(transition, 'all linear');
-  //@include prefix(transition, background);
-  @include prefix(animation, 'animatedBackground 12s 1s ease-in-out infinite');
+  height: 93vh;
 }
+
+.title-box{
+  position: relative;
+  top: 13vh;
+  height: 60vh;
+  width: 90vw;
+  margin: 0 4vw 0 6vw;
+}
+
+.logo{
+  display: inline-block;
+  width: 30vw;
+  height: 60vh;
+  background-image: url("asset/anansi-gray.png");
+  background-size: 60vh;
+}
+
+.game-title{
+  position: relative;
+  display: inline-block;
+  width: 50vw;
+  height: 30vh;
+  font-size: 28vh;
+  font-style: italic;
+  top: -20vh;
+  padding: 0 5vw;
+  span{
+    height: 30vh;
+    vertical-align: middle;
+
+  }
+}
+
 //
-@-webkit-keyframes animatedBackground {
-
-  from {
-    background: url('asset/anansi-custom.png') no-repeat;
-  }
-  10% {
-    background: url('asset/anansi1.png') no-repeat;
-  }
-  20% {
-    background: url('asset/anansi2.png') no-repeat;
-  }
-  30%{
-    background: url('asset/anansi3.png') no-repeat;
-  }
-  40%{
-    background: url('asset/anansi4.png') no-repeat;
-  }
-  50% {
-    background: url('asset/anansi-custom.png') no-repeat;
-  }
-  60% {
-    background: url('asset/anansi4.png') no-repeat;
-  }
-  70%{
-    background: url('asset/anansi3.png') no-repeat;
-  }
-  80%{
-    background: url('asset/anansi2.png') no-repeat;
-  }
-  90%{
-    background: url('asset/anansi1.png') no-repeat;
-  }
-  to{
-    background: url('asset/anansi-custom.png') no-repeat;
-  }
-
-}
