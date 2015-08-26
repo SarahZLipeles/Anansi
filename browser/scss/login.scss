@@ -1,0 +1,31 @@
+.login-main{
+	padding: 20vh;
+}
+
+#login-form{
+	width: 60vw;
+	padding: 1vh 2vw; 
+	margin: 0 auto;
+	text-align: center;
+	label{
+		display: block;
+		text-align: right;
+	}
+	input{
+		display: block;
+	}
+}
+
+.inputs{
+	display: block;
+}
+
+.login-input{
+	display: inline-block;
+}
+
+.login-buttons{
+	display: block;
+	margin: 0 auto;
+}
+
