@@ -2,21 +2,18 @@
     <!--<div class="editor-title">Create Custom Functions</div>-->
 
     <form class="editor-input-container">
-        <legend class="title">Create Custom Functions</legend>
-        <p>Function</p>
-        <p><textarea class="func-name" placeholder="write receive function here" ng-model="obj.name"></textarea>
-        </p>
-        <p>var data = {};</p>
-        <p><label class="var-data">var {{obj.name}} = {</label></p>
-        <p><label class="var-data">start: function(nodeId, data) { </label></p>
-        <p><div ui-ace="{theme:'twilight', mode:'javascript'}" class="func-data" placeholder="write start function here" ng-model="obj.startText"></div></p>
-        <p><label class="var-data">}, </label></p>
-        <p><label class="var-data">receive: function(node, data) {</label></p>
-        <p><div ui-ace="{theme:'twilight', mode:'javascript'}" class="func-data" placeholder="write receive function here" ng-model="obj.receiveText"></div></p>
+        <legend class="title slant">Create Custom Functions</legend>
+        <input class="func-text" placeholder="Name your function" type="text" ng-model="obj.name"/>
+        <p><span class="var">var</span> data = {};</p>
+        <p><span class="var">var</span> {{obj.name}} = {</p>
+        <p><span class="var">start</span>: <span class="var">function</span>(<span class="param">nodeId</span>, <span class="param">data</span>) { </p>
+        <p><div ui-ace="{theme:'dreamweaver', mode:'javascript'}" class="func-data" ng-model="obj.startText"></div></p>
+        <p>}, </p>
+        <p><span class="var">receive</span>: <span class="var">function</span>(<span class="param">node</span>, <span class="param">data</span>) {</p>
+        <p><div ui-ace="{theme:'dreamweaver', mode:'javascript'}" class="func-data" ng-model="obj.receiveText"></div></p>
         <p class="var-data">},</p>
-        <p><label class="var-data">description:</label></p>
-        <p><textarea class="func-data" placeholder="write your description here" ng-model="obj.description"></textarea></p>
-        <p class="var-data">}</p>
+        <p>description:</p>
+        <input class="func-text" placeholder="Describe your function" ng-model="obj.description" />
         <p>};</p>
     <div class="editor-input-group">
         <input type="button" ng-click="reset()" value="Reset" />

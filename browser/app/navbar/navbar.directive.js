@@ -12,15 +12,15 @@ navbar.func = function ($rootScope, AuthService, AUTH_EVENTS, $state) {
             scope.categories = [{
                 label: 'Editor',
                 state: 'editor',
-                auth: scope.user
+                auth: true
             }, {
                 label: 'Play Game',
                 state: 'play',
-                auth: scope.user
+                auth: true
             }, {
                 label: 'Quit',
                 state: 'homepage',
-                auth: scope.user
+                auth: true
             }, {
                 label: 'Login',
                 state: 'login',

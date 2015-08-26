@@ -1,7 +1,7 @@
 var settings = {
 	//colors
-	default: "#888888",
-	player: "#1e88a8",
+	default: "#444444",
+	player: "#3781a6",
 	opponent: "#a1162e",
 	
 	//node settings
@@ -37,7 +37,7 @@ var settings = {
 	//sigma health bars
 	healthBarSize: 3.25,
 	highHealth: 0.5,
-	highHealthColor: '#398c1b',
+	highHealthColor: '#66c259',
 	mediumHealth: 0.25,
 	mediumHealthColor: '#adb835',
 	lowHealthColor: "#fc002a"

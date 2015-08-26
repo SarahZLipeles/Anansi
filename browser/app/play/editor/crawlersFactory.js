@@ -7,7 +7,8 @@ var defaultCrawler = {
 			this.attack(data.source, id);
 		}
 	},
-	receive: function() {}
+	receive: function() {},
+	name: "Clicking"
 };
 
 function Crawlers() {
