@@ -1,6 +1,6 @@
 var loginController = function($scope, UserFactory, AuthService, $state) {
-    $scope.login={};
-    $scope.sendLogin = function(loginInfo){
+    $scope.logininfo={};
+    $scope.login = function(loginInfo){
         //
         //UserFactory.login(loginInfo.email)
         //    .then(function(response){
@@ -18,6 +18,17 @@ var loginController = function($scope, UserFactory, AuthService, $state) {
         }).catch(function () {
             console.log('logging error');
             $scope.error = 'Invalid login credentials.';
+        });
+
+
+    }
+
+    $scope.signup = function(loginInfo){
+        UserFactory.signUp(loginInfo)
+        .then(function(response){
+            return response.data
+        }).then(function(data){
+            return data;
         });
     }
 };

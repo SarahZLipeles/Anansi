@@ -16,8 +16,8 @@ var app = angular.module('Anansi', ['ui.router', 'ui.ace', require('angular-anim
 app.config(function($urlRouterProvider, $stateProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
 	$urlRouterProvider
-		.when('login', function($state) {
-			$state.go('login');
+		.when('user', function($state) {
+			$state.go('user');
 		})
 		.otherwise('/');
 });
@@ -67,7 +67,7 @@ app.run(function($rootScope, AuthService, $state) {
 			if (user) {
 				$state.go(toState.name, toParams);
 			} else {
-				$state.go('login');
+				$state.go('user');
 			}
 		});
 
