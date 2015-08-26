@@ -5,6 +5,7 @@ var playState = require("./play/play.state"),
 	crawler = require("./play/crawler.function/crawler.function.directive"),
 	homepageState = require("./homepage/homepage.state"),
 	editorState = require("./play/editor/editor.state"),
+	loginState = require("./user/login.state"),
 	normalize = require('normalize-css');
 
 "use strict";
@@ -18,6 +19,7 @@ app.config(function($urlRouterProvider, $stateProvider, $locationProvider){
 app.config(homepageState);
 app.config(playState);
 app.config(editorState);
+app.config(loginState);
 app.directive(crawler.name, crawler.func);
 app.directive(navbar.name, navbar.func);
 app.directive(game.name, game.func);

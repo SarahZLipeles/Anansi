@@ -13,7 +13,11 @@ navbar.func = function () {
             }, {
                 label: 'Quit',
                 state: 'homepage'
-            }];
+            }, {
+                label: 'Login',
+                state: 'login'
+            }
+            ];
         }
     };
 };
