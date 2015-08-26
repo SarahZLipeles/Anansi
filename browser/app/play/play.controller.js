@@ -12,6 +12,8 @@ var playController = function($scope) {
     	controls.setThread(num);
     };
 
+    // controls.setCrawler(0);
+    // controls.setThread(0);
 };
 
 playController.$inject = ["$scope"];

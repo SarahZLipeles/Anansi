@@ -1,26 +1,30 @@
 //Anchor
-$visitedLink: white;
+$visitedLink: #e9e9e9;
 
 //Editor
-$editor-background-color: #000;
+$editor-background-color: #222;
+$editor-opac: 0.1;
 	//borders
-$editor-rules-container: blue;
-$editor-saved-container: red;
-$editor-input-container: yellow;
+$editor-rules-container: #5d6162;
+$editor-input-container: #5d6162;
+$editor-var: #0000ff;
+$editor-param: #0066ff;
+
 
 //Home
 $home-opac: 0.6;
+$home-gray: #333;
 
 //Navbar
-$nav-opac: 0.6;
-$item-bg: black;
+$item-color: #e9e9e9;
+$nav-texture: url("asset/green_cup_darker.png");
 
 //Play-container
-$game-border: white;
-$game-bg: #000;
+$game-bg: url("asset/congruent_lightblue.png");
 
 //Sidebar
-$sidebar-bg: #555;
-$button: #000;
-$active-button: #fff;
-$side-title: #fff;
+$sidebar-bg: url("asset/green_cup_darkgray.png");
+$button: #5d6162;
+$active-button: #e9e9e9;
+$side-title: #f3fdff;
+

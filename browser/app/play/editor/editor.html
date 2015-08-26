@@ -1,22 +1,18 @@
 <div class="editor-container">
-    <!--<div class="editor-title">Create Custom Functions</div>-->
 
     <form class="editor-input-container">
-        <legend class="title">Create Custom Functions</legend>
-        <p>Function</p>
-        <p><textarea class="func-name" placeholder="write receive function here" ng-model="obj.name"></textarea>
-        </p>
-        <p>var data = {};</p>
-        <p><label class="var-data">var {{obj.name}} = {</label></p>
-        <p><label class="var-data">start: function(nodeId, data) { </label></p>
-        <p><div ui-ace="{theme:'twilight', mode:'javascript'}" class="func-data" placeholder="write start function here" ng-model="obj.startText"></div></p>
-        <p><label class="var-data">}, </label></p>
-        <p><label class="var-data">receive: function(node, data) {</label></p>
-        <p><div ui-ace="{theme:'twilight', mode:'javascript'}" class="func-data" placeholder="write receive function here" ng-model="obj.receiveText"></div></p>
+        <legend class="title slant">Create Custom Functions</legend>
+        <input class="func-text" placeholder="Name your function" type="text" ng-model="obj.name"/>
+        <p><span class="var">var</span> data = {};</p>
+        <p><span class="var">var</span> {{obj.name}} = {</p>
+        <p><span class="var">start</span>: <span class="var">function</span>(<span class="param">nodeId</span>, <span class="param">data</span>) { </p>
+        <p><div ui-ace="{theme:'dreamweaver', mode:'javascript'}" class="func-data" ng-model="obj.startText"></div></p>
+        <p>}, </p>
+        <p><span class="var">receive</span>: <span class="var">function</span>(<span class="param">node</span>, <span class="param">data</span>) {</p>
+        <p><div ui-ace="{theme:'dreamweaver', mode:'javascript'}" class="func-data" ng-model="obj.receiveText"></div></p>
         <p class="var-data">},</p>
-        <p><label class="var-data">description:</label></p>
-        <p><textarea class="func-data" placeholder="write your description here" ng-model="obj.description"></textarea></p>
-        <p class="var-data">}</p>
+        <p>description:</p>
+        <input class="func-text" placeholder="Describe your function" ng-model="obj.description" />
         <p>};</p>
     <div class="editor-input-group">
         <input type="button" ng-click="reset()" value="Reset" />
@@ -26,12 +22,30 @@
     </form>
 
     <article class="editor-rules-container">
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-
-
+        <p>Create function by creating an object that has 2 methods ('start' and 'receive')</p>
+        <br>
+        <p>The 'start' function is triggered when you click on a node</p>
+        <p>The 'receive' function is triggered in response to all of the actions performed on the nodes</p>
+        <br>
+        <p>The following are the supported functions:</p>
+        <ul>
+            <li>attack(sourceId, targetId)</li>
+            <li>reinforce(nodeId)</li>
+        </ul>
+        <p>Neither attack() nor receive() have return values. However, on completion, your crawler triggers your "receive" function
+            with an node containing a nodeId and either remaining health or a list of the connected nodeIds in the following format</p>
+        <pre>{id: String, health: Number}</pre>
+        <br>
+        <pre>{id: String, links: [nodeId]}</pre>
+        <hr>
+        <p>The following functions returns booleans</p>
+        <ul>
+            <li>isEnemy(nodeId)</li>
+            <li>isFriend(nodeId)</li>
+            <li>isNeutral(nodeId)</li>
+        </ul>
     </article>
     <aside class="editor-saved-container">
         <crawler class="crawler-function" ng-repeat="crawler in crawlers" ng-click="editCrawler(crawler)"></crawler>
-    </aside>
+    </div>
 </div>

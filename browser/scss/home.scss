@@ -1,55 +1,49 @@
 @import "colors";
 
 .blackweb {
-  //background: url('asset/blackweb.jpg') no-repeat 50% 50% fixed;
-  //background: url('asset/anansi-custom.png') no-repeat 50% 50% fixed;
-  //background-image: url('asset/anansi-custom.png');
-  //background-position: 0px 0px;
-  //backaground-repeat: repeat-x;
-  //@include prefix(background-size, cover);
-  opacity: $home-opac;
+  background-image: url('asset/congruent_lightblue.png');
   z-index: -1;
   margin: 0;
-  height: 100vh;
-  //@include prefix(transition, 'all linear');
-  //@include prefix(transition, background);
-  @include prefix(animation, 'animatedBackground 12s 1s ease-in-out infinite');
+  height: 93vh;
 }
+
+.title-box{
+  position: absolute;
+  display: flex;
+  top: 13vh;
+  left: 5vw;
+  height: 60vh;
+  width: 90vw;
+  margin: 0 4vw 0 6vw;
+  color: $home-gray;
+}
+
+.logo{
+  display: inline-block;
+  width: 60vh;
+  height: 60vh;
+}
+
+.game-title{
+  position: relative;
+  display: inline-block;
+  width: 50vw;
+  height: auto;
+  font-size: 15vw;
+  font-style: italic;
+  top: 4vh;
+  padding: 0 3vw;
+  span{
+    height: 30vh;
+    text-shadow: 1px 1px #fff;
+  }
+}
+
+.shadowed {
+    -webkit-filter: drop-shadow(1px 1px 1px rgba(255,255,255,1));
+    filter: url(#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#fff')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=1, OffY=1, Color='#fff')";
+}
+
 //
-@-webkit-keyframes animatedBackground {
-
-  from {
-    background: url('asset/anansi-custom.png') no-repeat;
-  }
-  10% {
-    background: url('asset/anansi1.png') no-repeat;
-  }
-  20% {
-    background: url('asset/anansi2.png') no-repeat;
-  }
-  30%{
-    background: url('asset/anansi3.png') no-repeat;
-  }
-  40%{
-    background: url('asset/anansi4.png') no-repeat;
-  }
-  50% {
-    background: url('asset/anansi-custom.png') no-repeat;
-  }
-  60% {
-    background: url('asset/anansi4.png') no-repeat;
-  }
-  70%{
-    background: url('asset/anansi3.png') no-repeat;
-  }
-  80%{
-    background: url('asset/anansi2.png') no-repeat;
-  }
-  90%{
-    background: url('asset/anansi1.png') no-repeat;
-  }
-  to{
-    background: url('asset/anansi-custom.png') no-repeat;
-  }
-
-}
