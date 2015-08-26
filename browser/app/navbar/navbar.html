@@ -2,6 +2,6 @@
     <div class="item title nav-left"><a ui-sref="homepage"><span class="title-font title-logo">Anansi</span> <span class="slant logo-message">welcomes you</span></a></div>
     <div class="item nav-space nav-left"></div>
     <div class="item {{category.pos}}" ng-repeat="category in categories">
-        <a class="slant" ui-sref-active="active" ui-sref="{{category.state}}" ng-show="{{category.auth}}">{{category.label}}</a>
+        <a class="slant" ui-sref="{{category.state}}" ng-show="{{category.auth}}">{{category.label}}</a>
     </div>
 </div>

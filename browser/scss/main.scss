@@ -32,3 +32,16 @@ body{
 .slant{
 	font-style: italic;
 }
+
+a{
+	outline: 0;
+	&:hover{
+		outline: 0;
+	}
+	&:active{
+		outline: 0;
+	}
+	&:focus{
+		outline: 0;
+	}
+}
