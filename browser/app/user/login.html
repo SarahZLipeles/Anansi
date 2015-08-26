@@ -1,10 +1,11 @@
 <div>
-    <form id="login-form" ng-submit="sendLogin(login)">
+    <form id="login-form" >
         <label for="email">email address</label>
-            <input type="text" ng-model="login.email" id="email" placeholder="enter email address">
+            <input type="text" ng-model="logininfo.email" id="email" placeholder="enter email address">
         <label for="login-password">password</label>
-            <input type="password" ng-model="login.password" id="login-password" placeholder="enter password">
-        <button type="submit">Submit</button>
+            <input type="password" ng-model="logininfo.password" id="login-password" placeholder="enter password">
+        <button ng-click="signup(logininfo)">Signup</button>
+        <button ng-click="login(logininfo)">Login</button>
     </form>
 
 </div>
