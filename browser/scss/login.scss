@@ -3,29 +3,31 @@
 }
 
 #login-form{
-	width: 60vw;
+	width: 46vw;
 	padding: 1vh 2vw; 
 	margin: 0 auto;
 	text-align: center;
 	label{
 		display: block;
 		text-align: right;
+		font-size: 0.5em;
 	}
 	input{
 		display: block;
+		width: 98%;
+		margin: 0 0 0 auto;
 	}
-}
-
-.inputs{
-	display: block;
 }
 
 .login-input{
 	display: inline-block;
+	width: 48%;
+	position: relative;
+	margin: 0 1%;
 }
 
-.login-buttons{
-	display: block;
+button.button.login-button{
+	width: 100%;
 	margin: 0 auto;
 }
 
