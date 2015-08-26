@@ -51,6 +51,7 @@ function MoveHandler(options){
 		});
 		opponent.send({type: "move", moves: nextMoves});
 		nextMoves.forEach(handleUserMove);
+		$('.game').mgMiniMap('update');
 	};
 
 	return {

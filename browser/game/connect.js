@@ -42,10 +42,12 @@ function PeerConnect (playerData) {
 			peerconn.close();
 			game.opponent = undefined;
 			httpGet("/meet/" + game.myId, meetSomeone);
+			$('.mgNavigator').remove()
 		});
 
 		//If the user closes the tab, tell the other user
 		window.onbeforeunload = function () {
+			$('.mgNavigator').remove()
 			peerconn.close();
 		};
 	}

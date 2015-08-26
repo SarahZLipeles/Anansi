@@ -44,7 +44,7 @@ function Interface (game, playerData) {
 		}
 	), game);
 	
-	$('.game').mgMiniMap({ draggable: true});
+	$('.game').mgMiniMap({draggable: true});
 
 	setControls({
 		handler: handleMove, 
