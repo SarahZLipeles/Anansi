@@ -8,7 +8,7 @@ game.func = function(){
 		controller: function () {
 			connect();
 		}
-	}
+	};
 };
 
 module.exports = game;

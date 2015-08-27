@@ -8,9 +8,8 @@ var loginController = function($scope, UserFactory, AuthService, $state) {
         //    }).then(function(data){
         //        return data;
         //    });
-
+        console.log('are you clicking?', loginInfo);
         $scope.error = null;
-
 
         AuthService.login(loginInfo).then(function (user) {
             console.log('logging in');

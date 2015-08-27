@@ -1,8 +1,8 @@
 
 (function(c, b, a, e) {
     var d = {
-        navigatorClass: "mgNavigator",
-        viewportClass: "mgViewport",
+        navigatorClass: "boardNav",
+        viewportClass: "boardNavView",
         elements: false,
         liveScroll: false,
         scrollbarWidth: 20,
@@ -23,10 +23,10 @@
         //     this.$relElem = this.$elem
         // }
         this.options = g;
-        this.metadata = this.$elem.data("mgMiniMap-options");
+        this.metadata = this.$elem.data("boardNav-options");
         this.config = c.extend({}, d, this.options, this.metadata);
         this.init();
-        this.$elem.data("mgMiniMap-instance", this);
+        this.$elem.data("boardNav-instance", this);
         this.updating = false
     };
     f.prototype.init = function() {
@@ -40,7 +40,7 @@
             this.ctx = this.$canvas.get(0).getContext("2d")
         } else {
             this.$canvas.remove();
-            this.$canvasDom = c('<div class="mgCanvasDom">').appendTo(this.$navigator)
+            this.$canvasDom = c('<div class="boardCanvasDOM">').appendTo(this.$navigator)
         }
         this.$viewport = this.$navigator.find("." + this.config.viewportClass);
         this.attachEvents();
@@ -128,8 +128,8 @@
         this.scrolling = false;
         this.resizing = false;
         if (this.config.draggable) {
-            this.$navigator.append('<div class="mgHandle"></div>').draggable({
-                handle: "div.mgHandle",
+            this.$navigator.append('<div class="boardNavHandle"></div>').draggable({
+                handle: "div.boardNavHandle",
                 stop: function(h, i) {
                     g.$navigator.css("position", g.navigatorPosition)
                 }
@@ -138,7 +138,7 @@
         if (this.config.resizable) {
             this.$navigator.resizable({
                 aspectRatio: true,
-                helper: "mgResizing",
+                helper: "boardNavResize",
                 start: function(h, i) {
                     g.resizing = true
                 },
@@ -206,12 +206,17 @@
             }, 200)
         })
     };
+
+    //get elements to draw
     f.prototype.drawElements = function() {
         this.debug("drawing elements");
         if (this.config.elements) {
             this.elements = this.$relElem.find(this.config.elements)
         } else {
-            this.elements = $('#sigma-group-nodes').children()
+            this.elements = $('#sigma-group-nodes').children().filter(function(){
+                return this.getAttributeNS(null, 'display') === 'block'
+            })
+            // this.hovers = $('#sigma-group-hovers').children()
         }
         if (this.canvasSupported) {
             if (this.config.realistic) {
@@ -238,6 +243,8 @@
         };
         b.html2canvas(h, this.config.html2canvas)
     };
+
+    //gets and makes the element properties to render
     f.prototype.getElementProps = function(g) {
         var i = c(g).offset();
         var h = g.getAttributeNS(null, 'fill') ? g.getAttributeNS(null, 'fill') : this.config.defaultBgColor;
@@ -251,19 +258,26 @@
             height: diameter
         }
     };
+
+    //draws onto the canvas
     f.prototype._drawElementsCanvas = function() {
         this.debug("canvas drawing");
         var g = this;
         this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
-        c(this.elements).filter(function(){
-        	return this.getAttributeNS(null, 'display') === 'block'
-        }).each(function() {
+        c(this.elements).each(function() {
             var h = g.getElementProps(this);
             g.ctx.fillStyle = h.color;
             // g.ctx.arc = (h.left, h.top , h.r , 0 , 2 * Math.PI);
             // g.ctx.fill();
             g.ctx.fillRect(h.left, h.top, h.width, h.height)
         })
+        // if(c(this.hovers)[0].hasOwnProperty('children')){
+        //     var hover = c(this.hovers)[0].children()[0]
+        //     var props = g.getElementProps(hover)
+        //     g.ctx.fillStyle = '#66c259'
+        //     g.ctx.fillRect(props.left, props.top, props.width * 1.25, props.height * 1.25)
+        // }
+    
     };
     f.prototype._drawElementsDom = function() {
         this.debug("dom drawing");
@@ -280,10 +294,10 @@
             console.log(g)
         }
     };
-    c.fn.mgMiniMap = function(g) {
+    c.fn.boardNav = function(g) {
         return this.each(function() {
             if (g === "update") {
-                var h = c(this).data("mgMiniMap-instance");
+                var h = c(this).data("boardNav-instance");
                 if (h) {
                     h.update()
                 }

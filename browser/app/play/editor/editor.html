@@ -21,11 +21,31 @@
 
     </form>
 
-    <div class="editor-rules-container">
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-    </div>
-    <div class="editor-saved-container">
+    <article class="editor-rules-container">
+        <p>Create function by creating an object that has 2 methods ('start' and 'receive')</p>
+        <br>
+        <p>The 'start' function is triggered when you click on a node</p>
+        <p>The 'receive' function is triggered in response to all of the actions performed on the nodes</p>
+        <br>
+        <p>The following are the supported functions:</p>
+        <ul>
+            <li>attack(sourceId, targetId)</li>
+            <li>reinforce(nodeId)</li>
+        </ul>
+        <p>Neither attack() nor receive() have return values. However, on completion, your crawler triggers your "receive" function
+            with an node containing a nodeId and either remaining health or a list of the connected nodeIds in the following format</p>
+        <pre>{id: String, health: Number}</pre>
+        <br>
+        <pre>{id: String, links: [nodeId]}</pre>
+        <hr>
+        <p>The following functions returns booleans</p>
+        <ul>
+            <li>isEnemy(nodeId)</li>
+            <li>isFriend(nodeId)</li>
+            <li>isNeutral(nodeId)</li>
+        </ul>
+    </article>
+    <aside class="editor-saved-container">
         <crawler class="crawler-function" ng-repeat="crawler in crawlers" ng-click="editCrawler(crawler)"></crawler>
     </div>
 </div>

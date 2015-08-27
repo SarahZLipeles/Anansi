@@ -40,17 +40,31 @@ function MoveHandler(options){
 			moves.reinforce(move);
 		}
 	};
-
+	var now = new Date();
+	var readyOrNot = function(func) {
+		var diff = new Date() - now;
+		if (diff > 60) {
+			func();
+		}else {
+			setTimeout(function() {
+				func();
+			}, diff);
+		}		
+	};
 	var execute = (data) => {
-		var nextMoves = [], pending;
-		data.moves.forEach(handleOpponentMove);
-		threadids.forEach((id) => {
-			if(pending = threads[id].pending.shift()){ 
-				nextMoves.push(pending);
-			}
+		readyOrNot(function() {
+			var nextMoves = [], pending;
+			data.moves.forEach(handleOpponentMove);
+			threadids.forEach((id) => {
+				if(pending = threads[id].pending.shift()){
+					nextMoves.push(pending);
+				}
+			});
+			opponent.send({type: "move", moves: nextMoves});
+			nextMoves.forEach(handleUserMove);
+			$('.game').boardNav('update');
+			now = new Date();
 		});
-		opponent.send({type: "move", moves: nextMoves});
-		nextMoves.forEach(handleUserMove);
 	};
 
 	return {

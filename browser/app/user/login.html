@@ -1,15 +1,11 @@
-<div class="blackweb login-main">
-    <div id="login-form" >
-		<div class="login-input">
-	        <input type="text" ng-model="logininfo.email" id="email" placeholder="email">
-	        <label for="email">Email</label>
-	        <button class="button login-button" ng-click="signup(logininfo)">Signup</button>
-	    </div><!-- 
-	     --><div class="login-input">
-	        <input type="password" ng-model="logininfo.password" id="login-password" placeholder="password">
-	    	<label for="login-password">Password</label>
-	    	<button class="button login-button" ng-click="login(logininfo)">Login</button>
-	    </div>
-    </div>
+<div>
+    <form id="login-form"  >
+        <label for="email">email address</label>
+            <input type="text" ng-model="logininfo.email" id="email" placeholder="enter email address">
+        <label for="login-password">password</label>
+            <input type="password" ng-model="logininfo.password" id="login-password" placeholder="enter password">
+        <button type="submit" ng-submit="signup(logininfo)">Signup</button>
+        <button type="button" ng-click="login(logininfo)">Login</button>
+    </form>
 
 </div>

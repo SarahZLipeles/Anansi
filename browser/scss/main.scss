@@ -33,6 +33,21 @@ body{
 	font-style: italic;
 }
 
+
+
+.sigma-node {
+  transition: stroke-dashoffset 0.2s linear;
+}
+
+*{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 a{
 	outline: 0;
 	&:hover{
@@ -45,3 +60,4 @@ a{
 		outline: 0;
 	}
 }
+
