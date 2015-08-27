@@ -7,6 +7,7 @@
 @import "animate";
 @import "sidebar";
 @import "login.scss";
+@import "buttons.scss";
 
 .clearfix {
   overflow: auto;
@@ -33,6 +34,7 @@ body{
 }
 
 
+
 .sigma-node {
   transition: stroke-dashoffset 0.2s linear;
 }
@@ -45,3 +47,17 @@ body{
     -ms-user-select: none;
     user-select: none;
 }
+
+a{
+	outline: 0;
+	&:hover{
+		outline: 0;
+	}
+	&:active{
+		outline: 0;
+	}
+	&:focus{
+		outline: 0;
+	}
+}
+

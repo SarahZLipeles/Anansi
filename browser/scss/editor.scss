@@ -83,11 +83,11 @@
 }
 
 .var{
-  color: desaturate($editor-var, 20%);
+  color: lighten(desaturate($editor-var, 20%), 40%);
 }
 
 .param{
-  color: desaturate($editor-param, 20%);
+  color: lighten(desaturate($editor-param, 20%), 40%);
 }
 
 .func-text {
