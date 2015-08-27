@@ -92,7 +92,7 @@ require("../arrayMethods");
     // Deal with sigma events:
     // TODO: keep an option to override the DOM events?
     sigma.misc.bindDOMEvents.call(this, this.domElements.graph);
-    this.bindHovers(this.options.prefix);
+    // this.bindHovers(this.options.prefix);
 
     // Set size
     this.setSize(this.width, this.height);
@@ -485,95 +485,95 @@ require("../arrayMethods");
    * @param  {string} prefix The renderer prefix.
    */
   // TODO: add option about whether to display hovers or not
-  sigma.renderers.gameSvg.prototype.bindHovers = function(prefix) {
-    var renderers = sigma.svg.hovers,
-        self = this,
-        hoveredNode;
+  // sigma.renderers.gameSvg.prototype.bindHovers = function(prefix) {
+  //   var renderers = sigma.svg.hovers,
+  //       self = this,
+  //       hoveredNode;
 
-    function overNode(e) {
-      if(e.data.node){
-        var node = e.data.node,
-            embedSettings = self.settings.embedObjects({
-              prefix: prefix
-            });
+  //   function overNode(e) {
+  //     if(e.data.node){
+  //       var node = e.data.node,
+  //           embedSettings = self.settings.embedObjects({
+  //             prefix: prefix
+  //           });
 
-        if (!embedSettings('enableHovering'))
-          return;
+  //       if (!embedSettings('enableHovering'))
+  //         return;
 
-        var hover = (renderers[node.type] || renderers.def).create(
-          node,
-          self.domElements.nodes[node.id],
-          self.measurementCanvas,
-          embedSettings
-        );
+  //       var hover = (renderers[node.type] || renderers.def).create(
+  //         node,
+  //         self.domElements.nodes[node.id],
+  //         self.measurementCanvas,
+  //         embedSettings
+  //       );
 
-        self.domElements.hovers[node.id] = hover;
+  //       self.domElements.hovers[node.id] = hover;
 
-        // Inserting the hover in the dom
-        self.domElements.groups.hovers.appendChild(hover);
-        hoveredNode = node;
-      }
-    }
+  //       // Inserting the hover in the dom
+  //       self.domElements.groups.hovers.appendChild(hover);
+  //       hoveredNode = node;
+  //     }
+  //   }
 
-    function outNode(e) {
-      if(e.data.node){
-        var node = e.data.node,
-            embedSettings = self.settings.embedObjects({
-              prefix: prefix
-            });
+  //   function outNode(e) {
+  //     if(e.data.node){
+  //       var node = e.data.node,
+  //           embedSettings = self.settings.embedObjects({
+  //             prefix: prefix
+  //           });
 
-        if (!embedSettings('enableHovering'))
-          return;
+  //       if (!embedSettings('enableHovering'))
+  //         return;
 
-        // Deleting element
-        self.domElements.groups.hovers.removeChild(
-          self.domElements.hovers[node.id]
-        );
-        hoveredNode = null;
-        delete self.domElements.hovers[node.id];
+  //       // Deleting element
+  //       self.domElements.groups.hovers.removeChild(
+  //         self.domElements.hovers[node.id]
+  //       );
+  //       hoveredNode = null;
+  //       delete self.domElements.hovers[node.id];
 
-        // Reinstate
-        self.domElements.groups.nodes.appendChild(
-          self.domElements.nodes[node.id]
-        );
-      }
-    }
+  //       // Reinstate
+  //       self.domElements.groups.nodes.appendChild(
+  //         self.domElements.nodes[node.id]
+  //       );
+  //     }
+  //   }
 
-    // OPTIMIZE: perform a real update rather than a deletion
-    function update() {
-      if (!hoveredNode)
-        return;
+  //   // OPTIMIZE: perform a real update rather than a deletion
+  //   function update() {
+  //     if (!hoveredNode)
+  //       return;
 
-      var embedSettings = self.settings.embedObjects({
-            prefix: prefix
-          });
+  //     var embedSettings = self.settings.embedObjects({
+  //           prefix: prefix
+  //         });
 
-      // Deleting element before update
-      self.domElements.groups.hovers.removeChild(
-        self.domElements.hovers[hoveredNode.id]
-      );
-      delete self.domElements.hovers[hoveredNode.id];
+  //     // Deleting element before update
+  //     self.domElements.groups.hovers.removeChild(
+  //       self.domElements.hovers[hoveredNode.id]
+  //     );
+  //     delete self.domElements.hovers[hoveredNode.id];
 
-      var hover = (renderers[hoveredNode.type] || renderers.def).create(
-        hoveredNode,
-        self.domElements.nodes[hoveredNode.id],
-        self.measurementCanvas,
-        embedSettings
-      );
+  //     var hover = (renderers[hoveredNode.type] || renderers.def).create(
+  //       hoveredNode,
+  //       self.domElements.nodes[hoveredNode.id],
+  //       self.measurementCanvas,
+  //       embedSettings
+  //     );
 
-      self.domElements.hovers[hoveredNode.id] = hover;
+  //     self.domElements.hovers[hoveredNode.id] = hover;
 
-      // Inserting the hover in the dom
-      self.domElements.groups.hovers.appendChild(hover);
-    }
+  //     // Inserting the hover in the dom
+  //     self.domElements.groups.hovers.appendChild(hover);
+  //   }
 
-    // Binding events
-    this.bind('overNode', overNode);
-    this.bind('outNode', outNode);
+  //   // Binding events
+  //   this.bind('overNode', overNode);
+  //   this.bind('outNode', outNode);
 
-    // Update on render
-    this.bind('render', update);
-  };
+  //   // Update on render
+  //   this.bind('render', update);
+  // };
 
   /**
    * This method sets the size of each DOM element in the container and stores the new

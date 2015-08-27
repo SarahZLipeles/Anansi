@@ -79,7 +79,7 @@ function PeerConnect (playerData) {
 				}
 			});
 		} else {
-			game.player = new Peer({host: "127.0.0.1", port: 3000, path: "/api", debug: 2});
+			game.player = new Peer({host: "192.168.1.74", port: 3000, path: "/api", debug: 2});
 		}
 		//When the peer connection is established
 		game.player.on("open", function (id) {

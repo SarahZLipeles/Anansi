@@ -32,6 +32,11 @@ body{
 	font-style: italic;
 }
 
+
+.sigma-node {
+  transition: stroke-dashoffset 0.2s linear;
+}
+
 *{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
