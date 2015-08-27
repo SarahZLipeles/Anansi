@@ -460,10 +460,13 @@ require("../arrayMethods");
 
     //Create the clipping group
     var clipping = "clip";
-    g = document.createElementNS(this.settings("xmlns"), "clipPath");
-    g.setAttributeNS(null, "id", c + "-group-" + clipping);
+    var defs = document.createElementNS(this.settings("xmlns"), "defs");
+    defs.setAttributeNS(null, "id", "clip-def");
+    this.domElements.clipDef = this.domElements.graph.appendChild(defs);
+    g = document.createElementNS(this.settings("xmlns"), "mask");
+    g.setAttributeNS(null, "id", "fogmask");
     g.setAttributeNS(null, "class", c + "-group");
-    this.domElements.groups[clipping] = this.domElements.graph.appendChild(g);    
+    this.domElements.groups[clipping] = this.domElements.clipDef.appendChild(g);    
 
     // Appending measurement canvas
     this.container.appendChild(canvas);
@@ -583,6 +586,19 @@ require("../arrayMethods");
 
     // Update on render
     this.bind('render', update);
+  };
+
+  sigma.renderers.gameSvg.prototype.createFog = function () {
+    var fog = document.createElementNS(this.settings('xmlns'), 'rect');
+    fog.setAttributeNS(null, "id", "fog");
+    fog.setAttributeNS(null, "class", "fog");
+    fog.setAttributeNS(null, "x", "0");
+    fog.setAttributeNS(null, "y", "0");
+    fog.setAttributeNS(null, "width", this.width);
+    fog.setAttributeNS(null, "height", this.height);
+    fog.setAttributeNS(null, "fill", "#ffffff");
+    fog.setAttributeNS(null, "mask", "url(#fogmask)");
+    this.domElements.fog = this.domElements.graph.appendChild(fog);  
   };
 
   /**

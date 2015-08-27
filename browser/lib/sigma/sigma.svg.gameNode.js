@@ -19,11 +19,11 @@ var gameSettings = require('../../settings.js');
         }
 
         if(ratio > gameSettings.highHealth){
-          circle.setAttributeNS(null, 'stroke',gameSettings.highHealthColor);
+          circle.setAttributeNS(null, 'stroke', gameSettings.highHealthColor);
         } else if(ratio > gameSettings.mediumHealth){
-          circle.setAttributeNS(null, 'stroke',gameSettings.mediumHealthColor);
+          circle.setAttributeNS(null, 'stroke', gameSettings.mediumHealthColor);
         } else{
-          circle.setAttributeNS(null, 'stroke',gameSettings.lowHealthColor);
+          circle.setAttributeNS(null, 'stroke', gameSettings.lowHealthColor);
         }
 
         circle.setAttributeNS(null, 'stroke-width', gameSettings.healthBarSize);
@@ -48,7 +48,7 @@ var gameSettings = require('../../settings.js');
      * @param  {configurable}             settings The settings function.
      */
     create: function(node, settings) {
-      var clipContainer = document.getElementById("sigma-group-clip");
+      var mask = document.getElementById("fogmask");
       var prefix = settings('prefix') || '',
           circle = document.createElementNS(settings('xmlns'), 'circle'),
           sight = document.createElementNS(settings("xmlns"), "circle");
@@ -68,12 +68,13 @@ var gameSettings = require('../../settings.js');
 
       sight.setAttributeNS(null, "cx", node[prefix + 'x']);
       sight.setAttributeNS(null, 'cy', node[prefix + 'y']);
-      sight.setAttributeNS(null, 'r', r * 100);
+      sight.setAttributeNS(null, 'r', r * 4);
+      sight.setAttributeNS(null, "fill", "#ffffff");
 
-      circle.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
-      sight.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
+      circle.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "block");
+      // sight.setAttributeNS(null, "display", node.owner === settings("player") ? "bl" : "");
 
-      clipContainer.appendChild(sight);
+      mask.appendChild(sight);
       node.sight = sight;
 
       // Returning the DOM Element
@@ -95,7 +96,7 @@ var gameSettings = require('../../settings.js');
 
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
       
-      circle.style.display = '';
+      circle.style.display = 'block';
 
       return this;
     }
