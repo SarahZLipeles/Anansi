@@ -1,21 +1,24 @@
-.login-main{
-	padding: 20vh;
-}
-
 #login-form{
+	position: relative;
+	top: 20vh;
 	width: 46vw;
-	padding: 1vh 2vw; 
+	padding: 2vh 2vh;
+	border-radius: 20px;
+	box-shadow: 0px 2px 3px invert($item-color); 
 	margin: 0 auto;
 	text-align: center;
+	background-image: $nav-texture;
 	label{
 		display: block;
 		text-align: right;
 		font-size: 0.5em;
+		color: $item-color;
 	}
 	input{
 		display: block;
 		width: 98%;
 		margin: 0 0 0 auto;
+		background-color: $item-color;
 	}
 }
 
