@@ -15,12 +15,11 @@ var schema = new mongoose.Schema({
     salt: {
         type: String
     },
-    userFunction:{
-        type: [{
+    userFunction:
+        [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'UserFunction'
         }]
-    }
 
 });
 

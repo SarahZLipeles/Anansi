@@ -12,6 +12,10 @@ var playController = function($scope) {
     	controls.setThread(num);
     };
 
+    $scope.stopThread = function() {
+    	controls.stop();
+    };
+
     // controls.setCrawler(0);
     // controls.setThread(0);
 };

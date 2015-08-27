@@ -51,11 +51,15 @@
   border: 1px $editor-rules-container solid;
   background-color: rgba(38, 38, 38, 0.1);
   border-radius: 10px;
-  display: flex;
-  @include prefix(flex, "0 1 auto");
-  @include prefix(align-self, stretch);
+  //display: flex;
+  //@include prefix(flex-flow, "col wrap");
+  //@include prefix(flex, "0 1 auto");
+  //@include prefix(align-items, stretch);
+  //@include prefix(align-self, stretch);
   //width:30%;
-
+  *{
+    width:100%;
+  }
 }
 
 .editor-saved-container {

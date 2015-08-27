@@ -7,7 +7,7 @@ var gameSettings = require('../../settings.js');
 
     function setHealth(circle, node, r){
       var c = Math.PI*(r*2);
-      var ratio = node.health / node.maxHealth
+      var ratio = node.health / node.maxHealth;
       var strokeOffset = (1 - ratio) * c;  
       if(ratio === 0){
         circle.setAttributeNS(null, 'stroke','none');
@@ -32,7 +32,19 @@ var gameSettings = require('../../settings.js');
       }
 
       circle.setAttributeNS(null, 'stroke-width', 3.25);
-      circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
+      // circle.setAttributeNS(null, 'stroke-dashoffset', strokeOffset);
+
+      // console.log(view.graph);
+      // sigma.plugins.animate(
+      //   view,
+      //   {r: 1000},
+      //   {
+      //     duration: 300,
+      //     onComplete: function() {
+      //       // do stuff here after animation is complete
+      //     }
+      //   }
+      // );
       // circle.setAttributeNS(null, 'transition', 'stroke-dashoffset 1s linear')
     }
 
@@ -79,8 +91,8 @@ var gameSettings = require('../../settings.js');
     update: function(node, circle, settings) {
       // var player = settings("player");
       // Updating only if not freestyle
-      var r = parseInt(circle.getAttribute('r'))
-      setHealth(circle, node, r)
+      var r = parseInt(circle.getAttribute('r'));
+      setHealth(circle, node, r);
 
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
       

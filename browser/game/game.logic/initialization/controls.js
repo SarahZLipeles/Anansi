@@ -72,7 +72,7 @@ var setControls = function (options){
 		var command = controls[e.keyCode];
 		if(command){ command(); }
 	});
-}
+};
 
 var setCrawler = function (num) {
 	currentConfig.crawlerButton.className = "game-control";
@@ -91,5 +91,10 @@ var setThread = function (num) {
 module.exports = {
 	setControls,
 	setCrawler,
-	setThread
+	setThread,
+	stop: function() {
+		for (var i = 0; i < threads.length; i++) {
+			threads[i].stop();
+		}
+	}
 };
