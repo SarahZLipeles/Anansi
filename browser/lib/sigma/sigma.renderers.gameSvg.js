@@ -96,6 +96,7 @@ require("../arrayMethods");
 
     // Set size
     this.setSize(this.width, this.height);
+    this.createFog();
   };
 
   /**
@@ -456,6 +457,13 @@ require("../arrayMethods");
       this.domElements.groups[groups[i]] =
         this.domElements.graph.appendChild(g);
     }
+
+    //Create the clipping group
+    var clipping = "clip";
+    g = document.createElementNS(this.settings("xmlns"), "clipPath");
+    g.setAttributeNS(null, "id", c + "-group-" + clipping);
+    g.setAttributeNS(null, "class", c + "-group");
+    this.domElements.groups[clipping] = this.domElements.graph.appendChild(g);    
 
     // Appending measurement canvas
     this.container.appendChild(canvas);

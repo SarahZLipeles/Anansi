@@ -48,8 +48,10 @@ var gameSettings = require('../../settings.js');
      * @param  {configurable}             settings The settings function.
      */
     create: function(node, settings) {
+      var clipContainer = document.getElementById("sigma-group-clip");
       var prefix = settings('prefix') || '',
-          circle = document.createElementNS(settings('xmlns'), 'circle');
+          circle = document.createElementNS(settings('xmlns'), 'circle'),
+          sight = document.createElementNS(settings("xmlns"), "circle");
 
       var r = node[prefix + 'size'];
       
@@ -57,13 +59,22 @@ var gameSettings = require('../../settings.js');
       circle.setAttributeNS(null, 'data-node-id', node.id);
       circle.setAttributeNS(null, 'class', settings('classPrefix') + '-node');
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
-      setHealth(circle, node, r)
+      setHealth(circle, node, r);
 
       // Taken from below, part of disabling resize readjustment
       circle.setAttributeNS(null, 'cx', node[prefix + 'x']);
       circle.setAttributeNS(null, 'cy', node[prefix + 'y']);
       circle.setAttributeNS(null, 'r', r);
+
+      sight.setAttributeNS(null, "cx", node[prefix + 'x']);
+      sight.setAttributeNS(null, 'cy', node[prefix + 'y']);
+      sight.setAttributeNS(null, 'r', r * 100);
+
       circle.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
+      sight.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
+
+      clipContainer.appendChild(sight);
+      node.sight = sight;
 
       // Returning the DOM Element
       return circle;
