@@ -17,8 +17,8 @@ var settings = {
 
 	//board settings
 	fieldOptions: {
-		width: 3000,
-		height: 2000,
+		width: 4000,
+		height: 3000,
 		spacing: 70,
 		padding: 10
 	},
