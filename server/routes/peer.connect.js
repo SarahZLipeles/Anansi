@@ -26,7 +26,7 @@ router.get("/meet/:id", function (req, res) {
         }
     }else{
         ids.push(id);
-        message.meet = "hold"
+        message.meet = "hold";
     }
     res.json(message);
 });

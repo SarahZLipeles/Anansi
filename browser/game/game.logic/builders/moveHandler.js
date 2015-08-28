@@ -22,7 +22,7 @@ function MoveHandler(options){
 		var thread = threads[move.thread];
 		thread.pending.push(move);
 		return threads;
-	}
+	};
 
 	var handleUserMove = (move) => {
 		var thread = threads[move.thread].thread;
