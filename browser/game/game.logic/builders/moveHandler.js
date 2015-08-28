@@ -62,7 +62,6 @@ function MoveHandler(options){
 			});
 			opponent.send({type: "move", moves: nextMoves});
 			nextMoves.forEach(handleUserMove);
-			$('.game').boardNav('update');
 			now = new Date();
 		});
 	};
