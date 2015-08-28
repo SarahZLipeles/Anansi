@@ -4222,7 +4222,6 @@ if (typeof exports !== 'undefined') {
             var node = this.nodesIndex[v];
             this.renderNodes.nodesToUpdate.push(node);
             if (id) {
-                console.log(v, id);
                 this.renderNodes.attacks.push({
                     target: v,
                     source: id

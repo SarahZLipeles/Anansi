@@ -115,7 +115,7 @@ var gameSettings = require("../../settings.js");
             //If either node belongs to the player, show the line
             if(targetOwner === player || sourceOwner === player){
                 line.setAttributeNS(null, "display", "block");
-                setTimeout(function() {line.setAttributeNS(null, "stroke-dasharray", "1000 1000");}, 100);
+                setTimeout(function() {line.setAttributeNS(null, "stroke-dasharray", "1000 1000");}, 350);
             }else{
                 line.setAttributeNS(null, "display", "none");
                 line.setAttributeNS(null, "stroke-dasharray", "0.1 1000");
@@ -123,5 +123,5 @@ var gameSettings = require("../../settings.js");
 
             return this;
         }
-    }
+    };
 })();

@@ -33,7 +33,6 @@ var BuildMoves = (options) => {
 
 	var attack = (data) => {
 		var targetId = data.target;
-		console.log(data);
 		var source = nodes(data.source);
 		var target = queue(targetId, data.source);
 		var returnVal = {id: targetId};
