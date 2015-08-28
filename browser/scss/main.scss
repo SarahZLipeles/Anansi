@@ -35,17 +35,7 @@ body{
 	font-style: italic;
 }
 
-line {
-	transition: stroke-dasharray 3s linear;
-}
 
-.sigma-node {
-  transition: stroke-dashoffset 0.2s linear;
-}
-
-circle {
-	transition: fill 0.2s linear,r 0.5s linear;
-}
 
 *{
     -webkit-touch-callout: none;
@@ -70,26 +60,6 @@ a{
 }
 
 
-.attackEdgeF {
-	stroke: red;
-	-webkit-animation:attack 0.3s linear 1;
-}
-
-.attackEdgeB {
-	stroke: red;
-	-webkit-animation:attack 0.3s linear 1 reverse;
-}
-
-@-webkit-keyframes attack {
-	from {
-		stroke-dasharray: 20, 1000;
-		stroke-dashoffset: 10;
-	}
-	to {
-		stroke-dasharray: 20, 1000;
-		stroke-dashoffset: -100;
-	}
-}
 
 
 
