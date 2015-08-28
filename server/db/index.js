@@ -1,7 +1,6 @@
 'use strict';
 var Promise = require('bluebird');
 var path = require('path');
-var chalk = require('chalk');
 
 var DATABASE_URI = require(path.join(__dirname, '../env')).DATABASE_URI;
 
@@ -18,9 +17,9 @@ var startDbPromise = new Promise(function (resolve, reject) {
     db.on('error', reject);
 });
 
-console.log(chalk.yellow('Opening connection to MongoDB . . .'));
+console.log('Opening connection to MongoDB . . .');
 startDbPromise.then(function () {
-    console.log(chalk.green('MongoDB connection opened!'));
+    console.log('MongoDB connection opened!');
 });
 
 module.exports = startDbPromise;
