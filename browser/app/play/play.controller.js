@@ -4,16 +4,16 @@ var controls = require("../../game/game.logic/initialization/controls");
 var playController = function($scope) {
     $scope.crawlers = Crawlers.crawlers;
 
-    $scope.setCrawler = function (num) {
-    	controls.setCrawler(num);
+    $scope.setCrawler = function(num) {
+        controls.setCrawler(num);
     };
 
-    $scope.setThread = function (num) {
-    	controls.setThread(num);
+    $scope.setThread = function(num) {
+        controls.setThread(num);
     };
 
     $scope.stopThread = function() {
-    	controls.stop();
+        controls.stop();
     };
 
     // controls.setCrawler(0);

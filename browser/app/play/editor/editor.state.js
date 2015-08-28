@@ -1,6 +1,6 @@
 'use strict'
 
-var editorState = function ($stateProvider){
+var editorState = function($stateProvider) {
     $stateProvider.state('editor', {
         url: '/editor',
         template: '<editor></editor>'
@@ -9,4 +9,3 @@ var editorState = function ($stateProvider){
 editorState.$inject = ["$stateProvider"];
 
 module.exports = editorState;
-

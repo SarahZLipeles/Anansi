@@ -3,4 +3,3 @@ require("./sigma.svg.gameEdge");
 require("./sigma.svg.gameNode");
 require("./sigma.svg.gameLinked");
 require("./sigma.svg.gameAttack");
-// require("./sigma.svg.gameNodeHealthBar");
