@@ -9,73 +9,83 @@ module.exports = function(self) {
 	var startTime = new Date();
 	console.log(startTime);
 
-	var findNode = function(id) {
-		for (var i = 0; i < nodes.length; i++) {
-			if (nodes[i].id === id) {
-				return nodes[i];
-			}
-		}
-	};
-	var userScope = {
-		attack: function(sourceId, targetId) {
-			if (findNode(sourceId).links.indexOf(targetId) !== -1) {
-				var node = findNode(targetId);
-				node.health--;
-				if (node.health <= 0) {
-					if(this.isFriend(targetId)){
-						self.postMessage("killed friend: " + targetId);
-						node.health = 20;
-					} else {
-						self.postMessage("claimed node: " + targetId);
-						// console.log('node', node);
-						// console.log('nodelinks', node.links);
-						// console.log('count log', count);
+    var findNode = function(id) {
+        for (var i = 0; i < nodes.length; i++) {
+            if (nodes[i].id === id) {
+                return nodes[i];
+            }
+        }
+    };
+    var userScope = {
+        attack: function(sourceId, targetId) {
+            if (findNode(sourceId).links.indexOf(targetId) !== -1) {
+                var node = findNode(targetId);
+                node.health--;
+                if (node.health <= 0) {
+                    if (this.isFriend(targetId)) {
+                        self.postMessage("killed friend: " + targetId);
+                        node.health = 20;
+                    } else {
+                        self.postMessage("claimed node: " + targetId);
+                        // console.log('node', node);
+                        // console.log('nodelinks', node.links);
+                        // console.log('count log', count);
 
-						count++;
-						if (count >= 10) {
-							var endTime = new Date();
-							self.postMessage("claimed all nodes");
-							self.close();
-						}
-						node.health = 20;
+                        count++;
+                        if (count >= 10) {
+                            var endTime = new Date();
+                            self.postMessage("claimed all nodes");
+                            self.close();
+                        }
+                        node.health = 20;
 
-						receive.call(this, {id: targetId, links: node.links}, data);
-					}
-					
-				} else {
-					// console.log('else running?');
-					// console.log('else data', data);
-					receive.call(this, {id: targetId, health: node.health}, data);
-				}
-			}
-		},
-		reinforce: function(targetId) {
-			var node = findNode(targetId);
-			if (!this.isFriend(targetId)) {
-				self.postMessage("You reinforced a node you did not own: " + targetId);
-			}
-			if (node.health < 50) {
-				node.health++;
-			} else {
-				self.postMessage("You tried to reinforce past full health" + targetId);
-			}
-			receive.call(this, {id: targetId, health: node.health}, data);
-		},
-		isEnemy: function(id) {
-			return findNode(id).enemy;
-		},
-		isFriend: function (id) {
-			return findNode(id).friendly;
-		},
-		isNeutral: function (id) {
-			return !(findNode(id.friendly) && findNode(id.enemy));
-		}
-	};
-	function test(e) {
-		// console.log(e);
-		start = eval(e.data[0]);
-		receive = eval(e.data[1]);
-		data = {};
-		start.call(userScope, "2", data);
-	}
+                        receive.call(this, {
+                            id: targetId,
+                            links: node.links
+                        }, data);
+                    }
+
+                } else {
+                    // console.log('else running?');
+                    // console.log('else data', data);
+                    receive.call(this, {
+                        id: targetId,
+                        health: node.health
+                    }, data);
+                }
+            }
+        },
+        reinforce: function(targetId) {
+            var node = findNode(targetId);
+            if (!this.isFriend(targetId)) {
+                self.postMessage("You reinforced a node you did not own: " + targetId);
+            }
+            if (node.health < 50) {
+                node.health++;
+            } else {
+                self.postMessage("You tried to reinforce past full health" + targetId);
+            }
+            receive.call(this, {
+                id: targetId,
+                health: node.health
+            }, data);
+        },
+        isEnemy: function(id) {
+            return findNode(id).enemy;
+        },
+        isFriend: function(id) {
+            return findNode(id).friendly;
+        },
+        isNeutral: function(id) {
+            return !(findNode(id.friendly) && findNode(id.enemy));
+        }
+    };
+
+    function test(e) {
+        // console.log(e);
+        start = eval(e.data[0]);
+        receive = eval(e.data[1]);
+        data = {};
+        start.call(userScope, "2", data);
+    }
 };

@@ -22,7 +22,7 @@ function MoveHandler(options){
 		var thread = threads[move.thread];
 		thread.pending.push(move);
 		return threads;
-	}
+	};
 
 	var handleUserMove = (move) => {
 		var thread = threads[move.thread].thread;
@@ -43,7 +43,7 @@ function MoveHandler(options){
 	var now = new Date();
 	var readyOrNot = function(func) {
 		var diff = new Date() - now;
-		if (diff > 60) {
+		if (diff > (1000 / 60)) {
 			func();
 		}else {
 			setTimeout(function() {

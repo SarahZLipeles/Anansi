@@ -1,6 +1,8 @@
 var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
 	gameSettings = require("../settings"),
+	clearBoard = require("./game.logic/clearBoard"),
+	loading = require("./loading"),
 	httpGet = require("../lib/httpUtil");
 	require("../lib/noBack");
 
@@ -18,6 +20,7 @@ function PeerConnect (playerData) {
 
 		//When the connection opens...
 		peerconn.on("open", function () {
+			loading.off();
 			if(game.role === "host") {
 				console.log(game.board);
 				peerconn.send({type: "board", board: game.board});
@@ -41,12 +44,17 @@ function PeerConnect (playerData) {
 			console.log("closing connection");
 			peerconn.close();
 			game.opponent = undefined;
+			game.board = undefined;
+			gameInterface = undefined;
+			clearBoard();
+			loading.on();
 			httpGet("/meet/" + game.myId, meetSomeone);
 			$('.mgNavigator').remove();
 		});
 
 		//If the user closes the tab, tell the other user
 		window.onbeforeunload = function () {
+			clearBoard();
 			$('.mgNavigator').remove();
 			peerconn.close();
 		};
@@ -73,6 +81,7 @@ function PeerConnect (playerData) {
 			game.player = new Peer({
 				host: "/",
 				port: 80,
+				wsport: 8000,
 				path: "/api",
 				config: {
 					"iceServers": [{url: "stun:stun.l.google.com:19302"}]
@@ -85,11 +94,18 @@ function PeerConnect (playerData) {
 		game.player.on("open", function (id) {
 			game.myId = id;
 			//Try to meet someone
+			loading.on();
 			httpGet("/meet/" + id, meetSomeone);
 		});
 		//If someone calls, you answer
 		game.player.on("connection", function (peerconn) {
 			peerDataCommunication(peerconn);
+		});
+		//If there is an error you get back in line
+		game.player.on("error", function () {
+			clearBoard();
+			loading.on();
+			httpGet("/meet/" + game.myId, meetSomeone);
 		});
 	}
 }

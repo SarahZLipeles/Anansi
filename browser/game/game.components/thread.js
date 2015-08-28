@@ -1,6 +1,6 @@
-
 var buildUserScope = require("../game.logic/builders/userScope");
 var id = 0;
+
 function Thread(handler) {
     this.id = id++;
     this.crawling = false;
@@ -20,7 +20,7 @@ Thread.prototype.crawl = function(startId, crawler) {
     crawler.start.call(this.userScope, startId);
 };
 
-Thread.prototype.stop = function () {
+Thread.prototype.stop = function() {
     this.currentCrawler = undefined;
     this.crawling = false;
     this.handler.clearThread(this.id);
