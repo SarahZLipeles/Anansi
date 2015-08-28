@@ -72,6 +72,7 @@ require("../arrayMethods");
     // Find the prefix:
     this.options.prefix = 'renderer' + sigma.utils.id() + ':';
 
+    
     // Initialize the DOM elements
     this.initDOM('svg');
 
@@ -96,7 +97,6 @@ require("../arrayMethods");
 
     // Set size
     this.setSize(this.width, this.height);
-    this.createFog();
   };
 
   /**
@@ -431,6 +431,8 @@ require("../arrayMethods");
 
     dom.style.position = 'absolute';
     dom.setAttribute('class', c + '-svg');
+    dom.setAttribute("mask", "url(#fogmask)");
+    // dom.setAttributeNS(null, "filter", "url(#filter-map)");
 
     // Setting SVG namespace
     dom.setAttribute('xmlns', this.settings('xmlns'));
@@ -441,8 +443,12 @@ require("../arrayMethods");
     var canvas = document.createElement('canvas');
     canvas.setAttribute('class', c + '-measurement-canvas');
 
+
     // Appending elements
     this.domElements.graph = this.container.appendChild(dom);
+    var defs = document.createElementNS(this.settings("xmlns"), "defs");
+
+    this.createBoard();
 
     // Creating groups
     var groups = ['edges', 'labels', 'nodes', 'hovers', "arrows"];
@@ -458,10 +464,9 @@ require("../arrayMethods");
 
     //Create the clipping group
     var clipping = "clip";
-    var defs = document.createElementNS(this.settings("xmlns"), "defs");
-    defs.setAttributeNS(null, "id", "clip-def");
     this.domElements.clipDef = this.domElements.graph.appendChild(defs);
     g = document.createElementNS(this.settings("xmlns"), "mask");
+    g.setAttributeNS(null, "fill", "#ffffff");
     g.setAttributeNS(null, "id", "fogmask");
     g.setAttributeNS(null, "class", c + "-group");
     this.domElements.groups[clipping] = this.domElements.clipDef.appendChild(g);    
@@ -594,9 +599,22 @@ require("../arrayMethods");
     fog.setAttributeNS(null, "y", "0");
     fog.setAttributeNS(null, "width", this.width);
     fog.setAttributeNS(null, "height", this.height);
-    fog.setAttributeNS(null, "fill", "#ffffff");
+    fog.setAttributeNS(null, "fill", "#555");
     fog.setAttributeNS(null, "mask", "url(#fogmask)");
     this.domElements.fog = this.domElements.graph.appendChild(fog);  
+  };
+
+  sigma.renderers.gameSvg.prototype.createBoard = function () {
+    var gameBoard = document.createElementNS(this.settings('xmlns'), 'rect');
+    gameBoard.setAttributeNS(null, "id", "gameBoard");
+    gameBoard.setAttributeNS(null, "class", "gameBoard");
+    gameBoard.setAttributeNS(null, "x", "0");
+    gameBoard.setAttributeNS(null, "y", "0");
+    gameBoard.setAttributeNS(null, "width", this.width);
+    gameBoard.setAttributeNS(null, "height", this.height);
+    gameBoard.setAttributeNS(null, "fill", "url(#gameBack)");
+    gameBoard.setAttributeNS(null, "mask", "url(#fogmask)");
+    this.domElements.gameBoard = this.domElements.graph.appendChild(gameBoard);  
   };
 
   /**

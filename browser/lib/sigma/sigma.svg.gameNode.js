@@ -80,10 +80,10 @@ var gameSettings = require('../../settings.js');
 
       sight.setAttributeNS(null, "cx", node[prefix + 'x']);
       sight.setAttributeNS(null, 'cy', node[prefix + 'y']);
-      sight.setAttributeNS(null, 'r', r * 4);
-      sight.setAttributeNS(null, "fill", "#ffffff");
-
-      circle.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "block");
+      sight.setAttributeNS(null, 'r', r > 20 ? r * 10 : r * 20);
+      sight.setAttributeNS(null, "fill", "#fff");
+      sight.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
+      circle.setAttributeNS(null, "display", "block");
       // sight.setAttributeNS(null, "display", node.owner === settings("player") ? "bl" : "");
 
       mask.appendChild(sight);
@@ -107,7 +107,7 @@ var gameSettings = require('../../settings.js');
       setHealth(circle, node, r);
 
       circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
-      
+      node.sight.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
       circle.style.display = 'block';
 
       return this;

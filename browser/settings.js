@@ -12,16 +12,17 @@ var settings = {
 	baseMaxHealth: 25,
 
 	//size
-	size: 5,
+	size: 1,
 
 
 	//board settings
 	fieldOptions: {
-		width: 400,
-		height: 300,
-		spacing: 50,
+		width: 3000,
+		height: 2000,
+		spacing: 70,
 		padding: 10
 	},
+	wiggle: 40,
 
 
 	//gameplay
@@ -35,7 +36,7 @@ var settings = {
 	numThreads: 2,
 
 	//sigma health bars
-	healthBarSize: 4.25,
+	healthBarSize: 9.25,
 	highHealth: 0.5,
 	highHealthColor: '#66c259',
 	mediumHealth: 0.25,
