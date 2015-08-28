@@ -33,8 +33,9 @@ var BuildMoves = (options) => {
 
 	var attack = (data) => {
 		var targetId = data.target;
+		console.log(data);
 		var source = nodes(data.source);
-		var target = queue(targetId);
+		var target = queue(targetId, data.source);
 		var returnVal = {id: targetId};
 		var renderType = {partial: true};
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
@@ -59,6 +60,7 @@ var BuildMoves = (options) => {
 
 
 	var reinforce = (data) => {
+		console.log(data, "DATA");
 		var node = queue(data.target);
 		var returnVal = {id: data.target};
 		if(node.owner === data.role){
