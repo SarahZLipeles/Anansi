@@ -27,7 +27,7 @@ var gameSettings = require("../../settings.js");
                 sourceY = source[prefix + "y"],
                 targetX = target[prefix + "x"],
                 targetY = target[prefix + "y"],
-                headlen = 4,
+                headlen = 13,
                 halfX = (sourceX + targetX) / 2,
                 halfY = (sourceY + targetY) / 2,
                 angle = Math.atan2(targetY - sourceY, targetX - sourceX);
@@ -47,12 +47,14 @@ var gameSettings = require("../../settings.js");
             arrowToSource.setAttributeNS(null, "points", toSourcePoints);
             arrowToSource.setAttributeNS(null, "class", settings("classPrefix") + "-arrow");
             arrowToSource.setAttributeNS(null, "stroke", color);
+            arrowToSource.setAttributeNS(null, "stroke-width", "4px");
             arrowToSource.setAttributeNS(null, "fill", "none");
             arrowToSource.setAttributeNS(null, "display", "none");
             //Set up the to target arrow
             arrowToTarget.setAttributeNS(null, "points", toTargetPoints);
             arrowToTarget.setAttributeNS(null, "class", settings("classPrefix") + "-arrow");
             arrowToTarget.setAttributeNS(null, "stroke", color);
+            arrowToTarget.setAttributeNS(null, "stroke-width", "4px");
             arrowToTarget.setAttributeNS(null, "fill", "none");
             arrowToTarget.setAttributeNS(null, "display", "none");
             //Add arrows to board
@@ -62,10 +64,11 @@ var gameSettings = require("../../settings.js");
             line.setAttributeNS(null, "data-edge-id", edge.id);
             line.setAttributeNS(null, "class", settings("classPrefix") + "-edge");
             line.setAttributeNS(null, "stroke", color);
+            line.setAttributeNS(null, "stroke-width", "4px");
             line.setAttributeNS(null, "display", "none");
             //Took this from below, makes dragging and zooming possible
             //Would need to put this back to reenable that
-            line.setAttributeNS(null, "stroke-width", edge[prefix + "size"] || 1);
+            line.setAttributeNS(null, "stroke-width", "5px");
             line.setAttributeNS(null, "x1", sourceX);
             line.setAttributeNS(null, "y1", sourceY);
             line.setAttributeNS(null, "x2", targetX);

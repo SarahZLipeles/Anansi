@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "test": "mocha --compilers js:mocha-traceur test/**/*.spec.js"
   },
   "repository": {

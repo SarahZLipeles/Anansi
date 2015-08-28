@@ -18,7 +18,8 @@ var gameSettings = require("../../settings.js");
          * @param  {configurable}             settings   The settings function.
          */
         update: function(target, targetCircle, source, sourceCircle, edge, line, settings) {
-            var direction = edge.target === target ? "F" : "B";
+            var direction = edge.target === target ? "F" : "B",
+                currColor = targetCircle.getAttributeNS(null, "fill");
             sourceCircle.classList.add("pulse");
             line.classList.add("attackEdge" + direction);
             setTimeout(function() {
@@ -26,9 +27,11 @@ var gameSettings = require("../../settings.js");
                 sourceCircle.classList.remove("pulse");
                 setTimeout(function() {
                     targetCircle.setAttributeNS(null, "fill", "#FF0F13");
-                    targetCircle.classList.add("pulse");
-                    setTimeout(function() {targetCircle.classList.remove("pulse");}, 300);
-                }, 50);
+                }, 10);
+                setTimeout(function() {
+                    targetCircle.setAttributeNS(null, "fill", currColor);
+                    targetCircle.classList.remove("pulse");
+                }, 115);
             }, 300);
         }
     };

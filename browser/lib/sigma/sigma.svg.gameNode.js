@@ -90,7 +90,7 @@ var gameSettings = require('../../settings.js');
       // Updating only if not freestyle
       var r = parseInt(circle.getAttribute('r'));
       setTimeout(setHealth.bind(this, circle, node, r), 300);
-      setTimeout(function() {circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));}, 400);
+      circle.setAttributeNS(null, 'fill', node.owner ? settings(node.owner) : settings('defaultNodeColor'));
       
       node.sight.setAttributeNS(null, "display", node.owner === settings("player") ? "block" : "none");
       circle.style.display = 'block';

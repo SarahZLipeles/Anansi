@@ -51,6 +51,9 @@ var BuildMoves = (options) => {
 				returnVal.message = "damaged";
 			}
 			view.refresh(renderType);
+			if(renderType.claim){
+				$('.game').boardNav('update');
+			}
 		}else{
 			returnVal.message = "invalid";
 		}
