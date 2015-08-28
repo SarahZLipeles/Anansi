@@ -52,9 +52,17 @@ var startServer = function(){
         console.log("Server running at %s:%d", app.get("ip"), app.get("port"));
     });
 }
+<<<<<<< HEAD
 startServer();
 // startDb.then(startServer).catch(function (err) {
 //     console.error('Initialization error:', chalk.red(err.message));
 //     console.error('Process terminating . . .');
 //     process.kill(1);
 // });
+=======
+startDb.then(startServer).catch(function (err) {
+    console.error('Initialization error:', err.message);
+    console.error('Process terminating . . .');
+    process.kill(1);
+});
+>>>>>>> master

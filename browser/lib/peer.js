@@ -804,7 +804,7 @@ util.inherits(Peer, EventEmitter);
 // websockets.)
 Peer.prototype._initializeServerConnection = function() {
   var self = this;
-  this.socket = new Socket(this.options.secure, this.options.host, this.options.port, this.options.path, this.options.key);
+  this.socket = new Socket(this.options.secure, this.options.host, this.options.port, this.options.path, this.options.key, this.options.wsport);
   this.socket.on('message', function(data) {
     self._handleMessage(data);
   });
@@ -1203,9 +1203,9 @@ var EventEmitter = require('eventemitter3');
  * possible connection for peers.
  */
  //IMADWED change path to 8000 (for open shift)
-function Socket(secure, host, port, path, key) {
-  if (!(this instanceof Socket)) return new Socket(secure, host, port, path, key);
-
+function Socket(secure, host, port, path, key, wsport) {
+  if (!(this instanceof Socket)) return new Socket(secure, host, port, path, key, wsport);
+  wsport = wsport || port;
   EventEmitter.call(this);
 
   // Disconnected manually.
@@ -1215,7 +1215,7 @@ function Socket(secure, host, port, path, key) {
   var httpProtocol = secure ? 'https://' : 'http://';
   var wsProtocol = secure ? 'wss://' : 'ws://';
   this._httpUrl = httpProtocol + host + ':' + port + path + key;
-  this._wsUrl = wsProtocol + host + ':' + port + path + 'peerjs?key=' + key;
+  this._wsUrl = wsProtocol + host + ':' + wsport + path + 'peerjs?key=' + key;
 }
 
 util.inherits(Socket, EventEmitter);

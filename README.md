@@ -1,4 +1,4 @@
-# Spider-Domination
+# Anansi
 
 Teach software engineers the importance of algorithm efficiency in a 1-on-1 strategic game environment setting
 ## Technical Requirements
