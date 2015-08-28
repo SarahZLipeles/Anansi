@@ -27,8 +27,21 @@
   height: 3000px;
 }
 
-#fogmask circle{
-  
+#loadingClip rect{
+  filter: url(#filter-map);
+}
+
+#loading{
+  position: absolute;
+  left: calc(60vw - 200px);
+  top: calc(40% - 102px);
+  text-align: center;
+  h2{
+    margin: 0;
+    font-style: italic;
+    color: $item-color;
+    text-shadow: 1px 1px invert($item-color);
+  }
 }
 
 #container {

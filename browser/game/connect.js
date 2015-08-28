@@ -2,6 +2,7 @@ var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
 	gameSettings = require("../settings"),
 	clearBoard = require("./game.logic/clearBoard"),
+	loading = require("./loading"),
 	httpGet = require("../lib/httpUtil");
 	require("../lib/noBack");
 
@@ -19,6 +20,7 @@ function PeerConnect (playerData) {
 
 		//When the connection opens...
 		peerconn.on("open", function () {
+			loading.off();
 			if(game.role === "host") {
 				console.log(game.board);
 				peerconn.send({type: "board", board: game.board});
@@ -45,6 +47,7 @@ function PeerConnect (playerData) {
 			game.board = undefined;
 			gameInterface = undefined;
 			clearBoard();
+			loading.on();
 			httpGet("/meet/" + game.myId, meetSomeone);
 			$('.mgNavigator').remove();
 		});
@@ -91,6 +94,7 @@ function PeerConnect (playerData) {
 		game.player.on("open", function (id) {
 			game.myId = id;
 			//Try to meet someone
+			loading.on();
 			httpGet("/meet/" + id, meetSomeone);
 		});
 		//If someone calls, you answer
@@ -100,6 +104,7 @@ function PeerConnect (playerData) {
 		//If there is an error you get back in line
 		game.player.on("error", function () {
 			clearBoard();
+			loading.on();
 			httpGet("/meet/" + game.myId, meetSomeone);
 		});
 	}
