@@ -2522,34 +2522,34 @@ if (typeof exports !== 'undefined') {
    * @param  {function(string): void} error        Callback for errors.
    * @return {WebGLShader}                         The created shader.
    */
-  sigma.utils.loadShader = function(gl, shaderSource, shaderType, error) {
-    var compiled,
-        shader = gl.createShader(shaderType);
+  // sigma.utils.loadShader = function(gl, shaderSource, shaderType, error) {
+  //   var compiled,
+  //       shader = gl.createShader(shaderType);
 
-    // Load the shader source
-    gl.shaderSource(shader, shaderSource);
+  //   // Load the shader source
+  //   gl.shaderSource(shader, shaderSource);
 
-    // Compile the shader
-    gl.compileShader(shader);
+  //   // Compile the shader
+  //   gl.compileShader(shader);
 
-    // Check the compile status
-    compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+  //   // Check the compile status
+  //   compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
 
-    // If something went wrong:
-    if (!compiled) {
-      if (error) {
-        error(
-          'Error compiling shader "' + shader + '":' +
-          gl.getShaderInfoLog(shader)
-        );
-      }
+  //   // If something went wrong:
+  //   if (!compiled) {
+  //     if (error) {
+  //       error(
+  //         'Error compiling shader "' + shader + '":' +
+  //         gl.getShaderInfoLog(shader)
+  //       );
+  //     }
 
-      gl.deleteShader(shader);
-      return null;
-    }
+  //     gl.deleteShader(shader);
+  //     return null;
+  //   }
 
-    return shader;
-  };
+  //   return shader;
+  // };
 
   /**
    * Creates a program, attaches shaders, binds attrib locations, links the
