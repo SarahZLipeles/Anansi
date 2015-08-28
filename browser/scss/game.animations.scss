@@ -4,14 +4,12 @@ line {
 }
 
 .sigma-node {
-  transition: stroke-dashoffset 0.2s linear;
+  transition: stroke-dashoffset 0.2s linear, fill 0.2s linear,r 0.2s linear;
 }
 
-circle {
-	transition: fill 0.2s linear,r 0.5s linear;
+.pulse {
+	r: 8;
 }
-
-
 
 .attackEdgeF {
 	stroke: red;
