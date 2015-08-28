@@ -3,7 +3,7 @@ var express = require("express");
 var app = express();
 var server = require("http").createServer(app);
 var logger = require("morgan");
-var startDb = require('./db');
+// var startDb = require('./db');
 
 var options = {
     debug: process.env.NODE_ENV !== "production"
@@ -52,8 +52,9 @@ var startServer = function(){
         console.log("Server running at %s:%d", app.get("ip"), app.get("port"));
     });
 }
-startDb.then(startServer).catch(function (err) {
-    console.error('Initialization error:', chalk.red(err.message));
-    console.error('Process terminating . . .');
-    process.kill(1);
-});
+startServer();
+// startDb.then(startServer).catch(function (err) {
+//     console.error('Initialization error:', chalk.red(err.message));
+//     console.error('Process terminating . . .');
+//     process.kill(1);
+// });

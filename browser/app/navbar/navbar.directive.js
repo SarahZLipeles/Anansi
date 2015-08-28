@@ -22,11 +22,13 @@ navbar.func = function ($rootScope, AuthService, AUTH_EVENTS, $state) {
                 state: 'homepage',
                 auth: true,
                 pos: "nav-right"
-            }, {
-                label: 'Login/Signup',
-                state: 'user',
-                auth: true
-            }];
+            }
+            // , {
+            //     label: 'Login/Signup',
+            //     state: 'user',
+            //     auth: true
+            // }
+            ];
 
 
             scope.isLoggedIn = function() {
