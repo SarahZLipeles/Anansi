@@ -70,6 +70,7 @@ var gameSettings = require("../../settings.js");
             line.setAttributeNS(null, "y1", sourceY);
             line.setAttributeNS(null, "x2", targetX);
             line.setAttributeNS(null, "y2", targetY);
+            line.setAttributeNS(null, "stroke-dasharray", "0.1 1000");
 
             edge.arrows = {toSource: arrowToSource, toTarget: arrowToTarget};
             return line;
@@ -111,8 +112,10 @@ var gameSettings = require("../../settings.js");
             //If either node belongs to the player, show the line
             if(targetOwner === player || sourceOwner === player){
                 line.setAttributeNS(null, "display", "block");
+                setTimeout(function() {line.setAttributeNS(null, "stroke-dasharray", "1000 1000");}, 100);
             }else{
                 line.setAttributeNS(null, "display", "none");
+                line.setAttributeNS(null, "stroke-dasharray", "0.1 1000");
             }
 
             return this;

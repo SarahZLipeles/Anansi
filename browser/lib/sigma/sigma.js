@@ -3432,7 +3432,10 @@ if (typeof exports !== 'undefined') {
        * *******************
        * Queues of nodes and edges to update
        */
-       nodesToUpdate: [],
+       renderNodes: {
+        nodesToUpdate: [],
+        attacks: []
+       },
        // edgesToUpdate: [],
 
       /**
@@ -4217,36 +4220,22 @@ if (typeof exports !== 'undefined') {
    * @param {string|array} v   One id, an array of ids
    * @return {object|array}    The related node or array of nodes
    */
-  graph.addMethod("queueNodes", function (v) {
+  graph.addMethod("queueNodes", function (v, id) {
     if (!arguments.length)
-      return this.nodesToUpdate;
+      return this.renderNodes;
     // Return the related node:
-    if (arguments.length === 1 &&
+    if (arguments.length <= 2 &&
         (typeof v === 'string' || typeof v === 'number')){
       var node = this.nodesIndex[v];
-      this.nodesToUpdate.push(node);
+      this.renderNodes.nodesToUpdate.push(node);
+      if(id){
+        console.log(v, id);
+        this.renderNodes.attacks.push({target: v, source: id});
+      }
       return node;
     }
 
-    // Return an array of the related node:
-    if (
-      arguments.length === 1 &&
-      Object.prototype.toString.call(v) === '[object Array]'
-    ) {
-      var i,
-          l,
-          a = [];
-
-      for (i = 0, l = v.length; i < l; i++)
-        if (typeof v[i] === 'string' || typeof v[i] === 'number')
-          a.push(this.nodesIndex[v[i]]);
-        else
-          throw 'nodes: Wrong arguments: ' + v[i].toString() + "in: " + v.toString;
-      Array.prototype.push.apply(this.nodesToUpdate, a);
-      return a;
-    }
-
-    throw 'nodes: Wrong arguments: ' + v.toString();
+    console.log("Error when queuing", v);
   });
 
 

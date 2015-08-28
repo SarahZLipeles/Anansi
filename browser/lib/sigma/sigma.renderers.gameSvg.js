@@ -314,7 +314,10 @@ require("../arrayMethods");
         claim = options.claim,
         graph = this.graph,
         nodes = this.graph.nodes,
-        nodesToUpdate = graph.queueNodes(),
+        renderNodes = graph.queueNodes(),
+        nodesToUpdate = renderNodes.nodesToUpdate,
+        attacks = renderNodes.attacks,
+        edgeAttacks = [],
         edgesToUpdate = [],
         linkedNodesToUpdate = [],
         embedSettings = this.settings.embedObjects(options, {
@@ -347,11 +350,24 @@ require("../arrayMethods");
     // Find which edges need to be updated
     // Could probably speed up the game by doing 
     // this in the loop where you submit nodes to update
+    var j = 0, attackLen = attacks.length, attack;
     for (a = graph.edges(), i = 0, l = a.length; i < l; i++) {
       o = a[i];
       if (index[o.source] || index[o.target]){
+        for(j = 0; j < attacks.length; j++){
+          attack = attacks[j];
+          if(attack.source === o.source && attack.target === o.target || attack.source === o.target && attack.target === o.source){
+            attacks.splice(j--, 1);
+            edgeAttacks.push({target: attack.target, source: attack.source, edge: o});
+          }
+        }
         edgesToUpdate.push(o);
       }
+    }
+
+    for(a = edgesToUpdate, i = 0, l = a.length; i < l; i++){
+      o = a[i];
+
     }
 
     // Display nodes
@@ -407,7 +423,17 @@ require("../arrayMethods");
         this.domElements.nodes[target.id],
         embedSettings
       );
-     }     
+     }
+    for(a = edgeAttacks, i = 0, l = a.length; i < l; i++){
+      attack = a.pop();
+      renderers.gameAttack.update(
+        attack.target,
+        attack.source,
+        attack.edge,
+        this.domElements.edges[attack.edge.id],
+        embedSettings
+      );
+    }
 
     this.dispatchEvent('render');
 
