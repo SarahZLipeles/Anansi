@@ -42,9 +42,7 @@ function Interface(game, playerData) {
         }
     }), game);
 
-    $('.game').boardNav({
-        draggable: true
-    });
+    $('.game').boardNav();
 
     setControls({
         handler: handleMove,

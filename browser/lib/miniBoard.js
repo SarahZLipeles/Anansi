@@ -17,11 +17,11 @@
     var f = function(h, g) {
         this.elem = h;
         this.$elem = c(h);
-        // if (this.elem == b) {
-        //     this.$relElem = c("body")
-        // } else {
-        //     this.$relElem = this.$elem
-        // }
+        if (this.elem == b) {
+            this.$relElem = c("body")
+        } else {
+            this.$relElem = this.$elem
+        }
         this.options = g;
         this.metadata = this.$elem.data("boardNav-options");
         this.config = c.extend({}, d, this.options, this.metadata);
@@ -213,10 +213,10 @@
         if (this.config.elements) {
             this.elements = this.$relElem.find(this.config.elements)
         } else {
-            this.elements = $('#sigma-group-nodes').children().filter(function(){
+            this.elements = $('#sigma-group-nodes').children()
+            this.masks = $('#fogmask').children().filter(function(){
                 return this.getAttributeNS(null, 'display') === 'block'
             })
-            // this.hovers = $('#sigma-group-hovers').children()
         }
         if (this.canvasSupported) {
             if (this.config.realistic) {
@@ -246,16 +246,18 @@
 
     //gets and makes the element properties to render
     f.prototype.getElementProps = function(g) {
-        var i = c(g).offset();
+        // var i = c(g).offset();
+        var cx = g.getAttributeNS(null,'cx');
+        var cy = g.getAttributeNS(null,'cy');
         var h = g.getAttributeNS(null, 'fill') ? g.getAttributeNS(null, 'fill') : this.config.defaultBgColor;
         var diameter = 2 * Math.PI * g.getAttributeNS(null, 'r') * this.ratio
         return {
             color: h,
-            left: (i.left + this.scrollLeft - this.boardLeft) * this.ratio,
-            top: (i.top + this.scrollTop - this.boardTop) * this.ratio,
-            // r: g.getAttributeNS(null, 'r') * this.ratio
-            width: diameter,
-            height: diameter
+            left: (cx + this.scrollLeft - this.boardLeft) * this.ratio,
+            top: (cy + this.scrollTop - this.boardTop) * this.ratio,
+            r: g.getAttributeNS(null, 'r') * this.ratio + 1
+            // width: diameter,
+            // height: diameter
         }
     };
 
@@ -264,21 +266,29 @@
         this.debug("canvas drawing");
         var g = this;
         this.ctx.clearRect(0, 0, this.ctx.width, this.ctx.height);
+        g.ctx.beginPath();
+        c(this.masks).each(function(){
+            var h = g.getElementProps(this)
+           
+            g.ctx.arc(h.left, h.top, h.r, 0 , 2 * Math.PI);
+        })
+        g.ctx.closePath();
+
+        g.ctx.fillStyle = '#E9F0FA'
+        g.ctx.fill();
+        g.ctx.clip()
+
         c(this.elements).each(function() {
             var h = g.getElementProps(this);
             g.ctx.fillStyle = h.color;
-            // g.ctx.arc = (h.left, h.top , h.r , 0 , 2 * Math.PI);
-            // g.ctx.fill();
-            g.ctx.fillRect(h.left, h.top, h.width, h.height)
+            g.ctx.beginPath();
+            g.ctx.arc(h.left, h.top , h.r , 0 , 2 * Math.PI);
+            g.ctx.closePath();
+            g.ctx.fill();
         })
-        // if(c(this.hovers)[0].hasOwnProperty('children')){
-        //     var hover = c(this.hovers)[0].children()[0]
-        //     var props = g.getElementProps(hover)
-        //     g.ctx.fillStyle = '#66c259'
-        //     g.ctx.fillRect(props.left, props.top, props.width * 1.25, props.height * 1.25)
-        // }
-    
     };
+
+
     f.prototype._drawElementsDom = function() {
         this.debug("dom drawing");
         var g = this;
