@@ -433,7 +433,9 @@ require("../arrayMethods");
             attack = a.pop();
             renderers.gameAttack.update(
                 attack.target,
+                this.domElements.nodes[attack.target],
                 attack.source,
+                this.domElements.nodes[attack.source],
                 attack.edge,
                 this.domElements.edges[attack.edge.id],
                 embedSettings

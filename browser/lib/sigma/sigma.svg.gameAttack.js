@@ -17,11 +17,12 @@ var gameSettings = require("../../settings.js");
          * @param  {DOMElement}               line     The target node object.
          * @param  {configurable}             settings   The settings function.
          */
-        update: function(target, source, edge, line, settings) {
+        update: function(target, targetCircle, source, sourceCircle, edge, line, settings) {
             var direction = edge.target === target ? "F" : "B";
             line.classList.add("attackEdge" + direction);
             setTimeout(function() {
                 line.classList.remove("attackEdge" + direction);
+                setTimeout(function() {targetCircle.setAttributeNS(null, "fill", "#FF0F13");}, 50);
             }, 300);
         }
     };

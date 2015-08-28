@@ -8,6 +8,8 @@
 @import "sidebar";
 @import "login.scss";
 @import "buttons.scss";
+@import "game.animations.scss";
+
 
 .clearfix {
   overflow: auto;
@@ -42,7 +44,7 @@ line {
 }
 
 circle {
-	transition: fill 1s linear;
+	transition: fill 0.2s linear,r 0.5s linear;
 }
 
 *{
