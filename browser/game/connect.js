@@ -1,6 +1,7 @@
 var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
 	gameSettings = require("../settings"),
+	clearBoard = require("./game.logic/clearBoard"),
 	httpGet = require("../lib/httpUtil");
 	require("../lib/noBack");
 
@@ -41,12 +42,16 @@ function PeerConnect (playerData) {
 			console.log("closing connection");
 			peerconn.close();
 			game.opponent = undefined;
+			game.board = undefined;
+			gameInterface = undefined;
+			clearBoard();
 			httpGet("/meet/" + game.myId, meetSomeone);
 			$('.mgNavigator').remove();
 		});
 
 		//If the user closes the tab, tell the other user
 		window.onbeforeunload = function () {
+			clearBoard();
 			$('.mgNavigator').remove();
 			peerconn.close();
 		};
@@ -91,6 +96,11 @@ function PeerConnect (playerData) {
 		//If someone calls, you answer
 		game.player.on("connection", function (peerconn) {
 			peerDataCommunication(peerconn);
+		});
+		//If there is an error you get back in line
+		game.player.on("error", function () {
+			clearBoard();
+			httpGet("/meet/" + game.myId, meetSomeone);
 		});
 	}
 }
