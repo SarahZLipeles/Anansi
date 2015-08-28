@@ -18,11 +18,13 @@ var gameSettings = require("../../settings.js");
          * @param  {configurable}             settings   The settings function.
          */
         update: function(target, targetCircle, source, sourceCircle, edge, line, settings) {
-            var direction = edge.target === target ? "F" : "B";
+            var direction = edge.target === target ? "F" : "B",
+                currColor = targetCircle.getAttributeNS(null, "fill");
             line.classList.add("attackEdge" + direction);
             setTimeout(function() {
                 line.classList.remove("attackEdge" + direction);
-                setTimeout(function() {targetCircle.setAttributeNS(null, "fill", "#FF0F13");}, 50);
+                setTimeout(function() {targetCircle.setAttributeNS(null, "fill", "#FF0F13"); }, 10);
+                setTimeout(function() {targetCircle.setAttributeNS(null, "fill", currColor); }, 115);
             }, 300);
         }
     };
