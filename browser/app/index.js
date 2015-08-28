@@ -11,10 +11,10 @@ var playState = require("./play/play.state"),
 	fsaPreBuilt = require('./fsa/fsa-pre-built');
 
 "use strict";
-var app = angular.module('Anansi', ['ui.router', 'ui.ace', require('angular-animate'), 'fsaPreBuilt']);
+var app = angular.module('Anansi', ['ui.router', 'ui.ace', require('angular-animate'), 'fsaPreBuilt', 'ngSVGAttributes']);
 
 app.config(function($urlRouterProvider, $stateProvider, $locationProvider){
-	$locationProvider.html5Mode(true);
+	// $locationProvider.html5Mode(true);
 	$urlRouterProvider
 		.when('user', function($state) {
 			$state.go('user');
