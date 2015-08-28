@@ -14,4 +14,23 @@
 		</div>
 	</div>
     <game class="game"></game>
+    <div id="loading">
+	    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink= 'http://www.w3.org/1999/xlink' height="204" width="400">
+	        <defs>
+	            <filter id="filter-map" x="-0.15000001" y="-0.15000001" >
+	                <feGaussianBlur stdDeviation="30" in="SourceGraphic" result="result1" id="feGaussianBlur4202" />
+	                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="result0" id="feTurbulence4204" />
+	                <feDisplacementMap in2="result0" scale="60" in="result1" result="result2" id="feDisplacementMap4206" />
+	                <feGaussianBlur stdDeviation="4" in="SourceGraphic" result="result4" id="feGaussianBlur4208" />
+	                <feComposite in2="result2" operator="arithmetic" k1="1.5" k2="-0.25" k3="0.5" k4="0" in="result4" result="result5" id="feComposite4210" />
+	            </filter>
+	            <mask id="loadingClip">
+	                <rect x="0" y="0" rx="40" ry="40" width="400" height="204" fill="#fff"></rect>
+	            </mask>
+	        </defs>
+	        <image xlink:href="asset/loading.gif" x="0" y="0" height="204" width="400" mask="url(#loadingClip)">
+	        </image>
+	    </svg>
+	    <h2>Waiting for an opponent . . .</h2>
+	</div>
 </div>
