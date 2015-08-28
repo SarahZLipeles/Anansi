@@ -2928,8 +2928,8 @@ if (typeof exports !== 'undefined') {
     //          of the nodes will be their size.
     minEdgeSize: 0.5,
     maxEdgeSize: 1,
-    minNodeSize: 5,
-    maxNodeSize: 12,
+    minNodeSize: 10,
+    maxNodeSize: 40,
 
 
 

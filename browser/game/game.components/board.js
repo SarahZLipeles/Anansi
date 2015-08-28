@@ -1,5 +1,6 @@
 var NodeFactory = require("./node");
-var fieldOptions = require('../../settings.js').fieldOptions
+var fieldOptions = require('../../settings.js').fieldOptions;
+var wiggle = require("../../settings.js").wiggle;
 "use strict";
 
 function makeField (options) {
@@ -115,7 +116,7 @@ function checkField (field) {
 function makeGraph (options, radii){
 	var field = makeField(options);
 	connectField(field, radii);
-	wiggleNodes(field);
+	wiggleNodes(field, wiggle);
 	return checkField(field) || makeGraph(options, radii);
 }
 
