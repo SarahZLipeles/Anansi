@@ -62,7 +62,6 @@ var BuildMoves = (options) => {
 
 
 	var reinforce = (data) => {
-		console.log(data, "DATA");
 		var node = queue(data.target);
 		var returnVal = {id: data.target};
 		if(node.owner === data.role){
