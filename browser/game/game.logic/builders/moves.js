@@ -1,7 +1,8 @@
-var gameSettings = require('../../../settings.js');
+var gameSettings = require('../../../settings');
+var endGame = require("../../messages").endGame;
 
 var BuildMoves = (options) => {
-	var {queue, nodes, view, role} = options;
+	var {queue, nodes, view, role, playerBase, opponentBase} = options;
 	
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
@@ -9,6 +10,14 @@ var BuildMoves = (options) => {
 		changeNode.to.forEach((id) => removeOwner(id));
 		changeNode.to.length = 0;
 		changeNode.from = undefined;
+	};
+
+	var checkVictory = function (targetId) {
+		if(targetId === playerBase){
+			endGame("defeat");
+		}else if(targetId === opponentBase){
+			endGame("victory");
+		}
 	};
 
 	var claim = (target, source) => {
@@ -29,6 +38,7 @@ var BuildMoves = (options) => {
 		}
 		target.owner = source.owner;
 		target.health = gameSettings.healthOnClaim(target.maxHealth);
+		checkVictory(target.id);
 	};
 
 	var attack = (data) => {
