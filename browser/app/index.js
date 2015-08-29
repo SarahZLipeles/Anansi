@@ -8,7 +8,7 @@ var playState = require("./play/play.state"),
     normalize = require('normalize-css');
 
 "use strict";
-var app = angular.module('Anansi', ['ui.router', 'ui.ace', require('angular-animate'), 'ngSVGAttributes']);
+var app = angular.module('Anansi', ['ui.router', 'ui.ace', require('angular-animate'), 'ngSVGAttributes', '720kb.tooltips']);
 
 app.config(function($urlRouterProvider, $stateProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
