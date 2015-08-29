@@ -25,7 +25,6 @@ function MoveHandler(options){
 	};
 
 	var handleUserMove = (move) => {
-		$('.game').trigger('stopRumble');
 		var thread = threads[move.thread].thread;
 		if(move.type === "attack"){
 			thread.currentCrawler.receive.call(thread.userScope, moves.attack(move));

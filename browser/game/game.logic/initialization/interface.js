@@ -43,8 +43,9 @@ function Interface(game, playerData) {
             defaultEdgeColor: gameSettings.default
         }
     }), game);
-    $('.game').boardNav();
-    $('.game').jrumble({
+    var gameContainer = $('.game')
+    gameContainer.boardNav();
+    gameContainer.jrumble({
         x: .001,
         y: .001,
         rotation: 0.5,
@@ -52,6 +53,7 @@ function Interface(game, playerData) {
         opacity: true,
         opacityMin: 0.85
     });
+    
 
     setControls({
         handler: handleMove,

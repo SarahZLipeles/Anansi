@@ -47,10 +47,12 @@ var BuildMoves = (options) => {
 		var target = queue(targetId, data.source);
 		var returnVal = {id: targetId};
 		var renderType = {partial: true};
+		var gameContainer = $('.game');
 
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
 			if(target.owner === role){
-				$('.game').trigger('startRumble');
+				gameContainer.trigger('startRumble');
+				setTimeout(() => gameContainer.trigger('stopRumble'), 1000)
 			}
 			if (target.health > 0) {
 				target.health -= gameSettings.attackBy;
@@ -66,7 +68,7 @@ var BuildMoves = (options) => {
 			}
 			view.refresh(renderType);
 			if(renderType.claim){
-				$('.game').boardNav('update');
+				gameContainer.boardNav('update');
 			}
 		}else{
 			returnVal.message = "invalid";
