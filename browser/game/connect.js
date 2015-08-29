@@ -2,7 +2,7 @@ var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
 	gameSettings = require("../settings"),
 	clearBoard = require("./game.logic/clearBoard"),
-	loading = require("./loading"),
+	loading = require("./messages").loading,
 	httpGet = require("../lib/httpUtil");
 	require("../lib/noBack");
 
