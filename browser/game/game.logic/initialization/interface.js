@@ -14,7 +14,9 @@ function initGlobals(s, game) {
         queue: s.graph.queueNodes,
         nodes: s.graph.nodes,
         opponent: game.opponent,
-        role: game.role
+        role: game.role,
+        playerBase: game.board.bases[game.role],
+        opponentBase: game.board.bases[game.opponentRole]
     });
 }
 
