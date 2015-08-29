@@ -2,14 +2,12 @@
 	<div class="sidebar">
 		<div id="threads" class="side-container">
 			<h3 class="side-title">Threads</h3>
-			<hr>
 			<button class="game-control" ng-click="setThread(0)">Thread 1</button>
 			<button class="game-control" ng-click="setThread(1)">Thread 2</button>
 			<button class="game-control" ng-click="stopThread()">Stop</button>
 		</div>
 		<div id="crawlers" class="side-container">
 			<h3 class="side-title">Crawlers</h3>
-			<hr>
 			<button class="game-control" ng-repeat="crawler in crawlers track by $index" ng-click="setCrawler($index)">{{crawler.name}}</button>
 		</div>
 	</div>
@@ -33,4 +31,6 @@
 	    </svg>
 	    <h2>Waiting for an opponent . . .</h2>
 	</div>
+	<div id="victory" class="endGame title-font"><h2>Victory</h2></div>
+	<div id="defeat" class="endGame title-font"><h2>Defeat</h2></div>
 </div>

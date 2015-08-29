@@ -10,7 +10,8 @@
   text-shadow: 1px 1px #333;
   min-height: 93vh;
   height: auto;
-  width: 100%;
+  width: 96vw;
+  padding: 2vw;
   @include prefix(flex-flow, "row wrap");
   @include prefix(display, flex);
   @include prefix(align-self, stretch);
@@ -24,13 +25,7 @@
   //for its children
   @include prefix(display, flex);
   @include prefix(flex-flow, "column wrap");
-
-  margin: 2%;
-  padding: 1em 1%;
-  border: 1px $editor-input-container solid;
-  background-color: rgba(38, 38, 38, 0.1);
-  border-radius: 10px;
-  width: 56vw; 
+  width: 56%; 
   @include prefix(align-self, self);
 
 }
@@ -41,31 +36,33 @@
 
 }
 
+.editor-intro{
+  height: 30vh;
+  overflow: scroll;
+  h3{
+    margin: 0;
+  }
+}
+
+.editor-content{
+  margin: 1%;
+  border: 1px $editor-rules-container solid;
+  background-color: rgba(38, 38, 38, 0.2);
+  border-radius: 10px;
+  padding: 1em 1%;
+}
+
 
 // if row
 // align-content = cross axis
 // justify-content = main axis
 .editor-rules-container {
-  margin: 2%;
-  width: 30%;
-  border: 1px $editor-rules-container solid;
-  background-color: rgba(38, 38, 38, 0.1);
-  border-radius: 10px;
-  //display: flex;
-  //@include prefix(flex-flow, "col wrap");
-  //@include prefix(flex, "0 1 auto");
-  //@include prefix(align-items, stretch);
-  //@include prefix(align-self, stretch);
-  //width:30%;
-  *{
-    width:100%;
-  }
+  width: 35.6%;
 }
 
 .editor-saved-container {
   display: flex;
   @include prefix(flex-flow, "row wrap");
-  margin: 2%;
   @include prefix(flex, "0 1 auto");
   @include prefix(justify-content, flex-start);
   width: 100%;
@@ -82,11 +79,15 @@
   text-shadow: none;
 }
 
-.var{
+.invalid{
+  color: lighten(#ff0000, 30%);
+}
+
+.var, .method{
   color: lighten(desaturate($editor-var, 20%), 40%);
 }
 
-.param{
+.param, .attribute{
   color: lighten(desaturate($editor-param, 20%), 40%);
 }
 

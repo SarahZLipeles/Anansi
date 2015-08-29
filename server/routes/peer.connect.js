@@ -12,7 +12,6 @@ router.get("/env", function (req, res) {
 
 var ids = [];
 router.get("/meet/:id", function (req, res) {
-    console.log(ids);
     var id = req.params.id;
     var message = {};
     if(ids.length){
@@ -29,7 +28,6 @@ router.get("/meet/:id", function (req, res) {
         ids.push(id);
         message.meet = "hold";
     }
-    console.log(ids);
     res.json(message);
 });
 

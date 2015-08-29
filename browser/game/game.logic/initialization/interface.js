@@ -14,7 +14,9 @@ function initGlobals(s, game) {
         queue: s.graph.queueNodes,
         nodes: s.graph.nodes,
         opponent: game.opponent,
-        role: game.role
+        role: game.role,
+        playerBase: game.board.bases[game.role],
+        opponentBase: game.board.bases[game.opponentRole]
     });
 }
 
@@ -41,8 +43,17 @@ function Interface(game, playerData) {
             defaultEdgeColor: gameSettings.default
         }
     }), game);
-
-    $('.game').boardNav();
+    var gameContainer = $('.game')
+    gameContainer.boardNav();
+    gameContainer.jrumble({
+        x: 4,
+        y: 0,
+        rotation: 0,
+        speed: 30,
+        opacity: true,
+        opacityMin: 0.85
+    });
+    
 
     setControls({
         handler: handleMove,
