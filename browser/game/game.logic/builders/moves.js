@@ -1,7 +1,7 @@
 var gameSettings = require('../../../settings.js');
 
 var BuildMoves = (options) => {
-	var {queue, nodes, view} = options;
+	var {queue, nodes, view, role} = options;
 	
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
@@ -37,7 +37,11 @@ var BuildMoves = (options) => {
 		var target = queue(targetId, data.source);
 		var returnVal = {id: targetId};
 		var renderType = {partial: true};
+
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
+			if(target.owner === role){
+				$('.game').trigger('startRumble');
+			}
 			if (target.health > 0) {
 				target.health -= gameSettings.attackBy;
 			}

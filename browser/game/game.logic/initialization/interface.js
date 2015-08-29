@@ -41,8 +41,15 @@ function Interface(game, playerData) {
             defaultEdgeColor: gameSettings.default
         }
     }), game);
-
     $('.game').boardNav();
+    $('.game').jrumble({
+        x: .001,
+        y: .001,
+        rotation: 0.5,
+        speed: 50,
+        opacity: true,
+        opacityMin: 0.85
+    });
 
     setControls({
         handler: handleMove,
