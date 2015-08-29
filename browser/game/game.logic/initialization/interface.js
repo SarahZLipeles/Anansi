@@ -46,10 +46,10 @@ function Interface(game, playerData) {
     var gameContainer = $('.game')
     gameContainer.boardNav();
     gameContainer.jrumble({
-        x: .001,
-        y: .001,
-        rotation: 0.5,
-        speed: 50,
+        x: 4,
+        y: 0,
+        rotation: 0,
+        speed: 30,
         opacity: true,
         opacityMin: 0.85
     });
