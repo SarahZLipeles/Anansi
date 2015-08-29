@@ -8,7 +8,8 @@ var defaultCrawler = {
 		}
 	},
 	receive: function() {},
-	name: "Clicking"
+	name: "Clicking",
+	description: "Click to select a source of attack.<br>Then click a target to attack.<br>Click on a node you own to heal."
 };
 
 function Crawlers() {

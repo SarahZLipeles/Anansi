@@ -1,7 +1,12 @@
 <div class="play-container">
 	<div class="sidebar">
 		<div id="threads" class="side-container">
-			<h3 class="side-title">Threads</h3>
+			<h3 class="side-title">
+				Threads
+			</h3>
+			<a href="#" tooltips tooltip-html="Select a thread in order to use your selected crawler.<br>Hit 'Stop' to remove crawlers from all your threads." tooltip-side="right">
+				<img src="/asset/helpIcon.png">
+			</a>
 			<hr>
 			<button class="game-control" ng-click="setThread(0)">Thread 1</button>
 			<button class="game-control" ng-click="setThread(1)">Thread 2</button>
@@ -9,8 +14,16 @@
 		</div>
 		<div id="crawlers" class="side-container">
 			<h3 class="side-title">Crawlers</h3>
+			<a href="#" tooltips tooltip-html="Select your crawler to use on current thread.<br>Scroll over the info to view description." tooltip-side="right">
+				<img src="/asset/helpIcon.png">
+			</a>
 			<hr>
-			<button class="game-control" ng-repeat="crawler in crawlers track by $index" ng-click="setCrawler($index)">{{crawler.name}}</button>
+			<button class="game-control" ng-repeat="crawler in crawlers track by $index" ng-click="setCrawler($index)">
+				{{crawler.name}}
+				<a style="float: right"href="#" tooltips tooltip-html={{crawler.description}} tooltip-side="right">
+					<img src="/asset/infoIcon.png">
+				</a>
+			</button>
 		</div>
 	</div>
     <game class="game"></game>
