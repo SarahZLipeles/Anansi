@@ -1,3 +1,6 @@
+@import 'vendor-prefixes.scss';
+$nodeRadius: 13;
+//$pulseRadius: $nodeRadius-5;
 
 line {
 	transition: stroke-dasharray 3s linear;
@@ -8,7 +11,7 @@ line {
 }
 
 .pulse {
-	r: 8;
+	r: ($nodeRadius - 5);
 }
 
 .attackEdgeF {
@@ -31,3 +34,47 @@ line {
 		stroke-dashoffset: -100;
 	}
 }
+
+
+@function getDashArrayOffset($radius, $divisor, $dashArrayLength) {
+  @return ((2*3.14159*$radius)/$divisor) - ($dashArrayLength*0.5)
+}
+
+
+
+
+
+//.selected-node {
+//  r:$nodeRadius + 3;
+//  fill-opacity:0;
+//  stroke:purple;
+//  stroke-width: 3;
+//  stroke-dasharray: 3, getDashArrayOffset($nodeRadius, 5, $nodeRadius);
+//  @include prefix(animation, 'spinner 50s linear infinite');
+//}
+
+.selected-node {
+    r:$nodeRadius + 3;
+    fill-opacity:0;
+    stroke:purple;
+    stroke-width: 7;
+  	stroke-dasharray: (($nodeRadius / 5) * 3), getDashArrayOffset($nodeRadius, 5, (($nodeRadius / 5) * 3));
+  -webkit-animation: spinner 50s linear infinite;
+}
+@-webkit-keyframes spinner{
+  from{
+	stroke-dashoffset: (getDashArrayOffset($nodeRadius, 5, $nodeRadius) * 100);
+	fill-opacity:0;
+
+
+
+  }
+
+  to {
+	stroke-dashoffset:0;
+	fill-opacity:0;
+
+  }
+}
+
+

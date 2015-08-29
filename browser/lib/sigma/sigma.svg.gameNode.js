@@ -48,7 +48,7 @@ var gameSettings = require('../../settings.js');
       var mask = document.getElementById("fogmask");
       var prefix = settings('prefix') || '',
           circle = document.createElementNS(settings('xmlns'), 'circle'),
-          sight = document.createElementNS(settings("xmlns"), "circle");
+          sight = document.createElementNS(settings('xmlns'), 'circle');
 
       var r = node[prefix + 'size'];
       

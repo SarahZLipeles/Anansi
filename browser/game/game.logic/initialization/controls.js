@@ -6,6 +6,11 @@ var getCharCode = function (val) {
 	return val.toString().charCodeAt();
 };
 
+//selected node blocko
+var selectedCircle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+selectedCircle.setAttributeNS(null, 'class', 'selected-node');
+var cx, cy;
+
 var controls = {}, 
 	crawlers = Crawlers.crawlers,
 	currentConfig = {
@@ -65,7 +70,18 @@ var setControls = function (options){
 	}
 
 	view.bind("clickNode", function(event) {
+		console.log(event, 'event');
+		console.log(event.data.node.owner, 'owner');
+		if(event.data.node.owner==='host') {
+			console.log('yo true');
+			cx = event.data.node['renderer1:x'];
+			cy = event.data.node['renderer1:y'];
+			selectedCircle.setAttributeNS(null, 'cx', cx);
+			selectedCircle.setAttributeNS(null, 'cy', cy);
+			$('#sigma-group-nodes').prepend(selectedCircle);
+		}
 		threads[currentConfig.thread].crawl(event.data.node.id, currentConfig.crawler);
+
 	});
 
 	document.addEventListener("keypress", function(e) {
