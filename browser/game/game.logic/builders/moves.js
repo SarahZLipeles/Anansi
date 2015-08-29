@@ -2,7 +2,7 @@ var gameSettings = require('../../../settings');
 var endGame = require("../../messages").endGame;
 
 var BuildMoves = (options) => {
-	var {queue, nodes, view, playerBase, opponentBase} = options;
+	var {queue, nodes, view, role, playerBase, opponentBase} = options;
 	
 	var removeOwner = (nodeId) => {
 		var changeNode = queue(nodeId);
@@ -47,7 +47,13 @@ var BuildMoves = (options) => {
 		var target = queue(targetId, data.source);
 		var returnVal = {id: targetId};
 		var renderType = {partial: true};
+		var gameContainer = $('.game');
+
 		if(source.owner === data.role && source.owner !== target.owner && source.links.indexOf(targetId) !== -1){
+			if(target.owner === role){
+				gameContainer.trigger('startRumble');
+				setTimeout(() => gameContainer.trigger('stopRumble'), 1000)
+			}
 			if (target.health > 0) {
 				target.health -= gameSettings.attackBy;
 			}
@@ -62,7 +68,7 @@ var BuildMoves = (options) => {
 			}
 			view.refresh(renderType);
 			if(renderType.claim){
-				$('.game').boardNav('update');
+				gameContainer.boardNav('update');
 			}
 		}else{
 			returnVal.message = "invalid";
