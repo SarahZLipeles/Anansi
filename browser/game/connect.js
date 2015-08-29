@@ -2,15 +2,16 @@ var Board = require("./game.components/board"),
 	Interface = require("./game.logic/initialization/interface"),
 	gameSettings = require("../settings"),
 	clearBoard = require("./game.logic/clearBoard"),
-	loading = require("./loading"),
+	loading = require("./messages").loading,
 	httpGet = require("../lib/httpUtil");
 	require("../lib/noBack");
 
 //Utility object to hold the client's Id, peer reference, and current connection reference
-var game = {myId: undefined, player: undefined, opponent: undefined, board: undefined};
+var game = {myId: undefined, player: undefined, opponent: undefined, board: undefined, onpage: undefined};
 var gameInterface;
 
 function PeerConnect (playerData) {
+	game.onpage = true;
 	playerData = playerData || {playerColor: gameSettings.player, opponentColor: gameSettings.opponent};
 	httpGet("/env", connectToServer);
 
@@ -22,7 +23,6 @@ function PeerConnect (playerData) {
 		peerconn.on("open", function () {
 			loading.off();
 			if(game.role === "host") {
-				console.log(game.board);
 				peerconn.send({type: "board", board: game.board});
 				gameInterface = new Interface(game, playerData);
 			}
@@ -41,21 +41,20 @@ function PeerConnect (playerData) {
 
 		//If the other user closes the connection, search for another user
 		peerconn.on("close", function () {
-			console.log("closing connection");
 			peerconn.close();
-			game.opponent = undefined;
-			game.board = undefined;
-			gameInterface = undefined;
-			clearBoard();
-			loading.on();
-			httpGet("/meet/" + game.myId, meetSomeone);
-			$('.mgNavigator').remove();
+			if(game.onpage){
+				game.opponent = undefined;
+				game.board = undefined;
+				gameInterface = undefined;
+				clearBoard();
+				$('.boardNav').remove();
+				loading.on();
+				httpGet("/meet/" + game.myId, meetSomeone);
+			}
 		});
 
 		//If the user closes the tab, tell the other user
 		window.onbeforeunload = function () {
-			clearBoard();
-			$('.mgNavigator').remove();
 			peerconn.close();
 		};
 	}
@@ -66,48 +65,61 @@ function PeerConnect (playerData) {
 			game.role = "host";
 			game.opponentRole = "client";
 			game.board = Board.generate();
-			console.log("Waiting for a new friend");
 		} else {
 			game.role = "client";
 			game.opponentRole = "host";
-			console.log("Meet ", res.meet);
 			peerDataCommunication(game.player.connect(res.meet));
 		}
 	}
 
 	//Establish peer connection with server
 	function connectToServer(res) {
-		if (res.env === "production") {
-			game.player = new Peer({
-				host: "/",
-				port: 80,
-				wsport: 8000,
-				path: "/api",
-				config: {
-					"iceServers": [{url: "stun:stun.l.google.com:19302"}]
-				}
+		if(game.onpage){
+			if (res.env === "production") {
+				game.player = new Peer({
+					host: "/",
+					port: 80,
+					wsport: 8000,
+					path: "/api",
+					config: {
+						"iceServers": [{url: "stun:stun.l.google.com:19302"}]
+					}
+				});
+			} else {
+				game.player = new Peer({host: "127.0.0.1", port: 3000, path: "/api", debug: 2});
+			}
+			//When the peer connection is established
+			game.player.on("open", function (id) {
+				game.myId = id;
+				//Try to meet someone
+				loading.on();
+				httpGet("/meet/" + id, meetSomeone);
 			});
-		} else {
-			game.player = new Peer({host: "127.0.0.1", port: 3000, path: "/api", debug: 2});
+			//If someone calls, you answer
+			game.player.on("connection", function (peerconn) {
+				peerDataCommunication(peerconn);
+			});
+			//If there is an error you get back in line
+			game.player.on("error", function () {
+				clearBoard();
+				loading.on();
+				httpGet("/meet/" + game.myId, meetSomeone);
+			});
 		}
-		//When the peer connection is established
-		game.player.on("open", function (id) {
-			game.myId = id;
-			//Try to meet someone
-			loading.on();
-			httpGet("/meet/" + id, meetSomeone);
-		});
-		//If someone calls, you answer
-		game.player.on("connection", function (peerconn) {
-			peerDataCommunication(peerconn);
-		});
-		//If there is an error you get back in line
-		game.player.on("error", function () {
-			clearBoard();
-			loading.on();
-			httpGet("/meet/" + game.myId, meetSomeone);
-		});
 	}
+
+	function closeConnection () {
+		game.onpage = undefined;
+		$('.boardNav').remove();
+		if(game.player){
+			game.player.destroy();
+			Object.keys(game).forEach(function (key) {
+				game[key] = undefined;
+			});
+		}
+	}
+
+	return closeConnection;
 }
 
 module.exports = PeerConnect;

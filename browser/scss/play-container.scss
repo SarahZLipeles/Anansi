@@ -44,6 +44,37 @@
   }
 }
 
+.endGame{
+  position: absolute;
+  width: 30vw;
+  text-align: center;
+  top: calc(40% - 10vh);
+  left: 43vw;
+  h2{
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
+    font-size: 20vh;
+    color: rgba(255,255,255,1);
+    text-decoration: normal;
+    text-align: center;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    white-space: pre;
+  }
+  &#victory{
+    display: none;
+    text-shadow: 0 0 10px #ececec, 0 0 20px #ececec, 0 0 30px #ececec, 0 0 40px #00ff11 , 0 0 70px #00ff11 , 0 0 80px #00ff11 , 0 0 100px #00ff11 ;
+  }
+  &#defeat{
+    display: none;
+    text-shadow: 0 0 10px #ececec, 0 0 20px #ececec, 0 0 30px #ececec, 0 0 40px #ff0011 , 0 0 70px #ff0011 , 0 0 80px #ff0011 , 0 0 100px #ff0011 ;
+  }
+}
+
 #container {
   width: 100%;
   overflow: scroll;
