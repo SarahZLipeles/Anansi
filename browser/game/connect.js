@@ -23,7 +23,6 @@ function PeerConnect (playerData) {
 		peerconn.on("open", function () {
 			loading.off();
 			if(game.role === "host") {
-				console.log(game.board);
 				peerconn.send({type: "board", board: game.board});
 				gameInterface = new Interface(game, playerData);
 			}
@@ -66,11 +65,9 @@ function PeerConnect (playerData) {
 			game.role = "host";
 			game.opponentRole = "client";
 			game.board = Board.generate();
-			console.log("Waiting for a new friend");
 		} else {
 			game.role = "client";
 			game.opponentRole = "host";
-			console.log("Meet ", res.meet);
 			peerDataCommunication(game.player.connect(res.meet));
 		}
 	}
@@ -93,7 +90,6 @@ function PeerConnect (playerData) {
 			}
 			//When the peer connection is established
 			game.player.on("open", function (id) {
-				console.log(id);
 				game.myId = id;
 				//Try to meet someone
 				loading.on();
@@ -107,7 +103,6 @@ function PeerConnect (playerData) {
 			game.player.on("error", function () {
 				clearBoard();
 				loading.on();
-				console.log("error");
 				httpGet("/meet/" + game.myId, meetSomeone);
 			});
 		}
