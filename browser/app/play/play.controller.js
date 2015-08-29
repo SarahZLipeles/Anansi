@@ -1,7 +1,9 @@
 var Crawlers = require("./editor/crawlersFactory");
 var controls = require("../../game/game.logic/initialization/controls");
+var local = require("./local");
 
 var playController = function($scope) {
+    local.getCrawlers();
     $scope.crawlers = Crawlers.crawlers;
 
     $scope.setCrawler = function(num) {

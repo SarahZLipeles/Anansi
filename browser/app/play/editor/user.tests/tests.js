@@ -2,6 +2,15 @@ var buildUserScope = require("../../../../game/game.logic/builders/userScope");
 var webworkify = require("webworkify");
 
 function userTests(obj) {
+   var restrictedKeyword = hasRestricted(obj.startText) || hasRestricted(obj.receiveText);
+   if (restrictedKeyword) {
+    alert("The '" + restrictedKeyword[0] + "' keyword is not allowed");
+    return false;
+   }
+   if (!obj.startText || !obj.receiveText) {
+    alert("please fill in all of the functions");
+    return false;
+   }
 
     try {
         var worker = webworkify(require("./boardTest.js"));
@@ -28,7 +37,7 @@ function receiveNotifications(str) {
 
 // RegExp's
 var windowKeys = Object.keys(window.__proto__);
-var dissallowedStr = "(this|window|self|eval|arguments|document|parseInt|Number|toString|throw|Error|eval|Infinity|__proto__|new|console|";
+var dissallowedStr = "(this|window|self|eval|arguments|document|parseInt|Number|toString|throw|Error|Infinity|__proto__|new|console|";
 for (var i = 0; i < windowKeys.length; i++) {
     dissallowedStr += windowKeys[i] + "|";
 }
