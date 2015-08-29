@@ -6,7 +6,6 @@
 			<button class="game-control" ng-click="setThread(1)">Thread 2</button>
 			<button class="game-control" ng-click="stopThread()">Stop</button>
 		</div>
-		<hr>
 		<div id="crawlers" class="side-container">
 			<h3 class="side-title">Crawlers</h3>
 			<button class="game-control" ng-repeat="crawler in crawlers track by $index" ng-click="setCrawler($index)">{{crawler.name}}</button>
