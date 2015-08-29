@@ -42,23 +42,20 @@ function PeerConnect (playerData) {
 
 		//If the other user closes the connection, search for another user
 		peerconn.on("close", function () {
-			console.log("closing connection");
 			peerconn.close();
 			if(game.onpage){
 				game.opponent = undefined;
 				game.board = undefined;
 				gameInterface = undefined;
 				clearBoard();
+				$('.boardNav').remove();
 				loading.on();
 				httpGet("/meet/" + game.myId, meetSomeone);
-				$('.mgNavigator').remove();
 			}
 		});
 
 		//If the user closes the tab, tell the other user
 		window.onbeforeunload = function () {
-			clearBoard();
-			$('.mgNavigator').remove();
 			peerconn.close();
 		};
 	}
@@ -118,6 +115,7 @@ function PeerConnect (playerData) {
 
 	function closeConnection () {
 		game.onpage = undefined;
+		$('.boardNav').remove();
 		if(game.player){
 			game.player.destroy();
 			Object.keys(game).forEach(function (key) {
