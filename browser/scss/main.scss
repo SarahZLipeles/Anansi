@@ -9,6 +9,7 @@
 @import "login.scss";
 @import "buttons.scss";
 @import "game.animations.scss";
+@import "colors";
 
 
 .clearfix {
@@ -25,6 +26,7 @@
 body{
 	font-family: "Open Sans", sans-serif;
 	height: 100vh;
+	background-color: #555;
 }
 
 .title-font{

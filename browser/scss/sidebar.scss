@@ -7,24 +7,25 @@
   width: 20vw;
   overflow: auto;
   margin: 0 auto;
-  height: 93vh;
+  height: calc(93vh - 250px);
   background-image: $sidebar-bg;
+  hr{
+  	width: 90%;
+  	margin: 0px auto 6px;
+  }
 }
 
 .side-container{
-	width: 100%;
+	width: 80%;
+	padding: 0 10%;
 	margin: 1em 0em;
-	text-align: center;
+	text-align: left;
 	h3{
 		color: lighten($item-color, 10%);
 		text-shadow: 1px 1px #000;
 		margin: 0px;
 		padding: 2px;
 		font-style: italic;
-	}
-	hr{
-		width: 90%;
-		margin: 0px auto 6px;
 	}
 }
 
@@ -39,7 +40,7 @@
 	}
 	background-color: $button;
 	color: invert($button);
-	width: 80%;
+	width: 100%;
 	display: block;
 	margin: 0 auto;
 	&:focus{
