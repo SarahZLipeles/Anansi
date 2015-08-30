@@ -2918,7 +2918,7 @@ if (typeof exports !== 'undefined') {
         minEdgeSize: 6,
         maxEdgeSize: 6,
         minNodeSize: 10,
-        maxNodeSize: 40,
+        maxNodeSize: 39,
 
 
 
@@ -5884,7 +5884,7 @@ if (typeof exports !== 'undefined') {
             level: level || 0,
             bounds: bounds,
             corners: _geom.splitSquare(bounds),
-            maxElements: maxElements || 40,
+            maxElements: maxElements || 39,
             maxLevel: maxLevel || 8,
             elements: [],
             nodes: []

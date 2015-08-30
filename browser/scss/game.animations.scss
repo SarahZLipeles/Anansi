@@ -1,6 +1,13 @@
 @import 'vendor-prefixes.scss';
 $nodeRadius: 13;
-//$pulseRadius: $nodeRadius-5;
+$baseRadius: 39;
+$pulseStrokeWidth:7;
+$pulseStrokeColor:purple;
+$pi: 3.14159265359;
+$nodeToBaseFactor: 3;
+$nodeSelectedOffSet: 3;
+$attackEdgeStroke: red;
+$selectedStrokeWith: 3;
 
 line {
 	transition: stroke-dasharray 3s linear;
@@ -15,12 +22,12 @@ line {
 }
 
 .attackEdgeF {
-	stroke: red;
+	stroke: $attackEdgeStroke;
 	-webkit-animation:attack 0.3s linear 1;
 }
 
 .attackEdgeB {
-	stroke: red;
+	stroke: $attackEdgeStroke;
 	-webkit-animation:attack 0.3s linear 1 reverse;
 }
 
@@ -35,45 +42,54 @@ line {
 	}
 }
 
-
-@function getDashArrayOffset($radius, $divisor, $dashArrayLength) {
-  @return ((2*3.14159*$radius)/$divisor) - ($dashArrayLength*0.5)
+@function getDashArrayLength($radius){
+  @return $radius + ($radius * 0.60)
 }
+@function getDashArrayOffset($radius, $divisor, $dashArrayLength) {
+  @return (((2 * $pi * $radius) / $divisor) - ($dashArrayLength * 0.51))
 
-
-
-
-
-//.selected-node {
-//  r:$nodeRadius + 3;
-//  fill-opacity:0;
-//  stroke:purple;
-//  stroke-width: 3;
-//  stroke-dasharray: 3, getDashArrayOffset($nodeRadius, 5, $nodeRadius);
-//  @include prefix(animation, 'spinner 50s linear infinite');
-//}
+}
 
 .selected-node {
-    r:$nodeRadius + 3;
-    fill-opacity:0;
-    stroke:purple;
-    stroke-width: 7;
-  	stroke-dasharray: (($nodeRadius / 5) * 3), getDashArrayOffset($nodeRadius, 5, (($nodeRadius / 5) * 3));
-  -webkit-animation: spinner 50s linear infinite;
+    r: ($nodeRadius + $selectedStrokeWith);
+    fill-opacity: 0;
+    stroke: $pulseStrokeColor;
+    stroke-width: ($selectedStrokeWith * 3);
+	stroke-dasharray: getDashArrayLength($nodeRadius), getDashArrayOffset($nodeRadius, 5.5, getDashArrayLength($nodeRadius));
+  	-webkit-animation: node-spinner 50s linear infinite;
 }
-@-webkit-keyframes spinner{
-  from{
-	stroke-dashoffset: (getDashArrayOffset($nodeRadius, 5, $nodeRadius) * 100);
+
+.selected-base-node {
+	r: ($baseRadius + ($nodeSelectedOffSet * $nodeToBaseFactor));
 	fill-opacity:0;
+  	stroke:$pulseStrokeColor;
+	stroke-width: ($selectedStrokeWith * 3);
+	stroke-dasharray: getDashArrayLength($baseRadius), getDashArrayOffset($baseRadius, 5.5, getDashArrayLength($baseRadius));
 
 
+	-webkit-animation: base-spinner 50s linear infinite;
+}
 
+@-webkit-keyframes node-spinner{
+  from{
+	stroke-dashoffset: (getDashArrayOffset($nodeRadius, 5.5, getDashArrayLength($nodeRadius)) * 100);
+	fill-opacity:0;
   }
 
   to {
-	stroke-dashoffset:0;
+	stroke-dashoffset: 0;
 	fill-opacity:0;
+  }
+}
 
+@-webkit-keyframes base-spinner{
+  from{
+	stroke-dashoffset: (getDashArrayOffset($baseRadius, 5.5, getDashArrayLength($baseRadius)) * 100);
+	fill-opacity:0;
+  }
+  to {
+	stroke-dashoffset: 0;
+	fill-opacity:0;
   }
 }
 
