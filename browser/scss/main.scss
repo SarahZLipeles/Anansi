@@ -21,12 +21,14 @@
 	position: relative;
 	height: auto;
 	min-height: 93vh;
+	overflow: hidden;
 }
 
 body{
 	font-family: "Open Sans", sans-serif;
 	height: 100vh;
 	background-color: #555;
+	overflow: hidden;
 }
 
 .title-font{

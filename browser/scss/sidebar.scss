@@ -2,11 +2,10 @@
 @import 'vendor-prefixes.scss';
 
 .sidebar {
-  @include prefix(display, flex);
-  @include prefix(flex-flow, "column wrap");
   width: 20vw;
-  overflow: auto;
-  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin: 0;
   height: calc(93vh - 250px);
   background-image: $sidebar-bg;
   hr{
@@ -19,6 +18,7 @@
 	width: 80%;
 	padding: 0 10%;
 	margin: 1em 0em;
+	display: block;
 	text-align: left;
 	h3{
 		color: lighten($item-color, 10%);
