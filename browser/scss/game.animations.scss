@@ -99,11 +99,11 @@ line {
   @include prefix(transition, '0.1s linear');
 }
 
-.regenerate {
+.heal {
   @include prefix(animation, 'regenerate 0.5s linear 1');
 }
 
-@-webkit-keyframes regenerate-animation{
+@-webkit-keyframes regenerate{
   from{
 	background: rgba(252,234,187,1);
 	background: -moz-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(248,181,0,1) 50%, rgba(252,205,77,1) 51%, rgba(251,223,147,1) 100%);
