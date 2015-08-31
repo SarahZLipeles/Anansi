@@ -1,7 +1,41 @@
 <div class="editor-container">
-
-    <form class="editor-input-container">
-        <legend class="title slant">Create Custom Functions</legend>
+    <article class="editor-intro editor-content">
+        <h3 class="title slant">How to write a crawler</h3>
+        <p>Your crawler has two methods, <span class="method">start</span> and <span class="method">receive</span>, and one attribute, an object called <span class="attribute">data</span>.  Your crawler has a pending move queue (first in, first out) that will run at a set rate.  We will wrap each of your crawler's methods in function notation, so you will only be writing each function's body.</p>
+        <br>
+        <p>Before writing a crawler you should be familiar with a few functions.</p>
+        <p>Calling the following functions will allow your crawler to interact with the board:</p>
+        <ul>
+            <li><span class="method">attack</span>(<span class="param">source</span>, <span class="param">target</span>)</li>
+            <li><span class="method">reinforce</span>(<span class="param">target</span>)</li>
+        </ul>
+        <p><span class="method">Attack</span> allows you to damage enemy and neutral nodes.  You cannot <span class="method">attack</span> a friendly node or a node that isn't linked to a node that you occupy.  <span class="method">Attack</span> takes two strings as parameters, the ids of the source and target nodes.</p>
+        <br>
+        <p><span class="method">Reinforce</span> allows you to heal your nodes.  You cannot heal enemy or neutral nodes.  <span class="method">Reinforce</span> takes one string as its parameter, the id of the node you wish to reinforce.</p>
+        <br>
+        <p><span class="method">Attack</span> and <span class="method">reinforce</span> do not have return values.  Calling <span class="method">attack</span> or <span class="method">reinforce</span> will add a move to your crawler's move queue. Invalid moves will cause a message with type: <span class="invalid">"invalid"</span> to be sent to your crawler's <span class="method">receive</span> method. </p>
+        <br>
+        <p>You may also use the following functions to get information about the board:</p>
+        <ul>
+            <li><span class="method">isEnemy</span>(<span class="param">node</span>)</li>
+            <li><span class="method">isFriend</span>(<span class="param">node</span>)</li>
+            <li><span class="method">isNeutral</span>(<span class="param">node</span>)</li>
+        </ul>
+        <p>Each of these methods takes a string, a node id, and returns true or false depending on the owner of the node.</p>
+        <br>
+        <h3 class="title slant">Writing your crawler</h3>
+        <p>The first method you will write is <span class="method">start</span>. Clicking on a node will call <span class="method">start</span> and clear any moves in your crawler's pending move queue. <span class="method">Start</span> is given the id of the node you clicked on as its first parameter and a reference to the crawler's <span class="attribute">data</span> object as its second.</p>
+        <br>
+        <p>The second method you will write is <span class="method">receive</span>.  <span class="method">Receive</span> is called after a move is executed.  The first parameter given to <span class="method">receive</span> is an object that contains information pertaining to the last move.  The second parameter given to <span class="method">receive</span> is the data object.</p>
+        <br>
+        <p>The following is a reference for the forms of objects <span class="method">receive</span> will get after a move executes.</p>
+        <pre>Move: <span class="method">attack</span>, Result: did not claim: {<span class="attribute">id</span>: "targetId", <span class="attribute">health</span>: "targetHealth", <span class="attribute">message</span>: "damaged"}</pre>
+        <pre>Move: <span class="method">attack</span>, Result: did claim: {<span class="attribute">id</span>: "targetId", <span class="attribute">links</span>: [nodeids], <span class="attribute">message</span>: "claimed"}</pre>
+        <pre>Move: <span class="method">reinforce</span>, Result: healed {<span class="attribute">id</span>: "targetId", <span class="attribute">health</span>: "targetHealth", <span class="attribute">message</span>: "reinforced"}</pre>
+        <pre><span class="invalid">Invalid Move</span>: {<span class="attribute">id</span>: "targetId", <span class="attribute">message</span>: <span class="invalid">"invalid"</span>}</pre>
+    </article>
+    <form class="editor-input-container editor-content">
+        <legend class="title slant">Write Custom Crawlers</legend>
         <input class="func-text" placeholder="Name your function" type="text" ng-model="obj.name"/>
         <p><span class="var">var</span> data = {};</p>
         <p><span class="var">var</span> {{obj.name}} = {</p>
@@ -14,38 +48,44 @@
         <p>description:</p>
         <input class="func-text" placeholder="Describe your function" ng-model="obj.description" />
         <p>};</p>
-    <div class="editor-input-group">
-        <input type="button" ng-click="reset()" value="Reset" />
-        <input type="submit" ng-click="createFunction(obj)" value="Save" /><br>
-    </div>
-
-    </form>
-
-    <article class="editor-rules-container">
-        <p>Create function by creating an object that has 2 methods ('start' and 'receive')</p>
-        <br>
-        <p>The 'start' function is triggered when you click on a node</p>
-        <p>The 'receive' function is triggered in response to all of the actions performed on the nodes</p>
-        <br>
-        <p>The following are the supported functions:</p>
+        <div class="editor-input-group">
+            <input type="button" ng-click="reset()" value="Reset" />
+            <input type="submit" ng-click="createFunction(obj)" value="Save" /><br>
+        </div>
+    </form><!-- 
+     --><article class="editor-rules-container editor-content">
+        <h3>Method reference</h3>
+        <p>Moves:</p>
         <ul>
-            <li>attack(sourceId, targetId)</li>
-            <li>reinforce(nodeId)</li>
+            <li><span class="method">attack</span>(<span class="param">source</span>, <span class="param">target</span>)</li>
+            <li><span class="method">reinforce</span>(<span class="param">target</span>)</li>
         </ul>
-        <p>Neither attack() nor receive() have return values. However, on completion, your crawler triggers your "receive" function
-            with an node containing a nodeId and either remaining health or a list of the connected nodeIds in the following format</p>
-        <pre>{id: String, health: Number}</pre>
-        <br>
-        <pre>{id: String, links: [nodeId]}</pre>
-        <hr>
-        <p>The following functions returns booleans</p>
+        <p>Methods to gather board information:</p>
         <ul>
-            <li>isEnemy(nodeId)</li>
-            <li>isFriend(nodeId)</li>
-            <li>isNeutral(nodeId)</li>
+            <li><span class="method">isEnemy</span>(<span class="param">node</span>)</li>
+            <li><span class="method">isFriend</span>(<span class="param">node</span>)</li>
+            <li><span class="method">isNeutral</span>(<span class="param">node</span>)</li>
+        </ul>
+        <p>You cannot use the following constructs:</p>
+        <ul>
+            <li class="invalid">this</li>
+            <li class="invalid">window or window methods</li>
+            <li class="invalid">self</li>
+            <li class="invalid">eval</li>
+            <li class="invalid">arguments</li>
+            <li class="invalid">document</li>
+            <li class="invalid">parseInt</li>
+            <li class="invalid">Number</li>
+            <li class="invalid">toString</li>
+            <li class="invalid">throw</li>
+            <li class="invalid">Error</li>
+            <li class="invalid">Infinity</li>
+            <li class="invalid">__proto__</li>
+            <li class="invalid">new</li>
+            <li class="invalid">console</li>
         </ul>
     </article>
     <aside class="editor-saved-container">
         <crawler class="crawler-function" ng-repeat="crawler in crawlers" ng-click="editCrawler(crawler)"></crawler>
-    </div>
+    </aside>
 </div>

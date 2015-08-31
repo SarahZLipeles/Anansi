@@ -8,7 +8,12 @@ var gameSettings = require('../../settings.js');
     function setHealth(circle, node, r){
       var c = Math.PI*(r*2);
       var ratio = node.health / node.maxHealth;
-      var strokeOffset = (1 - ratio) * c;  
+      var strokeOffset = (1 - ratio) * c;
+      var prevOffset = circle.getAttribute(null, "stroke-dashoffset");
+      if (strokeOffset < prevOffset) {
+        circle.classList.add("heal");
+        setTimeout(function() {circle.classList.remove("heal");}, 200);
+      }
       if(ratio === 0){
         circle.setAttributeNS(null, 'stroke','none');
       } else{

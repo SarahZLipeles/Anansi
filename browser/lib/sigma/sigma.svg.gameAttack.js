@@ -27,7 +27,8 @@ var gameSettings = require("../../settings.js");
                 sourceCircle.classList.remove("pulse");
                 setTimeout(function() {
                     targetCircle.setAttributeNS(null, "fill", "#FF0F13");
-                    targetCircle.classList.add('pulse');
+=======
+                    targetCircle.classList.add("pulse");
                 }, 10);
                 setTimeout(function() {
                     targetCircle.setAttributeNS(null, "fill", currColor);

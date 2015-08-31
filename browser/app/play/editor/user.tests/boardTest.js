@@ -1,13 +1,11 @@
 module.exports = function(self) {
 	self.onmessage = test;
 	var nodes = [{"id":"0","links":["2"],"health":50,"friendly":true,"enemy":false},{"id":"2","links":["0","3","4","5"],"health":10,"friendly":false,"enemy":false},{"id":"3","links":["0","6"],"health":10,"friendly":false,"enemy":false},{"id":"4","links":["0","6","7"],"health":10,"friendly":false,"enemy":false},{"id":"5","links":["0","8"],"health":10,"friendly":false,"enemy":false},{"id":"6","links":["2","4","9","1"],"health":10,"friendly":false,"enemy":false},{"id":"7","links":["4","1"],"health":10,"friendly":false,"enemy":false},{"id":"8","links":["5","1"],"health":10,"friendly":false,"enemy":false},{"id":"9","links":["6"],"health":10,"friendly":false,"enemy":false},{"id":"1","links":["6","7","8"],"health":50,"friendly":false,"enemy":true}];
-	// console.log("called");
 	var receive;
 	var start;
 	var data;
 	var count = 1;
 	var startTime = new Date();
-	console.log(startTime);
 
     var findNode = function(id) {
         for (var i = 0; i < nodes.length; i++) {
@@ -27,9 +25,6 @@ module.exports = function(self) {
                         node.health = 20;
                     } else {
                         self.postMessage("claimed node: " + targetId);
-                        // console.log('node', node);
-                        // console.log('nodelinks', node.links);
-                        // console.log('count log', count);
 
                         count++;
                         if (count >= 10) {
@@ -46,8 +41,6 @@ module.exports = function(self) {
                     }
 
                 } else {
-                    // console.log('else running?');
-                    // console.log('else data', data);
                     receive.call(this, {
                         id: targetId,
                         health: node.health
@@ -82,7 +75,6 @@ module.exports = function(self) {
     };
 
     function test(e) {
-        // console.log(e);
         start = eval(e.data[0]);
         receive = eval(e.data[1]);
         data = {};

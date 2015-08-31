@@ -247,17 +247,14 @@
     //gets and makes the element properties to render
     f.prototype.getElementProps = function(g) {
         // var i = c(g).offset();
-        var cx = g.getAttributeNS(null,'cx');
-        var cy = g.getAttributeNS(null,'cy');
+        var cx = parseFloat(g.getAttributeNS(null,'cx'));
+        var cy = parseFloat(g.getAttributeNS(null,'cy'));
         var h = g.getAttributeNS(null, 'fill') ? g.getAttributeNS(null, 'fill') : this.config.defaultBgColor;
-        var diameter = 2 * Math.PI * g.getAttributeNS(null, 'r') * this.ratio
         return {
             color: h,
-            left: (cx + this.scrollLeft - this.boardLeft) * this.ratio,
-            top: (cy + this.scrollTop - this.boardTop) * this.ratio,
+            left: cx * this.ratio,
+            top: cy * this.ratio,
             r: g.getAttributeNS(null, 'r') * this.ratio + 1
-            // width: diameter,
-            // height: diameter
         }
     };
 

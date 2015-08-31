@@ -1,7 +1,9 @@
 var Crawlers = require("./crawlersFactory");
 var userTests = require("./user.tests/tests");
+var local = require("../local");
 
 var editorController = function($scope) {
+    $scope.crawlers = [];
     $('.boardNav').remove();
     $scope.reset = function() {
         $scope.obj = {
@@ -9,23 +11,21 @@ var editorController = function($scope) {
             receive: null
         };
     };
-    var fillThis = function(str) {
-
-    };
+    $scope.reset();
+    var objKeys = Object.keys(localStorage);
+    $scope.crawlers = $scope.crawlers.concat(local.getCrawlers());
     $scope.createFunction = function() {
         var testedObj = userTests($scope.obj);
         if (testedObj) {
             Crawlers.addCrawler(testedObj);
             $scope.crawlers.push(testedObj);
+            local.setCrawler(testedObj);
             $scope.reset();
         }
     };
     $scope.editCrawler = function(crawler) {
         $scope.obj = crawler;
-        console.log(crawler);
     };
-    $scope.reset();
-    $scope.crawlers = [];
 };
 
 editorController.$inject = ["$scope"];
