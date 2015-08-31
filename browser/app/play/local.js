@@ -5,7 +5,10 @@ var getCrawlers = function() {
 	var crawlers = [];
 	var objKeys = Object.keys(localStorage);
 	for (var i = 0; i < objKeys.length; i++) {
-	    var crawler = JSON.parse(localStorage[objKeys[i]]);
+		try {
+		    var crawler = JSON.parse(localStorage[objKeys[i]]);
+		} catch (e) {continue;}
+		if (!crawler.startText) continue;
 	    var testedObj = userTests(crawler);
 	    Crawlers.addCrawler(testedObj);
 	    crawlers.push(testedObj);
