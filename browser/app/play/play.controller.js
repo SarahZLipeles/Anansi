@@ -3,7 +3,10 @@ var controls = require("../../game/game.logic/initialization/controls");
 var local = require("./local");
 
 var playController = function($scope) {
-    local.getCrawlers();
+    console.log(Crawlers.crawlers);
+    if (Crawlers.crawlers.length === 1) {
+        local.getCrawlers();
+    }
     $scope.crawlers = Crawlers.crawlers;
 
     $scope.setCrawler = function(num) {
