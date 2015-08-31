@@ -20,18 +20,36 @@ var gameSettings = require("../../settings.js");
         update: function(target, targetCircle, source, sourceCircle, edge, line, settings) {
             var direction = edge.target === target ? "F" : "B",
                 currColor = targetCircle.getAttributeNS(null, "fill");
-            sourceCircle.classList.add("pulse");
+            var targetType = targetCircle.getAttribute('r');
+            var sourceType = sourceCircle.getAttribute('r');
+
+            var targetPulse, sourcePulse;
+            if(targetType <=13) {
+                targetPulse = 'pulse';
+            } else {
+                targetPulse = 'base-pulse';
+            }
+
+            if(sourceType <=13) {
+                sourcePulse = 'pulse';
+            } else {
+                sourcePulse = 'base-pulse';
+            }
+                sourceCircle.classList.add(sourcePulse);
+
             line.classList.add("attackEdge" + direction);
             setTimeout(function() {
                 line.classList.remove("attackEdge" + direction);
-                sourceCircle.classList.remove("pulse");
+                sourceCircle.classList.remove(sourcePulse);
+
                 setTimeout(function() {
                     targetCircle.setAttributeNS(null, "fill", "#FF0F13");
-                    targetCircle.classList.add("pulse");
+                    targetCircle.classList.add(targetPulse);
                 }, 10);
                 setTimeout(function() {
                     targetCircle.setAttributeNS(null, "fill", currColor);
-                    targetCircle.classList.remove("pulse");
+                    targetCircle.classList.remove(targetPulse);
+
                 }, 115);
             }, 300);
         }

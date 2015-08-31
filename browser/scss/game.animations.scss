@@ -18,7 +18,11 @@ line {
 }
 
 .pulse {
-	r: ($nodeRadius - 5);
+	r: ($nodeRadius * 0.6);
+}
+
+.base-pulse {
+  r: ($baseRadius * 0.8);
 }
 
 .attackEdgeF {
@@ -99,8 +103,9 @@ line {
   @include prefix(transition, '0.1s linear');
 }
 
-.heal {
-  @include prefix(animation, 'regenerate 0.5s linear 1');
+.base-heal {
+  stroke: $nodeRadius;
+  @include prefix(animation, 'regenerate 2s linear 1');
 }
 
 @-webkit-keyframes regenerate{
