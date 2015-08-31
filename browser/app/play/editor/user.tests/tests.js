@@ -28,7 +28,6 @@ function userTests(obj) {
 }
 
 function receiveNotifications(str) {
-    console.log(str);
     if (str === "claimed all nodes") {
         worker.terminate();
     }

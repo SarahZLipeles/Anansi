@@ -13,7 +13,6 @@ var editorController = function($scope) {
     };
     $scope.reset();
     var objKeys = Object.keys(localStorage);
-    console.log(localStorage);
     $scope.crawlers = $scope.crawlers.concat(local.getCrawlers());
     $scope.createFunction = function() {
         var testedObj = userTests($scope.obj);
