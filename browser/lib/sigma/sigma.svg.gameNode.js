@@ -12,6 +12,8 @@ var gameSettings = require('../../settings.js');
       if(ratio === 0){
         circle.setAttributeNS(null, 'stroke','none');
       } else{
+
+        circle.classList.add('regenerate');
         if(ratio === 1){
           circle.setAttributeNS(null, 'stroke-dasharray', 0);
         }else{

@@ -23,12 +23,13 @@ line {
 
 .attackEdgeF {
 	stroke: $attackEdgeStroke;
-	-webkit-animation:attack 0.3s linear 1;
+	@include prefix(animation, 'attack 0.3s linear 1');
 }
 
 .attackEdgeB {
 	stroke: $attackEdgeStroke;
-	-webkit-animation:attack 0.3s linear 1 reverse;
+	//-webkit-animation:attack 0.3s linear 1 reverse;
+	@include prefix(animation, '0.3s linear 1 reverse');
 }
 
 @-webkit-keyframes attack {
@@ -56,7 +57,8 @@ line {
     stroke: $pulseStrokeColor;
     stroke-width: ($selectedStrokeWith * 3);
 	stroke-dasharray: getDashArrayLength($nodeRadius), getDashArrayOffset($nodeRadius, 5.5, getDashArrayLength($nodeRadius));
-  	-webkit-animation: node-spinner 50s linear infinite;
+  	@include prefix(animation, 'node-spinner 50s linear infinite');
+
 }
 
 .selected-base-node {
@@ -65,9 +67,9 @@ line {
   	stroke:$pulseStrokeColor;
 	stroke-width: ($selectedStrokeWith * 3);
 	stroke-dasharray: getDashArrayLength($baseRadius), getDashArrayOffset($baseRadius, 5.5, getDashArrayLength($baseRadius));
+	@include prefix(animation, 'base-spinner 50s linear infinite');
 
 
-	-webkit-animation: base-spinner 50s linear infinite;
 }
 
 @-webkit-keyframes node-spinner{
@@ -93,4 +95,33 @@ line {
   }
 }
 
+.circle[data-node-id]{
+  @include prefix(transition, '0.1s linear');
+}
 
+.regenerate {
+  @include prefix(animation, 'regenerate 0.5s linear 1');
+}
+
+@-webkit-keyframes regenerate-animation{
+  from{
+	background: rgba(252,234,187,1);
+	background: -moz-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(248,181,0,1) 50%, rgba(252,205,77,1) 51%, rgba(251,223,147,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(252,234,187,1)), color-stop(50%, rgba(248,181,0,1)), color-stop(51%, rgba(252,205,77,1)), color-stop(100%, rgba(251,223,147,1)));
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(248,181,0,1) 50%, rgba(252,205,77,1) 51%, rgba(251,223,147,1) 100%);
+	background: -o-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(248,181,0,1) 50%, rgba(252,205,77,1) 51%, rgba(251,223,147,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(248,181,0,1) 50%, rgba(252,205,77,1) 51%, rgba(251,223,147,1) 100%);
+	background: radial-gradient(ellipse at center, rgba(252,234,187,1) 0%, rgba(248,181,0,1) 50%, rgba(252,205,77,1) 51%, rgba(251,223,147,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93', GradientType=1 );
+  }
+  to {
+	background: rgba(252,234,187,1);
+	background: -moz-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(252,205,77,1) 51%, rgba(248,181,0,1) 82%, rgba(251,223,147,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(252,234,187,1)), color-stop(51%, rgba(252,205,77,1)), color-stop(82%, rgba(248,181,0,1)), color-stop(100%, rgba(251,223,147,1)));
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(252,205,77,1) 51%, rgba(248,181,0,1) 82%, rgba(251,223,147,1) 100%);
+	background: -o-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(252,205,77,1) 51%, rgba(248,181,0,1) 82%, rgba(251,223,147,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover, rgba(252,234,187,1) 0%, rgba(252,205,77,1) 51%, rgba(248,181,0,1) 82%, rgba(251,223,147,1) 100%);
+	background: radial-gradient(ellipse at center, rgba(252,234,187,1) 0%, rgba(252,205,77,1) 51%, rgba(248,181,0,1) 82%, rgba(251,223,147,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93', GradientType=1 );
+  }
+}
